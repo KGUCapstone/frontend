@@ -3,15 +3,17 @@
 
 ***
 
-npm install axios
+npm install axios react-router-dom <br/>
+... 
 
 
 > npm start
-
+> 
+***
 .env 
-
-REACT_APP_BACKEND_URL= 백엔드 주소/api
-
+```
+REACT_APP_BACKEND_URL= 백엔드 주소/api ( 로컬에서 http://localhost:8080/api  로 설정) 
+```
 ***
 
 
