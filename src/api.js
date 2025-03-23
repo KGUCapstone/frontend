@@ -1,20 +1,14 @@
 import axios from "axios";
 
-//const backendUrl = "http://localhost:8080/api";
-
 const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
 // 일반 요청에 사용할 axios 인스턴스
+
 const api = axios.create({
   baseURL: backendUrl,
   withCredentials: true // 쿠키를 항상 전송
 });
 
-// 토큰 재발급 전용 axios 인스턴스 (인터셉터 없음)
-const refreshApi = axios.create({
-  baseURL: backendUrl,
-  withCredentials: true
-});
 
 // 토큰 재발급이 진행 중인지 확인하는 변수
 let isRefreshing = false;
@@ -82,7 +76,7 @@ api.interceptors.response.use(
       
       try {
         console.log("토큰 재발급 시도...");
-        const response = await refreshApi.post("/reissue");
+        const response = await api.post("/reissue");
         const newToken = response.headers["authorization"];
         
         if (newToken) {
