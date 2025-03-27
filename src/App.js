@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Mainpage from "./pages/Mainpage";
+import MainPage from "./pages/MainPage";
 import Mypage from "./pages/Mypage"
 import Home from "./pages/Home";
 import JoinForm from "./pages/JoinForm";
@@ -14,7 +14,7 @@ const App = () => {
 
         <Route path="/login" element={<LoginForm />} />
         <Route path="/join" element={<JoinForm />} />
-        <Route path="/mainpage" element={<Mainpage />} />
+        <Route path="/mainpage" element={<MainPage />} />
         <Route path="/mypage" element = {<Mypage />} />
         
         
