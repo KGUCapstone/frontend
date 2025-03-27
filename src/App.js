@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./pages/MainPage";
-import Mypage from "./pages/Mypage"
+import MyPage from "./pages/MyPage"
 import Home from "./pages/Home";
 import JoinForm from "./pages/JoinForm";
 import LoginForm from "./pages/LoginForm";
@@ -14,8 +14,8 @@ const App = () => {
 
         <Route path="/login" element={<LoginForm />} />
         <Route path="/join" element={<JoinForm />} />
-        <Route path="/mainpage" element={<MainPage />} />
-        <Route path="/mypage" element = {<Mypage />} />
+        <Route path="/home" element={<MainPage />} />
+        <Route path="/mypage" element = {<MyPage />} />
         
         
       </Routes>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import "../style/MainPage.css";
+import BottomNav from "../components/BottomNav";
 
 const MainPage = () => {
   const [name, setName] = useState(null);
@@ -52,11 +53,7 @@ const MainPage = () => {
 
       <button className="cart-button" onClick={() => navigate("/cart")}>🛒</button>
 
-      <nav className="bottom-nav">
-        <button onClick={() => navigate("/checklist")}>✅ 체크리스트</button>
-        <button onClick={() => navigate("/camera")}>📷 사진찍기</button>
-        <button onClick={() => navigate("/mypage")}>👤 마이페이지</button>
-      </nav>
+      <BottomNav />
     </div>
   );
 };
