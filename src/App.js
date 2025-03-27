@@ -5,6 +5,8 @@ import MyPage from "./pages/MyPage"
 import Home from "./pages/Home";
 import JoinForm from "./pages/JoinForm";
 import LoginForm from "./pages/LoginForm";
+import CameraPage from "./pages/CameraPage";
+import PicturePage from "./pages/PicturePage";
 
 const App = () => {
   return (
@@ -17,7 +19,8 @@ const App = () => {
         <Route path="/home" element={<MainPage />} />
         <Route path="/mypage" element = {<MyPage />} />
         
-        
+        <Route path="/camera" element={<CameraPage />} />
+        <Route path="/picture" element={<PicturePage />} />
       </Routes>
     </Router>
 
