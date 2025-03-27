@@ -19,7 +19,7 @@ const LoginForm = () => {
         localStorage.setItem("Authorization", accessToken); // Bearer 포함됨
       }
       alert("로그인 성공");
-      navigate("/mainPage");
+      navigate("/home");
     } catch (error) {
       console.log(error)
       alert("로그인 실패");
