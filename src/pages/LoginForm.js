@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import api from '../api';
 import { useNavigate } from "react-router-dom";
+import '../style/AuthForm.css';
 import '../style/LoginForm.css';
 import naverIcon from '../assets/naver_logo.svg';
 
@@ -41,38 +42,41 @@ const LoginForm = () => {
     }
 };
 
-  return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleLogin}>
-        <h2>로그인</h2>
-        <input
-          type="text"
-          placeholder="아이디"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="비밀번호"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit" className="login-button">로그인</button>
-      </form>
+return (
+  <div className="auth-container">
+    <form className="auth-form" onSubmit={handleLogin}>
+      <h2>로그인</h2>
 
-      <div className="sns-login">
-        <button className="naver-button" onClick={handleNaverLogin}>
-          <img src={naverIcon} alt="네이버 로그인" />
-        </button>
-      </div>
+      <input
+        type="text"
+        placeholder="아이디"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        required
+      />
 
-      <div className="signup-link">
-        계정이 없으신가요? <a href="/join">회원가입</a>
-      </div>
+      <input
+        type="password"
+        placeholder="비밀번호"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+
+      <button type="submit" className="auth-button">로그인</button>
+    </form>
+
+    <div className="sns-login">
+      <button className="naver-button" onClick={handleNaverLogin}>
+        <img src={naverIcon} alt="네이버 로그인" />
+      </button>
     </div>
-  );
+
+    <div className="signup-link">
+      계정이 없으신가요? <a href="/join">회원가입</a>
+    </div>
+  </div>
+);
 };
 
 export default LoginForm;
