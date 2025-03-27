@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/CameraPage.css";
 import BottomNav from "../components/BottomNav";
+import HomeButton from "../components/HomeButton";
 
 
 const CameraPage = () => {
@@ -52,6 +53,11 @@ const CameraPage = () => {
 
   return (
     <div className="camera-wrapper">
+
+      <header>
+       <HomeButton />
+      </header>
+
       <h2>가격표 촬영</h2>
       <div className="camera-container">
         <video ref={videoRef} autoPlay playsInline className="camera-video" />

@@ -3,6 +3,7 @@ import api from "../api";
 import { useNavigate } from "react-router-dom";
 import "../style/MyPage.css";
 import BottomNav from "../components/BottomNav";
+import HomeButton from "../components/HomeButton";
 
 const MyPage = () => {
   const [user, setUser] = useState(null);
@@ -58,7 +59,11 @@ const MyPage = () => {
 
   return (
     <div className="mypage-container">
+      
       <div className="mypage-card">
+      <header>
+       <HomeButton />
+      </header>
         <h2>마이 페이지</h2>
 
         {loading ? (
