@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import '../style/AuthForm.css';
 import '../style/LoginForm.css';
 import naverIcon from '../assets/naver_logo.svg';
+import googleIcon from '../assets/google_logo.svg';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -40,7 +41,23 @@ const LoginForm = () => {
     } catch (error) {
         console.error("네이버 로그인 URL 요청 실패:", error);
     }
-};
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+        // 구글 로그인 URL 가져오기
+        const response = await api.get("/auth/google");
+
+        window.location.href = response.data; // 구글 로그인 페이지로 이동
+
+        const accessToken = response.headers["authorization"];
+        if (accessToken) {
+          localStorage.setItem("Authorization", accessToken); // Bearer 포함됨
+        }
+    } catch (error) {
+        console.error("구글 로그인 URL 요청 실패:", error);
+    }
+  };
 
 return (
   <div className="auth-container">
@@ -69,6 +86,10 @@ return (
     <div className="sns-login">
       <button className="naver-button" onClick={handleNaverLogin}>
         <img src={naverIcon} alt="네이버 로그인" />
+      </button>
+      
+      <button className="google-button" onClick={handleGoogleLogin}>
+        <img src={googleIcon} alt="구글 로그인" />
       </button>
     </div>
 
