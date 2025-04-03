@@ -7,6 +7,7 @@ import JoinForm from "./pages/JoinForm";
 import LoginForm from "./pages/LoginForm";
 import CameraPage from "./pages/CameraPage";
 import PicturePage from "./pages/PicturePage";
+import SearchPage from "./pages/SearchPage";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         
         <Route path="/camera" element={<CameraPage />} />
         <Route path="/picture" element={<PicturePage />} />
+        <Route path="/search" element={<SearchPage />} />
       </Routes>
     </Router>
 
