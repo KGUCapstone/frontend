@@ -8,36 +8,54 @@ const SearchPage = () => {
     brand: "",
     volume: "",
   });
-
-  const [response, setResponse] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
     }));
   };
 
+  const handleCancel = () => {
+    setFormData({
+      title: "",
+      price: "",
+      brand: "",
+      volume: "",
+    });
+    setSearchResults([]);
+    setError(null);
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     setLoading(true);
     setError(null);
 
-    try {
-      const postData = {
-        ...formData,
-        price: formData.price ? Number(formData.price) : "",
-      };
+    const postData = {
+      ...formData,
+      price: formData.price ? Number(formData.price) : "",
+    };
 
+    console.log("API 요청 데이터:", postData);
+
+    try {
       const res = await api.post("/shopping/search", postData, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
 
-      setResponse(res.data);
+      console.log("API 응답 데이터:", res.data);
+      const items = res.data.items || [];
+
+      if (items.length === 0) {
+        setError("검색 결과가 없습니다.");
+      }
+
+      setSearchResults(items);
     } catch (err) {
       const msg = err.response?.data?.error || "검색 중 오류가 발생했습니다.";
       setError(msg);
@@ -47,83 +65,80 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Shopping Search</h2>
+    <div className="ios-search-page">
+      <h1>SearchPage</h1>
 
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="block text-sm font-medium mb-1">
-            상품명 (Title)
-          </label>
+      {/* 고급 검색 필드 */}
+      <form onSubmit={handleSubmit} className="search-container">
+        <div>
+          <label>상품명</label>
           <input
             type="text"
             name="title"
+            placeholder="상품명을 입력하세요"
             value={formData.title}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md"
           />
         </div>
-
-        <div className="mb-3">
-          <label className="block text-sm font-medium mb-1">가격 (Price)</label>
+        <div>
+          <label>가격</label>
           <input
             type="number"
             name="price"
+            placeholder="가격을 입력하세요"
             value={formData.price}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md"
           />
         </div>
-
-        <div className="mb-3">
-          <label className="block text-sm font-medium mb-1">
-            브랜드 (Brand)
-          </label>
+        <div>
+          <label>브랜드</label>
           <input
             type="text"
             name="brand"
+            placeholder="브랜드를 입력하세요"
             value={formData.brand}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md"
           />
         </div>
-
-        <div className="mb-3">
-          <label className="block text-sm font-medium mb-1">
-            용량 (Volume)
-          </label>
+        <div>
+          <label>용량</label>
           <input
             type="text"
             name="volume"
+            placeholder="용량을 입력하세요"
             value={formData.volume}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md"
           />
         </div>
 
-        <button
-          type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
-          disabled={loading}
-        >
+        {/* 검색 버튼 */}
+        <button type="submit" disabled={loading}>
           {loading ? "검색 중..." : "검색하기"}
+        </button>
+        <button type="button" onClick={handleCancel}>
+          취소
         </button>
       </form>
 
-      {error && (
-        <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-md">
-          {error}
-        </div>
-      )}
-
-      {response && (
-        <div className="mt-4">
-          <h3 className="font-bold mb-2">검색 결과:</h3>
-          <pre className="bg-gray-100 p-3 rounded-md overflow-auto max-h-60">
-            {JSON.stringify(response, null, 2)}
-          </pre>
-        </div>
-      )}
+      {/* 검색 결과 */}
+      <div className="search-results">
+        {loading ? (
+          <div>로딩 중...</div>
+        ) : searchResults.length > 0 ? (
+          <ul>
+            {searchResults.map((item, index) => (
+              <li key={index}>
+                <div>{item.title}</div>
+                <div>{item.brand}</div>
+                <div>{item.lprice}원</div>
+                {item.volume && <div>{item.volume}</div>}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          error && <small>{error}</small>
+        )}
+      </div>
     </div>
   );
 };

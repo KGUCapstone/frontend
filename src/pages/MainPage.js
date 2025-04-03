@@ -12,7 +12,9 @@ const MainPage = () => {
   useEffect(() => {
     const fetchAccessToken = async () => {
       try {
-        const response = await api.get("/auth/token", { withCredentials: true });
+        const response = await api.get("/auth/token", {
+          withCredentials: true,
+        });
         const accessToken = response.data.accessToken;
         if (accessToken) {
           localStorage.setItem("Authorization", `Bearer ${accessToken}`);
@@ -25,27 +27,23 @@ const MainPage = () => {
     fetchAccessToken();
   }, []);
 
-
   return (
     <div className="main-container">
-      
-      
       <header>
-       <HomeButton />
+        <HomeButton />
       </header>
 
       <div className="main-card">
-
-        <SearchBar/>
+        <SearchBar />
 
         <div className="main-content">
-          mainPage에 검색창 넣을지 따로 할지는 원하는 대로 
+          mainPage에 검색창 넣을지 따로 할지는 원하는 대로
         </div>
       </div>
-      
-      
 
-      <button className="cart-button" onClick={() => navigate("/cart")}>🛒</button>
+      <button className="cart-button" onClick={() => navigate("/cart")}>
+        🛒
+      </button>
 
       <BottomNav />
     </div>
