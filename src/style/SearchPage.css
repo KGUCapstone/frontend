@@ -10,6 +10,11 @@
   @media (max-width: 360px) {
     padding: 10px;
   }
+
+  @media (max-width: 320px) { 
+    padding: 8px; /* 작은 화면에서 여백 최소화 */
+    text-align: left; /* 텍스트 정렬 변경 가능 */
+   }
 }
 
 .textDes {
@@ -25,9 +30,15 @@
 
   @media (max-width: 375px) {
     max-width: 280px;
+    flex-wrap: wrap; /* 줄바꿈 허용 */
+    justify-content: center; /* 정렬 조정 */
+    gap: 8px; /* 요소 간 간격 추가 */
   }
   @media (max-width: 360px) {
     max-width: 260px;
+    flex-wrap: wrap; /* 줄바꿈 허용 */
+    justify-content: center; /* 정렬 조정 */
+    gap: 8px; /* 요소 간 간격 추가 */
   }
 }
 
@@ -145,3 +156,4 @@ ul {
   list-style: none;
   padding-left: 0px;
 }
+
