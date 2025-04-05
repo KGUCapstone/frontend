@@ -1,44 +1,49 @@
 .auth-container {
-    max-width: 400px;
-    margin: auto;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .auth-form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-  
-  .auth-form input {
-    padding: 0.8rem;
-    font-size: 1rem;
-  }
-  
-  .auth-form small {
-    color: gray;
-    font-size: 0.8rem;
-    margin-top: -6px;
-    margin-bottom: 8px;
-  }
-  
-  .auth-button {
-    padding: 0.9rem;
-    font-size: 1rem;
-    background-color: #333;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin-top: 1rem;
-  }
-  
-  .error-msg {
-    color: red;
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
-  }
-  
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  max-width: 400px;
+  width: 100%;
+  padding: 1rem;
+  background-color: #fff;
+}
+
+.auth-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.auth-form input {
+  padding: 0.8rem;
+  font-size: 1rem;
+}
+
+.auth-form small {
+  color: gray;
+  font-size: 0.8rem;
+  margin-top: -6px;
+  margin-bottom: 8px;
+}
+
+.auth-button {
+  padding: 0.9rem;
+  font-size: 1rem;
+  background-color: #333;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.error-msg {
+  color: red;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+body {
+  overflow: hidden;
+}
