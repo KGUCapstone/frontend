@@ -29,8 +29,11 @@ const MainPage = () => {
 
   return (
     <div className="main-container">
-      <header>
+      <header className="main-header">
         <HomeButton />
+        <button className="cart-button" onClick={() => navigate("/cart")}>
+          🛒
+        </button>
       </header>
 
       <div className="main-card">
@@ -40,10 +43,6 @@ const MainPage = () => {
           mainPage에 검색창 넣을지 따로 할지는 원하는 대로
         </div>
       </div>
-
-      <button className="cart-button" onClick={() => navigate("/cart")}>
-        🛒
-      </button>
 
       <BottomNav />
     </div>
