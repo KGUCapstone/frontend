@@ -4,7 +4,6 @@ import "../style/CameraPage.css";
 import BottomNav from "../components/BottomNav";
 import HomeButton from "../components/HomeButton";
 
-
 const CameraPage = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -13,7 +12,9 @@ const CameraPage = () => {
   useEffect(() => {
     const enableCamera = async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment" },
+        });
         videoRef.current.srcObject = stream;
       } catch (err) {
         console.error("카메라 접근 실패:", err);
@@ -45,7 +46,17 @@ const CameraPage = () => {
     canvas.width = cropWidth;
     canvas.height = cropHeight;
 
-    ctx.drawImage(video, cropX, cropY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+    ctx.drawImage(
+      video,
+      cropX,
+      cropY,
+      cropWidth,
+      cropHeight,
+      0,
+      0,
+      cropWidth,
+      cropHeight
+    );
 
     const image = canvas.toDataURL("image/png");
     navigate("/picture", { state: { photo: image } });
@@ -53,9 +64,8 @@ const CameraPage = () => {
 
   return (
     <div className="camera-wrapper">
-
       <header>
-       <HomeButton />
+        <HomeButton />
       </header>
 
       <h2>가격표 촬영</h2>
@@ -64,10 +74,12 @@ const CameraPage = () => {
         <div className="camera-frame" />
       </div>
 
-      <button onClick={capture} className="camera-button">촬영하기</button>
+      <button onClick={capture} className="camera-button">
+        촬영하기
+      </button>
       <canvas ref={canvasRef} style={{ display: "none" }} />
 
-      <BottomNav/>
+      <BottomNav />
     </div>
   );
 };
