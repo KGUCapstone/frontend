@@ -57,7 +57,6 @@ const ComparePage = ({ product }) => {
       alert("상품을 선택해주세요!"); //체크된 상품 없으면 알림 띄우도록 해놨슴다
       return;
     }
-
     //체크된 상품들만 필터링해서 가져온다
     const selectedProducts = products.filter((product) =>
       checkedItems.includes(product.id)
