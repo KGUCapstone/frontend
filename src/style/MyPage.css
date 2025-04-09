@@ -1,58 +1,126 @@
+/* MyPage.css*/
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.profile-image {
+  width: 100px;
+  height: 100px;
+  background-color: #ccc;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.profile-info p {
+  margin: 0.25rem 0 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.chart-container {
+  width: 100%;
+  max-width: 100%;
+  background-color: #fef8f6;
+  padding: 1rem;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  box-sizing: border-box;
+  margin-top: 0.5rem;
+}
+
+.button-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+
+.mypage-button {
+  background-color: #e0e0e0;
+  padding: 0.8rem;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.mypage-button:hover {
+  background-color: #d0d0d0;
+}
+
+.logout-button {
+  background-color: #ff4d4f;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.logout-button:hover {
+  background-color: #d9363e;
+}
+
 .mypage-container {
-    padding: 10rem 1rem 20rem; /* 하단 여백 확보 (네비바 공간) */
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* 상단 정렬 */
-    background-color: #f7f8fa;
-  }
-  
-  .mypage-card {
-    background-color: white;
-    padding: 3rem 2rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    min-height: 300px;
-    text-align: center;
-  }
-  
-  .mypage-card h2 {
-    margin-bottom: 1rem;
-  }
-  
-  .mypage-card p {
-    margin: 0.5rem 0;
-    font-size: 1rem;
-  }
-  
-  .logout-button {
-    margin-top: 1.5rem;
-    padding: 0.75rem 1.2rem;
-    font-size: 1rem;
-    background-color: #ff4d4f;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  
-  .logout-button:hover {
-    background-color: #d9363e;
-  }
-  
-  @media (max-width: 480px) {
-    .mypage-card {
-      padding: 1.5rem;
-    }
-  
-    .mypage-card h2 {
-      font-size: 1.3rem;
-    }
-  
-    .logout-button {
-      font-size: 0.95rem;
-      padding: 0.6rem 1rem;
-    }
-  }
-  
+  padding: 5rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #f7f8fa;
+  height: 100vh; /* 전체 화면 기준 */
+  overflow: hidden; /* 내부 카드에 스크롤 위임 */
+}
+
+.mypage-card {
+  background-color: white;
+  padding: 0rem 1.5rem 1.5rem;
+  margin-top: 1rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  height: calc(100vh - 10rem);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* ✅ 내부 스크롤 */
+  position: relative;
+  scrollbar-gutter: stable;
+}
+
+.mypage-card header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.mypage-card::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.mypage-card::-webkit-scrollbar-track {
+  margin: 2rem 0; /* 위 아래 여백 줘서 thumb 길이 줄이는 효과 */
+}
+
+.mypage-card::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 8px;
+}
