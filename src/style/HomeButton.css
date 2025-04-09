@@ -1,11 +1,17 @@
 .home-button {
-  background-color: transparent;
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+
+  background-color: transparent; /* 디자인용 */
   border: none;
-  font-size: 60px; /* 크고 눈에 띄게 */
-  font-weight: 700; /* 두껍게 */
-  font-family: "Segoe UI", sans-serif; /* 깔끔한 산세리프 */
+  font-size: 50px;
+  font-weight: 700;
+  font-family: "Segoe UI", sans-serif;
   cursor: pointer;
   padding: 10px 20px;
-  color: #222; /* 진한 회색/검정 느낌 */
-  letter-spacing: 1px; /* 글자 간격 조금 */
+  color: #222;
+  letter-spacing: 1px;
 }

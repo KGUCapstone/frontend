@@ -19,7 +19,7 @@ const ComparePage = ({ product }) => {
     console.log("받아온 데이터", getItems);
     const fetchProducts = async () => {
       try {
-        const data = { items: getItems };
+        const data = { items: getItems }; // 검색창(SearchBar)을 통해 백에서 받아온 데이터
 
         //백에서 받아온 데이터 가공 (HTML 태그 제거 등)
         const formattedProducts = data.items.map((item, index) => ({
@@ -31,7 +31,6 @@ const ComparePage = ({ product }) => {
           mallName: item.mallName,
           link: item.link,
         }));
-
         setProducts(formattedProducts); //상태에 저장
       } catch (error) {
         console.error("상품 데이터를 불러오는 데 실패했습니다.", error);
@@ -58,6 +57,7 @@ const ComparePage = ({ product }) => {
       alert("상품을 선택해주세요!"); //체크된 상품 없으면 알림 띄우도록 해놨슴다
       return;
     }
+
     //체크된 상품들만 필터링해서 가져온다
     const selectedProducts = products.filter((product) =>
       checkedItems.includes(product.id)
@@ -65,7 +65,14 @@ const ComparePage = ({ product }) => {
     console.log("🛒 장바구니에 담을 상품:", selectedProducts);
 
     //나중에 백엔드에 장바구니 추가하는 API 호출하면 되겠죠?
-    navigate("/cart"); //장바구니 페이지로 이동!
+
+    navigate("/cart", {
+      //장바구니 페이지로 이동!
+      state: {
+        cartItems: selectedProducts,
+        itemCount: selectedProducts.length,
+      }, //몇 개 담았는지랑 어떤 상품이 셀렉되었는지 전달
+    });
   };
 
   return (
