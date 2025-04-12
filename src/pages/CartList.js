@@ -1,35 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../style/CartList.css";
+import api from "../api"; // axios 인스턴스
 
 const CartList = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-
-  // // 디버깅을 위해 location.state 로깅
-  // useEffect(() => {
-  //     console.log("cartList - location.state:", location.state);
-  // }, [location.state]);
-
-  //이전 페이지에서 넘어온 장바구니 아이템
-  const cartItems = location.state?.cartItems || [];
-
-  // 체크된 아이템을 관리한다
+  const [cartItems, setCartItems] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
 
-  //사용자이름 로그인 하면 가져올 예정
   const userName = "사용자";
 
-  //장바구니담는데로 다시 돌아가기
-  const goBack = () => {
-    navigate("/compareitem", {
-      state: {
-        items: cartItems,
-      },
-    });
-  };
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const res = await api.post("/cart/show"); // 장바구니 요청
+        setCartItems(res.data);
 
-  //체크 항목함수
+        // 체크 초기화
+        const initCheck = {};
+        res.data.forEach((item) => (initCheck[item.id] = false));
+        setCheckedItems(initCheck);
+      } catch (err) {
+        console.error("장바구니 불러오기 실패:", err.response?.data || err.message);
+      }
+    };
+
+    fetchCart();
+  }, []);
+
   const handleCheckboxChange = (itemId) => {
     setCheckedItems((prev) => ({
       ...prev,
@@ -37,8 +35,7 @@ const CartList = () => {
     }));
   };
 
-  //선택 완료 버튼 클릭 함수
-  const handleComplete = () => {
+  const handleComplete = async () => {
     const selectedItems = cartItems.filter((item) => checkedItems[item.id]);
 
     if (selectedItems.length === 0) {
@@ -46,9 +43,25 @@ const CartList = () => {
       return;
     }
 
-    navigate("/cartDetailList", {
-      state: { selectedItems },
-    });
+    try {
+      await api.post("/cart/complete", selectedItems); // 선택 상품 서버 전송
+  
+      // 성공 후 이동
+      navigate("/home");
+    } catch (err) {
+      console.error("선택 완료 처리 실패:", err.response?.data || err.message);
+      alert("선택 완료 중 문제가 발생했습니다.");
+    }
+    
+    // navigate("/cartDetailList", { // 여기도 직접 넘기지 말고 벡으로 전달하는 방식으로로
+    //   state: { selectedItems },
+    // });
+
+    
+  };
+
+  const goBack = () => {
+    navigate("/home");
   };
 
   return (
@@ -62,13 +75,11 @@ const CartList = () => {
       <h1 className="cart-title">CARTLIST</h1>
 
       <div className="user-message">
-        <h2>
-          {userName}님 {cartItems.length}개 담으셨군요!
-        </h2>
+        <h2>{userName}님 {cartItems.length}개 담으셨군요!</h2>
       </div>
 
       <div className="cart-items-list">
-        {!cartItems || cartItems.length === 0 ? (
+        {cartItems.length === 0 ? (
           <div className="empty-cart">장바구니가 비어있습니다.</div>
         ) : (
           cartItems.map((item) => (
@@ -76,21 +87,19 @@ const CartList = () => {
               <div className="cart-item-image-container">
                 <img
                   src={item.image}
-                  alt={item.name}
+                  alt={item.title}
                   className="cart-item-image"
                 />
               </div>
               <div className="cart-item-details">
-                <h3>{item.name}</h3>
+                <h3>{item.title}</h3>
                 <p className="item-brand">{item.brand}</p>
-                <p className="item-store">{item.store}</p>
-                <p className="item-price">{item.price}</p>
+                <p className="item-store">{item.mallName}</p>
+                <p className="item-price">₩{item.price.toLocaleString()}</p>
               </div>
               <div className="item-checkbox-container">
                 <div
-                  className={`check-icon ${
-                    checkedItems[item.id] ? "checked" : ""
-                  }`}
+                  className={`check-icon ${checkedItems[item.id] ? "checked" : ""}`}
                   onClick={() => handleCheckboxChange(item.id)}
                 >
                   {checkedItems[item.id] && <span>✓</span>}
@@ -101,7 +110,7 @@ const CartList = () => {
         )}
       </div>
 
-      {cartItems && cartItems.length > 0 && (
+      {cartItems.length > 0 && (
         <button className="complete-button" onClick={handleComplete}>
           선택 완료
         </button>
