@@ -11,10 +11,10 @@ const BottomNav = () => {
   return (
     <nav className="bottom-nav">
       <button
-        className={isActive("/checklist") ? "active" : ""}
-        onClick={() => navigate("/checklist")}
+        className={isActive("/history") ? "active" : ""}
+        onClick={() => navigate("/history")}
       >
-        ✅<br />체크리스트
+        ✅<br />기록
       </button>
       <button
         className={isActive("/camera") ? "active" : ""}
