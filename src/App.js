@@ -9,6 +9,8 @@ import CameraPage from "./pages/CameraPage";
 import PicturePage from "./pages/PicturePage";
 import ComparePage from "./pages/ComparePage"; //kkm이 수정함
 import CartList from "./pages/CartList"; //kkm이 수정함
+import HistoryPage from "./pages/HistoryPage";
+import CartDetailPage from "./pages/CartDetailPage";
 
 const App = () => {
   return (
@@ -27,6 +29,9 @@ const App = () => {
         {/*kkm이 바로 위에 수정함*/}
         <Route path="/cart" element={<CartList />} />
         {/*kkm이 바로 위에 수정함*/}
+
+        <Route path="/history" element={<HistoryPage />} />
+        <Route path="/history/:cartId" element={<CartDetailPage />} />
       </Routes>
     </Router>
   );
