@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import "../style/ComparePage.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import api from "../api";
+
 
 const ComparePage = ({ product }) => {
   const navigate = useNavigate();
@@ -52,27 +54,54 @@ const ComparePage = ({ product }) => {
   };
 
   //장바구니 담기 버튼 눌렀을 때 실행된다.
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (checkedItems.length === 0) {
-      alert("상품을 선택해주세요!"); //체크된 상품 없으면 알림 띄우도록 해놨슴다
+      alert("상품을 선택해주세요!");
       return;
     }
-    //체크된 상품들만 필터링해서 가져온다
-    const selectedProducts = products.filter((product) =>
+  
+    // 첫 번째 체크된 상품만 가져오기
+    const firstSelectedItem = products.find((product) =>
       checkedItems.includes(product.id)
     );
-    console.log("🛒 장바구니에 담을 상품:", selectedProducts);
-
-    //나중에 백엔드에 장바구니 추가하는 API 호출하면 되겠죠?
-
-    navigate("/cart", {
-      //장바구니 페이지로 이동!
-      state: {
-        cartItems: selectedProducts,
-        itemCount: selectedProducts.length,
-      }, //몇 개 담았는지랑 어떤 상품이 셀렉되었는지 전달
-    });
+  
+    const onlineItemDto = {
+      title: firstSelectedItem.title ?? "",
+      price: parseInt(firstSelectedItem.lprice.replace(/[₩,]/g, ""), 10),
+      link: firstSelectedItem.link ?? "",
+      image: firstSelectedItem.image ?? "",
+      mallName: firstSelectedItem.mallName ?? "",
+      brand: firstSelectedItem.brand ?? "",
+      volume: firstSelectedItem.volume ?? "",
+    };
+  
+    console.log("🛒 장바구니에 담을 상품:", onlineItemDto);
+  
+    try {
+      const res = await api.post("/cart/add", onlineItemDto);
+      console.log("✅ 장바구니 추가 성공:", res.data);
+      navigate("/cart"); // 벡에서 받은걸로 cartList 보여주기 
+      // navigate("/cart", {
+      //   state: {
+      //     cartItems: [onlineItemDto],
+      //     itemCount: 1,
+      //   },
+      // });
+    } catch (err) {
+      console.error("장바구니 추가 실패:", err.response?.data || err.message);
+      alert("장바구니 추가 실패.");
+    }
+  
+    // navigate("/cart", {
+    //   //장바구니 페이지로 이동!
+    //   state: {
+    //     cartItems: selectedProducts,
+    //     itemCount: selectedProducts.length,
+    //   }, //몇 개 담았는지랑 어떤 상품이 셀렉되었는지 전달
+    // });
   };
+
+
 
   return (
     <div className="compare-container">
