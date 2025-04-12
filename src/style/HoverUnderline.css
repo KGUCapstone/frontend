@@ -1,0 +1,10 @@
+.hover-underline {
+    transition: border-bottom 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .hover-underline:hover {
+    border-bottom: 2px solid #007bff;
+    background-color: #f9f9f9; 
+  }
+  
