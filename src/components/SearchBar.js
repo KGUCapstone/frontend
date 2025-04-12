@@ -22,6 +22,7 @@ const SearchBar = () => {
   };
 
   const handleCancel = () => {
+    // 취소 버튼
     setFormData({
       title: "",
       price: "",
@@ -37,6 +38,21 @@ const SearchBar = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // 기본 폼 제출 동작 방지
+
+    // 유효성 검사 (추가)
+    if (!formData.title.trim()) {
+      alert("상품명을 입력해주세요.(필수)");
+      return;
+    } else if (!formData.price.trim()) {
+      alert("가격을 입력해주세요.(필수)");
+      return;
+    }
+
+    if (formData.price && isNaN(Number(formData.price))) {
+      alert("가격은 숫자로 입력해주세요.");
+      return;
+    }
+
     console.log("API 요청 데이터:", postData); // 요청 데이터 확인
 
     try {
@@ -49,9 +65,13 @@ const SearchBar = () => {
       const items = res.data.items || [];
 
       //compareItem 페이지로 백에서 api 로 받아온 items을 props로 넘기기
-      navigate("/compareItem", { state: { items } });
+      navigate("/compareItem", {
+        state: { items, searchQuery: formData.title },
+      });
     } catch (err) {
       console.log("오류가 발생");
+      console.error("API 요청 실패:", err.response?.data || err.message);
+      alert("상품 검색에 실패했습니다. 다시 시도해주세요.");
     }
   };
 
@@ -84,7 +104,7 @@ const SearchBar = () => {
           <input
             type="text"
             name="price"
-            placeholder="가격 (선택)"
+            placeholder="가격"
             value={formData.price}
             onChange={handleChange}
           />
