@@ -1,3 +1,4 @@
+/* 코드 문제있으면 알려주세요(김경민) */
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/CartList.css";
@@ -5,10 +6,25 @@ import api from "../api"; // axios 인스턴스
 
 const CartList = () => {
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState([]);
+
+
+  const cartItems = location.state?.cartItems || [];
+
+//=======
+ // const [cartItems, setCartItems] = useState([]);
+//>>>>>>> main
   const [checkedItems, setCheckedItems] = useState({});
 
   const userName = "사용자";
+
+
+  const goBack = () => {
+    navigate("/compareitem", {
+      state: {
+        items: cartItems
+      }
+    });
+  };
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -28,6 +44,7 @@ const CartList = () => {
     fetchCart();
   }, []);
 
+
   const handleCheckboxChange = (itemId) => {
     setCheckedItems((prev) => ({
       ...prev,
@@ -35,7 +52,9 @@ const CartList = () => {
     }));
   };
 
+
   const handleComplete = async () => {
+
     const selectedItems = cartItems.filter((item) => checkedItems[item.id]);
 
     if (selectedItems.length === 0) {
@@ -96,6 +115,7 @@ const CartList = () => {
                 <p className="item-brand">{item.brand}</p>
                 <p className="item-store">{item.mallName}</p>
                 <p className="item-price">₩{item.price.toLocaleString()}</p>
+
               </div>
               <div className="item-checkbox-container">
                 <div

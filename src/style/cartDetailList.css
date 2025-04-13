@@ -1,0 +1,211 @@
+/* 코드 문제있으면 알려주세요(김경민) */
+body {
+    background-color: #f7f8fa;
+  }
+  
+  .cart-container {
+    max-width: 480px;
+    margin: 0 auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 20px;
+  }
+  
+  .back-button-container {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    padding: 0 16px;
+  }
+  
+  .back-button {
+    background: none;
+    border: none;
+    color: #555;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px 0;
+    text-decoration: underline;
+  }
+  
+  .back-button:hover {
+    color: #000;
+  }
+  
+  .cart-title {
+    text-align: center;
+    font-size: 24px;
+    margin-top: 20px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .compare-vertical-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 12px;
+    gap: 20px;
+    position: relative;
+  }
+  
+  .compare-product-card {
+    width: 85%;
+    max-width: 280px;
+    background-color: #f7f8fa;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    animation: fadeInUp 0.4s ease-in-out;
+  }
+  
+  .smaller-image {
+    width: 70%;
+    max-height: 120px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  
+  .compare-product-card h3 {
+    font-size: 15px;
+    margin: 5px 0;
+  }
+  
+  .item-brand, .item-store {
+    margin: 2px 0;
+    color: #777;
+    font-size: 12px;
+  }
+  
+  .item-price {
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+    margin-top: 6px;
+  }
+
+  .online-product-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+  }
+  
+  .arrow-button {
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    background-color: #eee;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    user-select: none;
+    transition: background-color 0.2s;
+    position: absolute;
+    top: -10%;
+    transform: translateY(-50%);
+  }
+  
+  .left-arrow {
+    left: 10px;
+    transform: translateX(-50%);
+  }
+  
+  .right-arrow {
+    right:10px;
+    transform: translateX(50%);
+  }
+  
+  .arrow-button:hover {
+    background-color: #ccc;
+  }
+  
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+.price-comparison-card {
+    width: 85%;
+    max-width: 320px;
+    margin: 10px auto 20px;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    animation: fadeInUp 0.5s ease-in-out;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .online-cheaper {
+    background-color: #e3f2fd;
+    border: 1px solid #2196f3;
+  }
+  
+  .offline-cheaper {
+    background-color: #fff8e1;
+    border: 1px solid #ffc107;
+  }
+  
+  .same-price {
+    background-color: #f5f5f5;
+    border: 1px solid #9e9e9e;
+  }
+  
+  .comparison-title {
+    font-size: 16px;
+    margin: 0 0 8px;
+    color: #333;
+  }
+  
+  .comparison-message {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 8px 0;
+  }
+  
+  .online-cheaper .comparison-message {
+    color: #1565c0;
+  }
+  
+  .offline-cheaper .comparison-message {
+    color: #f57c00;
+  }
+  
+  .buy-online-button {
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background-color 0.2s;
+  }
+  
+  .buy-online-button:hover {
+    background-color: #1976d2;
+  }
+ 
