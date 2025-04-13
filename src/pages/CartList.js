@@ -1,28 +1,14 @@
-/* 코드 문제있으면 알려주세요(김경민) */
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/CartList.css";
 import api from "../api"; // axios 인스턴스
+
 const CartList = () => {
   const navigate = useNavigate();
-
- // const cartItems = location.state?.cartItems || [];
-
-//=======
-  const [cartItems, setCartItems] = useState([]);
-//>>>>>>> main
+  const [cartItems, setCartItems] = useState([]); 
   const [checkedItems, setCheckedItems] = useState({});
 
   const userName = "사용자";
-
-
-  const goBack = () => {
-    navigate("/compareitem", {
-      state: {
-        items: cartItems
-      }
-    });
-  };
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -30,7 +16,7 @@ const CartList = () => {
         const res = await api.post("/cart/show"); // 장바구니 요청
         setCartItems(res.data);
 
-        // 체크 초기화
+        // 체크박스 초기화
         const initCheck = {};
         res.data.forEach((item) => (initCheck[item.id] = false));
         setCheckedItems(initCheck);
@@ -42,7 +28,6 @@ const CartList = () => {
     fetchCart();
   }, []);
 
-
   const handleCheckboxChange = (itemId) => {
     setCheckedItems((prev) => ({
       ...prev,
@@ -50,9 +35,7 @@ const CartList = () => {
     }));
   };
 
-
   const handleComplete = async () => {
-
     const selectedItems = cartItems.filter((item) => checkedItems[item.id]);
 
     if (selectedItems.length === 0) {
@@ -61,25 +44,17 @@ const CartList = () => {
     }
 
     try {
-      await api.post("/cart/complete", selectedItems); // 선택 상품 서버 전송
-  
-      // 성공 후 이동
-      navigate("/home");
+      await api.post("/cart/complete", selectedItems); // 선택된 상품 서버 전송
+      navigate("/home"); // 완료 후 홈으로 이동
     } catch (err) {
       console.error("선택 완료 처리 실패:", err.response?.data || err.message);
       alert("선택 완료 중 문제가 발생했습니다.");
     }
-    
-    // navigate("/cartDetailList", { // 여기도 직접 넘기지 말고 벡으로 전달하는 방식으로로
-    //   state: { selectedItems },
-    // });
-
-    
   };
 
-  // const goHome = () => {
-  //   navigate("/home");
-  // };
+  const goBack = () => {
+    navigate("/home");
+  };
 
   return (
     <div className="cart-container">
@@ -113,7 +88,6 @@ const CartList = () => {
                 <p className="item-brand">{item.brand}</p>
                 <p className="item-store">{item.mallName}</p>
                 <p className="item-price">₩{item.price.toLocaleString()}</p>
-
               </div>
               <div className="item-checkbox-container">
                 <div
