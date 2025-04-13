@@ -1,8 +1,7 @@
-/* ComparePage.css */
-
+/* 코드 문제있으면 알려주세요(김경민) */
 html,
 body {
-  overflow: auto; /* 스크롤 활성화 */
+  overflow: auto;
 }
 
 body {
@@ -165,6 +164,14 @@ body {
 
 .product-description {
   font-size: 14px;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.product-description:hover {
+  color: #333;              
+  font-weight: 600;     
 }
 
 .check-icon {
