@@ -7,9 +7,14 @@ import JoinForm from "./pages/JoinForm";
 import LoginForm from "./pages/LoginForm";
 import CameraPage from "./pages/CameraPage";
 import PicturePage from "./pages/PicturePage";
+
 import ComparePage from "./pages/ComparePage";
 import CartList from "./pages/CartList";
 import CartDetailList from "./pages/cartDetailList";
+
+
+import HistoryPage from "./pages/HistoryPage";
+import CartDetailPage from "./pages/CartDetailPage";
 
 const App = () => {
   return (
@@ -26,7 +31,14 @@ const App = () => {
         <Route path="/picture" element={<PicturePage />} />
         <Route path="/compareitem" element={<ComparePage />} />
         <Route path="/cart" element={<CartList />} />
+
         <Route path="/cartDetailList" element={<CartDetailList />} />
+
+        {/*kkm이 바로 위에 수정함*/}
+
+        <Route path="/history" element={<HistoryPage />} />
+        <Route path="/history/:cartId" element={<CartDetailPage />} />
+
       </Routes>
     </Router>
   );

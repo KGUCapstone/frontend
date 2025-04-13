@@ -1,7 +1,7 @@
 .camera-wrapper {
   max-width: 600px;
   margin: auto;
-  padding: 2rem 1rem;
+  padding: 7rem 1rem;
   text-align: center;
 }
 
@@ -9,7 +9,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 4/3;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .camera-video {
@@ -21,10 +21,10 @@
 
 .camera-frame {
   position: absolute;
-  top: 20%;
-  left: 5%;
-  width: 90%;
-  height: 55%;
+  top: 12%;
+  left: 7%;
+  width: 85%;
+  height: 75%;
   border: 3px dashed #00f7ff;
   border-radius: 10px;
   pointer-events: none;
