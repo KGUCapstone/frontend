@@ -3,15 +3,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/CartList.css";
 import api from "../api"; // axios 인스턴스
-
 const CartList = () => {
   const navigate = useNavigate();
 
-
-  const cartItems = location.state?.cartItems || [];
+ // const cartItems = location.state?.cartItems || [];
 
 //=======
- // const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
 //>>>>>>> main
   const [checkedItems, setCheckedItems] = useState({});
 
@@ -79,9 +77,9 @@ const CartList = () => {
     
   };
 
-  const goBack = () => {
-    navigate("/home");
-  };
+  // const goHome = () => {
+  //   navigate("/home");
+  // };
 
   return (
     <div className="cart-container">
