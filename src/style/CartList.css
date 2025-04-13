@@ -42,6 +42,9 @@ body {
 }
 
 .back-button-container {
+  display: flex;
+  justify-content: space-between; /* 좌우 정렬 */
+  align-items: center;
   margin-top: 25px;
   margin-bottom: 10px;
   padding: 0 16px;
@@ -55,6 +58,21 @@ body {
   cursor: pointer;
   padding: 5px 0;
   text-decoration: underline;
+}
+
+.delete-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #e60000;
 }
 
 .back-button:hover {
