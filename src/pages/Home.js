@@ -1,12 +1,40 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import titleImage from '../assets/title.svg';
+import logoImage from '../assets/logo.svg';
+import '../style/Home.css';
+
 const Home = () => {
+  const navigate = useNavigate(); 
+
+  const handleStartClick = () => {
+    navigate('/login'); 
+  };
+
   return (
-    <div>
-      <h1>Home</h1>
-      <p>Welcome to the Home page!</p>
-      <a href="/login">로그인</a> <br></br>
-      <a href="/home">홈페이지</a> <br></br>
-      <a href="/compareItem">아이템 비교하기</a> {/*kkm이 바로 위에 수정함*/}
-      <br></br>
+    <div className="home-container">
+      <div className="home-card">
+        <header>
+          <div className="home-title">
+            <img src={titleImage} alt="title" className="title-image" />
+            
+
+          </div>
+        </header>
+
+        <img src={logoImage} alt="logo" className="logo-image" />
+        <p>
+          가장 쉬운 <br />
+          비교 <br />
+          똑똑한 쇼핑 <br />
+          라이프
+        </p>
+
+
+
+        <button onClick={handleStartClick} className="start-button">START</button>
+
+      </div>
     </div>
   );
 };
