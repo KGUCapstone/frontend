@@ -56,11 +56,38 @@ const CartList = () => {
     navigate("/home");
   };
 
+
+  const handleDelete = async () => {
+    const selectedItems = cartItems.filter((item) => checkedItems[item.id]);
+
+    if (selectedItems.length === 0) {
+      alert("삭제할 상품을 선택해주세요!");
+      return;
+    }
+  
+     try {
+      await api.post("/cart/removeItem", selectedItems);
+      alert("선택한 상품이 삭제되었습니다.");
+  
+      // 삭제 후 목록 다시 불러오기
+      const res = await api.post("/cart/show");
+      setCartItems(res.data);
+  
+
+    } catch (err) {
+      console.error("삭제 실패:", err.response?.data || err.message);
+      alert("삭제 중 오류가 발생했습니다.");
+    }
+  };
+  
   return (
     <div className="cart-container">
       <div className="back-button-container">
         <button className="back-button" onClick={goBack}>
           ← 다시 담기
+        </button>
+        <button className="delete-button" onClick={handleDelete}>
+          선택삭제
         </button>
       </div>
 
