@@ -8,17 +8,26 @@ const ComparePage = ({ product }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const getItems = location.state?.items || [];
+  const sourceType = location.state?.sourceType || "search"; // 데이터 출처 구분:  "photo"  또는 "검색" (추가)
+  const productName = location.state?.searchQuery; // 받아온 검색어 (추가)
+  const takenPicture = location.state?.receiptImage; // 찍은 가격표 사진
 
   const [products, setProducts] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("상품명");
-  const [receiptImage, setReceiptImage] = useState("/sinsa.jpg");
+  const [searchQuery, setSearchQuery] = useState(""); //구글 비전에서 추출된 상품명 또는 직접 검색한 상품명
+  const [receiptImage, setReceiptImage] = useState(null); // 내가 찍은 가격표 이미지
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const formattedProducts = getItems.map((item, index) => {
+          if (location.state?.searchQuery) {
+            //상품명 저장(추가)
+            setSearchQuery(productName);
+          }
+
           const numericPrice = Number(String(item.lprice).replace(/[₩,]/g, ""));
+
           return {
             id: index + 1,
             image: item.image,
@@ -37,15 +46,29 @@ const ComparePage = ({ product }) => {
       }
     };
 
+    const fetchReceiptImage = async () => {
+      try {
+        if (sourceType === "photo") {
+          setReceiptImage(takenPicture || null); //구글 비전 이미지 초기값 설정
+        } else {
+          setReceiptImage(null); // 검색창으로 데이터를 받을 경우 이미지
+        }
+      } catch (err) {
+        console.error("이미지 데이터를 불러오는 데 실패:", err);
+        alert("이미지 데이터를 불러오는 데 실패");
+      }
+    };
+
     fetchProducts();
-    setReceiptImage("/sinsa.jpg");
-  }, [product]);
+    fetchReceiptImage();
+  }, [product, sourceType, productName]);
 
   const handleCheckboxChange = (id) => {
-    setCheckedItems((prevChecked) =>
-      prevChecked.includes(id)
-        ? prevChecked.filter((item) => item !== id)
-        : [id] // 하나만 선택하도록 제한
+    setCheckedItems(
+      (prevChecked) =>
+        prevChecked.includes(id)
+          ? prevChecked.filter((item) => item !== id)
+          : [id] // 하나만 선택하도록 제한
     );
   };
 
@@ -93,18 +116,20 @@ const ComparePage = ({ product }) => {
 
       <div className="main-content">
         <h2 className="title">
-          해당 "{searchQuery}" 상품
+          {searchQuery} 비교
           <br />
-          온라인 비교
+          온라인 최저가
         </h2>
 
-        <div className="money-image-container">
-          <img
-            src={receiptImage}
-            alt="내가 찍은 가격표"
-            className="money-image"
-          />
-        </div>
+        {sourceType === "photo" && (
+          <div className="money-image-container">
+            <img
+              src={receiptImage}
+              alt="내가 찍은 가격표"
+              className="money-image"
+            />
+          </div>
+        )}
 
         <div className="product-list">
           {products.map((item) => (
