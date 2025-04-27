@@ -62,7 +62,9 @@ const MyPage = () => {
         const response = await api.get("/mypage", {
           headers: { Authorization: token || "" },
         });
-        setUser(response.data.username);
+        //console.log("마이페이지 데이터:", response.data);
+        //setUser(response.data.username);
+        setUser(response.data.name);
       } catch (error) {
         console.error("인증 실패:", error);
       } finally {
