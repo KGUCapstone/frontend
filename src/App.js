@@ -11,6 +11,8 @@ import PicturePage from "./pages/PicturePage";
 import ComparePage from "./pages/ComparePage";
 import CartList from "./pages/CartList";
 import CartDetailList from "./pages/cartDetailList";
+import SavedAmountPage from "./pages/SavedAmountPage";
+import CheckListPage from "./pages/CheckListPage";
 
 
 import HistoryPage from "./pages/HistoryPage";
@@ -29,7 +31,7 @@ const App = () => {
 
         <Route path="/camera" element={<CameraPage />} />
         <Route path="/picture" element={<PicturePage />} />
-        <Route path="/compareitem" element={<ComparePage />} />
+        <Route path="/compareItem" element={<ComparePage />} />
         <Route path="/cart" element={<CartList />} />
 
         <Route path="/cartDetailList" element={<CartDetailList />} />
@@ -38,7 +40,8 @@ const App = () => {
 
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/history/:cartId" element={<CartDetailPage />} />
-
+        <Route path="/saved-amounts" element={<SavedAmountPage />} />
+        <Route path="/checkListPage" element={<CheckListPage />} />
       </Routes>
     </Router>
   );
