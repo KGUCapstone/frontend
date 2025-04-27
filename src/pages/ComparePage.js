@@ -11,6 +11,7 @@ const ComparePage = ({ product }) => {
   const sourceType = location.state?.sourceType || "search"; // 데이터 출처 구분:  "photo"  또는 "검색" (추가)
   const productName = location.state?.searchQuery; // 받아온 검색어 (추가)
   const takenPicture = location.state?.receiptImage; // 찍은 가격표 사진
+  const compareItemPrice = location.state?.compareItemPrice ?? 0;// 비교 상품 정보
 
   const [products, setProducts] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
@@ -90,6 +91,8 @@ const ComparePage = ({ product }) => {
       mallName: selectedItem.mallName ?? "",
       brand: selectedItem.brand ?? "",
       volume: selectedItem.volume ?? "",
+      quantity: 1,
+      compareItemPrice: compareItemPrice,
     };
 
     console.log("🛒 장바구니에 담을 상품:", onlineItemDto);
