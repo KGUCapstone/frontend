@@ -63,10 +63,11 @@ const SearchBar = () => {
 
       console.log("API 응답 데이터:", res.data); // 응답 데이터 확인용
       const items = res.data.items || [];
+      const compareItemPrice = res.data.compareItem.price || null;
 
       //compareItem 페이지로 백에서 api 로 받아온 items을 props로 넘기기
       navigate("/compareItem", {
-        state: { items, searchQuery: formData.title },
+        state: { items, compareItemPrice, searchQuery: formData.title },
       });
     } catch (err) {
       console.log("오류가 발생");
