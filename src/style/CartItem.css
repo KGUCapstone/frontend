@@ -1,0 +1,53 @@
+.item-bottom {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+    gap: 16px; /* 수량조절 버튼과 가격 사이 간격 */
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.quantity-number {
+    margin: 0 8px;
+    font-size: 14px;
+}
+
+.item-price {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.item-unit-price {
+    font-size: 12px;
+    color: #888;
+    margin-left: 4px;
+}
+
+/* 절약 강조 */
+.saved-amount {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #28a745;
+    font-weight: bold;
+}
+
+.compare-price {
+    margin-top: 2px;
+    font-size: 12px;
+    text-decoration: line-through;
+    color: #555;
+}
+

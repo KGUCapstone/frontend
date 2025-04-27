@@ -24,7 +24,6 @@ const CameraPage = () => {
 
     return () => {
       if (videoRef.current?.srcObject) {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
       }
     };
@@ -47,40 +46,71 @@ const CameraPage = () => {
     canvas.height = cropHeight;
 
     ctx.drawImage(
-      video,
-      cropX,
-      cropY,
-      cropWidth,
-      cropHeight,
-      0,
-      0,
-      cropWidth,
-      cropHeight
+        video,
+        cropX,
+        cropY,
+        cropWidth,
+        cropHeight,
+        0,
+        0,
+        cropWidth,
+        cropHeight
     );
 
     const image = canvas.toDataURL("image/png");
     navigate("/picture", { state: { photo: image } });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+
+        const image = canvas.toDataURL("image/png");
+        navigate("/picture", { state: { photo: image } });
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
-    <div className="camera-wrapper">
-      <header>
-        <HomeButton />
-      </header>
+      <div className="camera-wrapper">
+        <header>
+          <HomeButton />
+        </header>
 
-      <h2>가격표 촬영</h2>
-      <div className="camera-container">
-        <video ref={videoRef} autoPlay playsInline className="camera-video" />
-        <div className="camera-frame" />
+        <h2>가격표 촬영</h2>
+        <div className="camera-container">
+          <video ref={videoRef} autoPlay playsInline className="camera-video" />
+          <div className="camera-frame" />
+        </div>
+
+        <button onClick={capture} className="camera-button">
+          촬영하기
+        </button>
+
+        {/* 파일 업로드 input */}
+        <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="camera-file-input"
+        />
+
+        <canvas ref={canvasRef} style={{ display: "none" }} />
+        <BottomNav />
       </div>
-
-      <button onClick={capture} className="camera-button">
-        촬영하기
-      </button>
-      <canvas ref={canvasRef} style={{ display: "none" }} />
-
-      <BottomNav />
-    </div>
   );
 };
 

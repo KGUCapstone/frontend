@@ -25,6 +25,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const MyPage = () => {
   const [user, setUser] = useState(null);
+  const [thisMonthSaved, setThisMonthSaved] = useState(0);
   const [loading, setLoading] = useState(true);
   const [chartType, setChartType] = useState("line");
   const [showChartOptions, setShowChartOptions] = useState(false);
@@ -38,6 +39,7 @@ const MyPage = () => {
     { month: "2025.1", amount: 10000 },
     { month: "2025.2", amount: 40000 },
     { month: "2025.3", amount: 55000 },
+    { month: "2025.4", amount: thisMonthSaved.toLocaleString()},
   ];
 
   useEffect(() => {
@@ -62,9 +64,8 @@ const MyPage = () => {
         const response = await api.get("/mypage", {
           headers: { Authorization: token || "" },
         });
-        //console.log("마이페이지 데이터:", response.data);
-        //setUser(response.data.username);
         setUser(response.data.name);
+        setThisMonthSaved(response.data.thisMonthSaved); // 절약 금액
       } catch (error) {
         console.error("인증 실패:", error);
       } finally {
@@ -105,6 +106,14 @@ const MyPage = () => {
       fileInputRef.current.click();
     }
   };
+
+  const goToSavedAmountPage = () => {
+    navigate("/saved-amounts");
+  };
+
+  const goToHistoryPage = () => {
+    navigate("/history");
+  };
   
   return (
     <>
@@ -135,7 +144,7 @@ const MyPage = () => {
 
             <div className="profile-info">
               <h3>{user ?? "사용자명"}</h3>
-              <p>이번 달 아낀 금액</p>
+              <p>이번 달 아낀 금액: {thisMonthSaved.toLocaleString()}원</p>
             </div>
           </div>
 
@@ -173,7 +182,7 @@ const MyPage = () => {
 
           {/* 차트 변경 버튼 */}
           <div className="button-list">
-            <div className="mypage-button">최근 본 상품</div>
+            <div className="mypage-button" onClick={goToHistoryPage} >최근 본 상품</div>
             <div className="mypage-button chart-toggle-button" onClick={() => setShowChartOptions(!showChartOptions)}>
               테마 변경
             </div>
@@ -191,7 +200,9 @@ const MyPage = () => {
                 <span>영역 그래프</span>
               </button>
             </div>
-            <div className="mypage-button">아낀 금액 통계</div>
+            <div className="mypage-button" onClick={goToSavedAmountPage}>
+              아낀 금액 통계
+            </div>
             <div className="mypage-button">비밀번호 변경</div>
           </div>
 

@@ -40,17 +40,19 @@ const HistoryPage = () => {
       <h1 className="cart-title">장바구니 기록</h1>
 
       {cartList.length === 0 ? (
-        <div className="empty-cart">기록된 장바구니가 없습니다.</div>
+          <div className="empty-cart">기록된 장바구니가 없습니다.</div>
       ) : (
-        cartList.map((cart) => (
-          <div
-            key={cart.cartId}
-            className="cart-history-summary hover-underline" // ✅ 새 클래스 추가
-            onClick={() => goToDetailPage(cart.cartId)}
-          >
-            🛒 {cart.name} - {formatDate(cart.createdAt)}
-          </div>
-        ))
+          [...cartList]
+              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // 최신순 정렬
+              .map((cart) => (
+                  <div
+                      key={cart.cartId}
+                      className="cart-history-summary hover-underline"
+                      onClick={() => goToDetailPage(cart.cartId)}
+                  >
+                    🛒 {cart.name} - {formatDate(cart.createdAt)}
+                  </div>
+              ))
       )}
     </div>
   );

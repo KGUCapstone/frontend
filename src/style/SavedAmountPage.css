@@ -1,0 +1,84 @@
+.saved-page-container {
+    width: 91%;
+    min-height: 90vh;
+    padding: 20px 16px;
+    background: linear-gradient(to bottom, #f9fbfc, #f1f3f5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-title {
+    font-size: 26px;
+    font-weight: 800;
+    margin: 30px 0 20px;
+    color: #222;
+    text-align: center;
+}
+
+.saved-list {
+    width: 100%;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+}
+
+.saved-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 12px;
+    margin-bottom: 10px;
+    background: #f6f8fa;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #444;
+}
+
+.saved-month {
+    font-weight: 600;
+    color: #333;
+}
+
+.saved-amount {
+    font-weight: bold;
+    color: #28a745;
+}
+
+.empty-text {
+    text-align: center;
+    color: #bbb;
+    font-size: 14px;
+}
+
+.saved-back-button {
+    width: 100%;
+    max-width: 400px;
+    padding: 16px;
+    font-size: 17px;
+    font-weight: bold;
+    background-color: #0066ff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    margin-top: auto;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 102, 255, 0.4);
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.back-button:hover {
+    background-color: #0052cc;
+    transform: translateY(-2px);
+}
+
+/* 반응형 */
+@media (min-width: 768px) {
+    .saved-page-container {
+        max-width: 480px;
+        margin: 0 auto;
+    }
+}

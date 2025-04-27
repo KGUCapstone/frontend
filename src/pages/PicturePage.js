@@ -34,6 +34,7 @@ const PicturePage = () => {
           items: result.items,
           searchQuery: result.title,
           receiptImage: photo,
+          compareItemPrice: result.compareItem.price,
         },
       });
     } catch (error) {

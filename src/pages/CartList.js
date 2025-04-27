@@ -2,13 +2,37 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/CartList.css";
 import api from "../api"; // axios 인스턴스
+import CartItem from "../components/CartItem.js";
 
 const CartList = () => {
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState([]); 
+  //const [cartItems, setCartItems] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
 
   const userName = "사용자";
+
+  // // 더미 data
+  const [cartItems, setCartItems] = useState([
+    {
+      id: 1,
+      title: "빙그레 저지방 바나나맛 우유 240ML",
+      brand: "빙그레",
+      mallName: "홈플러스",
+      price: 1690,
+      quantity: 1,
+      image: "https://shopping-phinf.pstatic.net/main_8245883/82458839420.1.jpg"
+    },
+    {
+      id: 2,
+      title: "오산 붕어빵 직접굽는 미니붕어빵 (60마리)",
+      brand: "오산 붕어빵",
+      mallName: "쿠팡",
+      price: 3500,
+      quantity: 1,
+      image: "https://img-cf.kurly.com/shop/data/goods/1636095741587l0.jpg"
+    }
+  ]);
+
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -43,9 +67,14 @@ const CartList = () => {
       return;
     }
 
+    const payload = {
+      selectedItems: selectedItems,
+      totalSavedAmount: calculateTotalSaved(),
+    };
+
     try {
-      await api.post("/cart/complete", selectedItems); // 선택된 상품 서버 전송
-      navigate("/home"); // 완료 후 홈으로 이동
+      await api.post("/cart/complete", payload);
+      navigate("/home");
     } catch (err) {
       console.error("선택 완료 처리 실패:", err.response?.data || err.message);
       alert("선택 완료 중 문제가 발생했습니다.");
@@ -64,22 +93,64 @@ const CartList = () => {
       alert("삭제할 상품을 선택해주세요!");
       return;
     }
-  
+
      try {
       await api.post("/cart/removeItem", selectedItems);
       alert("선택한 상품이 삭제되었습니다.");
-  
+
       // 삭제 후 목록 다시 불러오기
       const res = await api.post("/cart/show");
       setCartItems(res.data);
-  
+
 
     } catch (err) {
       console.error("삭제 실패:", err.response?.data || err.message);
       alert("삭제 중 오류가 발생했습니다.");
     }
   };
-  
+
+  const calculateTotalPrice = () => {
+    return cartItems.reduce((total, item) => {
+      if (checkedItems[item.id]) {
+        // 체크된 아이템만 합산
+        return total + (item.price * item.quantity);
+      }
+      return total;
+    }, 0);
+  };
+
+
+  const handleIncreaseQuantity = (itemId) => {
+    setCartItems((prev) =>
+        prev.map((item) => item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item)
+    );
+  };
+
+  const handleDecreaseQuantity = (itemId) => {
+    setCartItems((prev) =>
+        prev.map((item) =>
+            item.id === itemId ? { ...item, quantity: Math.max(1, item.quantity - 1) } : item
+        )
+    );
+  };
+  const calculateTotalComparePrice = () => {
+    return cartItems.reduce((total, item) => {
+      if (checkedItems[item.id] && item.compareItemPrice > 0) {
+        return total + (item.compareItemPrice * item.quantity);
+      }
+      return total;
+    }, 0);
+  };
+  const calculateTotalSaved = () => {
+    return cartItems.reduce((total, item) => {
+      if (checkedItems[item.id] && item.compareItemPrice > 0) {
+        return total + ((item.compareItemPrice - item.price) * item.quantity);
+      }
+      return total;
+    }, 0);
+  };
+
+
   return (
     <div className="cart-container">
       <div className="back-button-container">
@@ -101,41 +172,44 @@ const CartList = () => {
         {cartItems.length === 0 ? (
           <div className="empty-cart">장바구니가 비어있습니다.</div>
         ) : (
-          cartItems.map((item) => (
-            <div key={item.id} className="cart-item">
-              <div className="cart-item-image-container">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="cart-item-image"
+            cartItems.map((item) => (
+                <CartItem
+                    key={item.id}
+                    item={item}
+                    checked={checkedItems[item.id]}
+                    onCheckboxChange={handleCheckboxChange}
+                    onIncrease={handleIncreaseQuantity}
+                    onDecrease={handleDecreaseQuantity}
                 />
-              </div>
-              <div className="cart-item-details">
-                <h3>{item.title}</h3>
-                <p className="item-brand">{item.brand}</p>
-                <p className="item-store">{item.mallName}</p>
-                <p className="item-price">₩{item.price.toLocaleString()}</p>
-              </div>
-              <div className="item-checkbox-container">
-                <div
-                  className={`check-icon ${checkedItems[item.id] ? "checked" : ""}`}
-                  onClick={() => handleCheckboxChange(item.id)}
-                >
-                  {checkedItems[item.id] && <span>✓</span>}
-                </div>
-              </div>
-            </div>
-          ))
+
+            ))
         )}
       </div>
 
       {cartItems.length > 0 && (
-        <button className="complete-button" onClick={handleComplete}>
-          선택 완료
-        </button>
+          <div className="order-footer">
+            <div className="order-info">
+              <div className="order-price">
+                총 합계: ₩{calculateTotalPrice().toLocaleString()}
+              </div>
+              <div className="order-compare-price">
+                비교가: ₩{calculateTotalComparePrice().toLocaleString()}
+              </div>
+              <div className="order-saved">
+                절약한 금액: ₩{calculateTotalSaved().toLocaleString()}
+              </div>
+            </div>
+
+            <button className="order-button" onClick={handleComplete}>
+              확인하기
+            </button>
+          </div>
+
       )}
     </div>
   );
+
+
 };
 
 export default CartList;
