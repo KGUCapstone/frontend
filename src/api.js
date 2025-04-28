@@ -44,13 +44,16 @@ api.interceptors.request.use(
 
 // 응답 인터셉터
 api.interceptors.response.use(
-  (response) => {
-    // 로그인 응답에서 토큰 저장
-    if (response.config.url === "/login" && response.headers["authorization"]) {
-      localStorage.setItem("Authorization", response.headers["authorization"]);
-      console.log("로그인 성공, 토큰 저장됨:", response.headers["authorization"]);
-    }
-    return response;
+    (response) => {
+      // 로그인 응답에서 토큰 저장
+      if ((response.config.url === "/login" || response.config.url === "/auth/token") &&
+          (response.headers["authorization"] || response.data.accessToken)) {
+
+        const token = response.headers["authorization"] || `Bearer ${response.data.accessToken}`;
+        localStorage.setItem("Authorization", token);
+        console.log("토큰 저장됨:", token);
+      }
+      return response;
   },
   async (error) => {
     const originalRequest = error.config;

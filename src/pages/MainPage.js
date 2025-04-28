@@ -47,8 +47,43 @@ const MainPage = () => {
     }
   ];
 
+  useEffect(() => {
+    const fetchAccessToken = async () => {
+      try {
+        // access_token을 쿠키에서 직접 읽기
+        const cookies = document.cookie.split("; ");
+        const accessTokenCookie = cookies.find(cookie => cookie.startsWith("access_token="));
+
+        if (accessTokenCookie) {
+          const accessToken = accessTokenCookie.split("=")[1];
+          localStorage.setItem("Authorization", `Bearer ${accessToken}`);
+        } else {
+          console.error("access_token 쿠키가 없습니다.");
+        }
+      } catch (error) {
+        console.error("access_token 쿠키 읽기 실패:", error);
+      }
+    };
+
+    fetchAccessToken();
+  }, []);
+
+  useEffect(() => {
+    const fetchAccessToken = async () => {
+      try {
 
 
+        const response = await api.get("/auth/token", { withCredentials: true });
+        const accessToken = response.data.accessToken;
+        if (accessToken) {
+          localStorage.setItem("Authorization", `Bearer ${accessToken}`);
+        }
+      } catch (error) {
+        console.error("토큰 요청 실패:", error);
+      }
+    };
+    fetchAccessToken();
+  }, []);
 
 
   useEffect(() => {
