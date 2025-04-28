@@ -112,7 +112,7 @@ const ShoppingCalendar = () => {
     };
 
     return (
-        <div className="shopping-calendar-container">
+        <div className="shopping-calendar-container ">
             <div className="calendar-title">
                 <h2>쇼핑 캘린더</h2>
                 <div className="calendar-legend">

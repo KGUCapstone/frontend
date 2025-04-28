@@ -220,9 +220,9 @@ const MainPage = () => {
               </div>
             </div>
 
-            <ShoppingCalendar />
           </div>
 
+          <ShoppingCalendar />
           {/* Add some spacing at the bottom to ensure content is scrollable past the FAB */}
           <div className="bottom-space"></div>
         </div>
