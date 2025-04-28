@@ -74,45 +74,92 @@ const HistoryPage = () => {
     navigate("/mypage");
   };
 
-  return (
-      <div className="cart-container">
-        {/* 상단 버튼 영역 */}
-        <div style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "10px 16px 0 16px",
-          marginBottom: "20px",
-        }}>
-          <button
-              onClick={handleGoBack}
-              className="back-button"
-              style={{ backgroundColor: "transparent", border: "none", fontSize: "14px", cursor: "pointer" }}
-          >
-            돌아가기
-          </button>
+//   return (
+//       <div className="cart-container">
+//         {/* 상단 버튼 영역 */}
+//         <div style={{
+//           display: "flex",
+//           justifyContent: "space-between",
+//           alignItems: "center",
+//           padding: "10px 16px 0 16px",
+//           marginBottom: "20px",
+//         }}>
+//           <button
+//               onClick={handleGoBack}
+//               className="back-button"
+//               style={{ backgroundColor: "transparent", border: "none", fontSize: "14px", cursor: "pointer" }}
+//           >
+//             돌아가기
+//           </button>
+//
+//           <button
+//               onClick={handleDeleteModeToggle}
+//               className="delete-button"
+//               style={{
+//                 backgroundColor: "#ff4d4f",
+//                 color: "white",
+//                 border: "none",
+//                 borderRadius: "5px",
+//                 padding: "6px 10px",
+//                 display: "flex",
+//                 alignItems: "center",
+//                 gap: "6px",
+//                 cursor: "pointer"
+//               }}
+//           >
+//             {deleteMode ? "삭제" : <FaTrash size={16} />}
+//           </button>
+//         </div>
+//
+//         <h1 className="cart-title">장바구니 기록</h1>
+//
+//         {cartList.length === 0 ? (
+//             <div className="empty-cart">기록된 장바구니가 없습니다.</div>
+//         ) : (
+//             [...cartList]
+//                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+//                 .map((cart) => (
+//                     <div
+//                         key={cart.cartId}
+//                         className="cart-history-summary hover-underline"
+//                         onClick={() => goToDetailPage(cart.cartId)}
+//                         style={{ display: "flex", alignItems: "center" }}
+//                     >
+//                       {deleteMode && (
+//                           <input
+//                               type="checkbox"
+//                               checked={selectedCarts.includes(cart.cartId)}
+//                               onChange={() => handleCheckboxChange(cart.cartId)}
+//                               style={{ marginRight: "8px" }}
+//                           />
+//                       )}
+//                       🛒 {cart.name} - {formatDate(cart.createdAt)}
+//                     </div>
+//                 ))
+//         )}
+//       </div>
+//   );
+// };
 
-          <button
-              onClick={handleDeleteModeToggle}
-              className="delete-button"
-              style={{
-                backgroundColor: "#ff4d4f",
-                color: "white",
-                border: "none",
-                borderRadius: "5px",
-                padding: "6px 10px",
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-                cursor: "pointer"
-              }}
-          >
-            {deleteMode ? "삭제" : <FaTrash size={16} />}
-          </button>
-        </div>
+return (
+    <div className="cart-container">
+      {/* 상단 버튼 영역 */}
+      <div style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "10px 16px 0 16px",
+        marginBottom: "20px",
+      }}>
+        <button onClick={handleGoBack} className="back-button">← 돌아가기</button>
+        <button onClick={handleDeleteModeToggle} className="delete-button">
+          {deleteMode ? "삭제" : <FaTrash size={16}/>}
+        </button>
+      </div>
 
-        <h1 className="cart-title">장바구니 기록</h1>
+      <h1 className="cart-title">장바구니 기록</h1>
 
+      <div className="cart-items-list">
         {cartList.length === 0 ? (
             <div className="empty-cart">기록된 장바구니가 없습니다.</div>
         ) : (
@@ -123,22 +170,60 @@ const HistoryPage = () => {
                         key={cart.cartId}
                         className="cart-history-summary hover-underline"
                         onClick={() => goToDetailPage(cart.cartId)}
-                        style={{ display: "flex", alignItems: "center" }}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          padding: "12px",
+                          borderBottom: "1px solid #eee",
+                          position: "relative"
+                        }}
                     >
                       {deleteMode && (
                           <input
                               type="checkbox"
                               checked={selectedCarts.includes(cart.cartId)}
                               onChange={() => handleCheckboxChange(cart.cartId)}
-                              style={{ marginRight: "8px" }}
+                              style={{marginRight: "8px"}}
                           />
                       )}
-                      🛒 {cart.name} - {formatDate(cart.createdAt)}
+
+                      {/* 썸네일 (기본 이미지) */}
+                      <img
+                          src={cart.thumbnailUrl || "https://via.placeholder.com/60"}
+                          alt="상품 썸네일"
+                          style={{
+                            width: "60px",
+                            height: "60px",
+                            objectFit: "cover",
+                            borderRadius: "8px",
+                            marginRight: "12px"
+                          }}
+                      />
+
+                      {/* 상품 정보 */}
+                      <div style={{flexGrow: 1}}>
+                        <div style={{fontSize: "15px", fontWeight: "bold", marginBottom: "4px"}}>
+                          {cart.name}
+                        </div>
+                        <div style={{fontSize: "12px", color: "#777"}}>
+                          {formatDate(cart.createdAt)}
+                        </div>
+                      </div>
+
+                      {/* 오른쪽 수량/가격 표시 */}
+                      <div style={{textAlign: "right"}}>
+                        <div style={{fontSize: "14px", fontWeight: "bold"}}>
+                          총 {cart.totalQuantity || 1}개
+                        </div>
+                        <div style={{fontSize: "13px", color: "#555"}}>
+                          ₩{(cart.totalPrice || 0).toLocaleString()}
+                        </div>
+                      </div>
                     </div>
                 ))
         )}
       </div>
-  );
+    </div>)
 };
 
 export default HistoryPage;
