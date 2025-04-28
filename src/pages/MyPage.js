@@ -22,6 +22,7 @@ import {
 // react-toastify import
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import BottomNav from "../components/BottomNav";
 
 const MyPage = () => {
   const [user, setUser] = useState(null);
@@ -39,7 +40,7 @@ const MyPage = () => {
     { month: "2025.1", amount: 10000 },
     { month: "2025.2", amount: 40000 },
     { month: "2025.3", amount: 55000 },
-    { month: "2025.4", amount: thisMonthSaved.toLocaleString()},
+    { month: "2025.4", amount: thisMonthSaved },
   ];
 
   useEffect(() => {
@@ -125,7 +126,7 @@ const MyPage = () => {
           </header>
 
           <div className="profile-section">
-          <div className="profile-image"onClick={handleImageClick}style={{ cursor: "pointer" }}>
+          <div className="profile-image" onClick={handleImageClick} style={{ cursor: "pointer" }}>
             {profileImage && (
               <img
                src={profileImage}
@@ -144,7 +145,11 @@ const MyPage = () => {
 
             <div className="profile-info">
               <h3>{user ?? "사용자명"}</h3>
-              <p>이번 달 아낀 금액: {thisMonthSaved.toLocaleString()}원</p>
+              <p>이번 달 아낀 금액: <br />
+                          <span className="saved-amount">
+                {thisMonthSaved.toLocaleString()}원
+              </span>
+              </p>
             </div>
           </div>
 
@@ -214,6 +219,8 @@ const MyPage = () => {
 
       {/* ToastContainer 추가 */}
       <ToastContainer />
+
+      <BottomNav />
     </>
   );
 };
