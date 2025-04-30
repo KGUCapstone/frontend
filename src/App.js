@@ -17,6 +17,7 @@ import CheckListPage from "./pages/CheckListPage";
 
 import HistoryPage from "./pages/HistoryPage";
 import CartDetailPage from "./pages/CartDetailPage";
+import ComparisonResultsPage from "./pages/ComparisonResultsPage";
 
 const App = () => {
   return (
@@ -42,6 +43,7 @@ const App = () => {
         <Route path="/history/:cartId" element={<CartDetailPage />} />
         <Route path="/saved-amounts" element={<SavedAmountPage />} />
         <Route path="/checkListPage" element={<CheckListPage />} />
+        <Route path="/comparison-results" element={<ComparisonResultsPage />} />
       </Routes>
     </Router>
   );
