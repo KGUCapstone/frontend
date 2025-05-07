@@ -198,7 +198,7 @@ const MainPage = () => {
             <div className="weekly-summary-box">
               <div className="sun-icon">☀️</div>
               <div className="weekly-summary-text">
-                뭐 그냥 대충 괜찮은 말
+                오늘의 날씨
               </div>
             </div>
 
