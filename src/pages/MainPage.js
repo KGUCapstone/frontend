@@ -131,6 +131,7 @@ const MainPage = () => {
       <div className="main-container">
 
         <header className="main-header">
+        <div className="header-spacer" />
           <div className="logo">GAVION</div>
           <button className="cart-button" onClick={() => navigate("/cart")}>
             🛒

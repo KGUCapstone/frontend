@@ -46,15 +46,15 @@ const CameraPage = () => {
     canvas.height = cropHeight;
 
     ctx.drawImage(
-        video,
-        cropX,
-        cropY,
-        cropWidth,
-        cropHeight,
-        0,
-        0,
-        cropWidth,
-        cropHeight
+      video,
+      cropX,
+      cropY,
+      cropWidth,
+      cropHeight,
+      0,
+      0,
+      cropWidth,
+      cropHeight
     );
 
     const image = canvas.toDataURL("image/png");
@@ -85,32 +85,38 @@ const CameraPage = () => {
   };
 
   return (
-      <div className="camera-wrapper">
-        <header>
-          <HomeButton />
-        </header>
+    <>
+      <header className="main-header">
+        <div className="header-spacer" />
+        <div className="logo" onClick={() => navigate("/home")}>GAVION</div>
+      </header>
 
-        <h2>가격표 촬영</h2>
-        <div className="camera-container">
-          <video ref={videoRef} autoPlay playsInline className="camera-video" />
-          <div className="camera-frame" />
+      <div className="camera-container">
+        <div className="camera-card">
+          <h2 className="camera-title">가격표 촬영</h2>
+
+          <div style={{ position: "relative", width: "100%" }}>
+            <video ref={videoRef} autoPlay playsInline className="camera-video" />
+            <div className="camera-frame" />
+          </div>
+          <input
+  type="file"
+  accept="image/*"
+  onChange={handleFileChange}
+  className="camera-file-input"
+  id="file-upload"  // id 추가
+/>
+<label htmlFor="file-upload" className="camera-file-label">
+  파일 선택
+</label>
+          <button onClick={capture} className="camera-button">촬영하기</button>
+
+          <canvas ref={canvasRef} style={{ display: "none" }} />
         </div>
-
-        <button onClick={capture} className="camera-button">
-          촬영하기
-        </button>
-
-        {/* 파일 업로드 input */}
-        <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="camera-file-input"
-        />
-
-        <canvas ref={canvasRef} style={{ display: "none" }} />
-        <BottomNav />
       </div>
+
+      <BottomNav />
+    </>
   );
 };
 
