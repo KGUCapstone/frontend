@@ -260,7 +260,7 @@ const MyPage = () => {
           </div>
 
           <button className="logout-button" onClick={handleLogout}>
-            로그아웃 / 회원탈퇴
+            로그아웃
           </button>
         </div>
       </div>
