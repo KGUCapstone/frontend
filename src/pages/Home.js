@@ -23,12 +23,12 @@ const Home = () => {
         </header>
 
         <img src={logoImage} alt="logo" className="logo-image" />
-        <p>
-          가장 쉬운 <br />
-          비교 <br />
-          똑똑한 쇼핑 <br />
-          라이프
-        </p>
+        <p><span className="highlight-text">
+  가장 쉬운 <br />
+  비교 <br />
+  똑똑한 쇼핑 라이프</span>
+</p>
+
 
 
 

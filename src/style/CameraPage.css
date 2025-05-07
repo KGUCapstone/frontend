@@ -1,22 +1,46 @@
-.camera-wrapper {
-  max-width: 600px;
-  margin: auto;
-  padding: 7rem 1rem;
-  text-align: center;
+/* 기존 스타일에 기반하여 카드 레이아웃 수정 */
+.camera-header {
+  width: 100%;
+  margin-bottom: 1.5rem;
 }
 
 .camera-container {
-  position: relative;
   width: 100%;
-  aspect-ratio: 4/3;
-  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px; /* 여백을 추가해줍니다 */
+  box-sizing: border-box; /* 부모 컨테이너가 넘치지 않도록 */
+}
+
+.camera-card {
+  background-color: white;
+  padding: 2rem 1.5rem;
+  margin-top: 140px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  height: calc(100vh - 17rem); /* 카드 높이를 조정 */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  overflow-y: hidden;
+  box-sizing: border-box; /* 카드의 너비와 padding이 부모 컨테이너를 넘지 않도록 */
+}
+
+.camera-title {
+  font-size: 1.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .camera-video {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 4/3;
   object-fit: cover;
   border-radius: 10px;
+  position: relative;
 }
 
 .camera-frame {
@@ -25,23 +49,67 @@
   left: 7%;
   width: 85%;
   height: 75%;
-  border: 3px dashed #00f7ff;
+  border: 3px dashed #af8bee;
   border-radius: 10px;
   pointer-events: none;
-  box-sizing: border-box;
 }
 
 .camera-button {
-  margin-top: 1.5rem;
+
   padding: 12px 20px;
   font-size: 1rem;
-  background-color: #03C75A;
+  background: linear-gradient(135deg, #97b0ff, #a97afb);
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  width: 100%;
+  max-width: 300px;
 }
 
 .camera-button:hover {
-  background-color: #029d49;
+  background: linear-gradient(135deg, #6979ae, #7432e5);
+}
+
+.camera-file-input {
+  display: none; /* 기본 input은 숨기고 */
+}
+
+.camera-file-label {
+  display: block;
+  text-align: center;
+  background-color: #f0f0f0;
+  padding: 12px 20px;
+  font-size: 1rem;
+  color: #333;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 3rem;
+  margin-bottom: 1rem; /* 촬영하기 버튼과 간격을 줍니다 */
+}
+
+.camera-file-label:hover {
+  background-color: #e0e0e0;
+}
+
+
+/* BottomNav와 헤더에 여백을 추가해서 카드와 하단바가 겹치지 않도록 조정 */
+.camera-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* 화면 꽉 차게 */
+  overflow-x: hidden; /* 가로 스크롤 방지 */
+}
+
+.camera-header {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.camera-container {
+  flex-grow: 1; /* 컨텐츠 영역이 남은 공간을 차지하도록 */
+}
+
+.camera-card {
+  margin-bottom: 2rem; /* 카드와 하단바 사이의 간격 */
 }

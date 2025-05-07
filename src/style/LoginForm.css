@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
   max-width: 1000px; 
   background-color: #f7f8fa;
 
@@ -37,7 +37,7 @@
 .auth-button {
   width: 100%;
   padding: 14px;
-  background-color: #c1f1f5; 
+  background: linear-gradient(135deg, #97b0ff, #a97afb);
   border: none;
   border-radius: 8px;
   font-size: 18px;
@@ -46,7 +46,7 @@
 }
 
 .auth-button:hover {
-  background-color: #a2e0ea;
+  background: linear-gradient(135deg, #6979ae, #7432e5);
 }
 
 .auto-login {
