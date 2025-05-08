@@ -1,265 +1,455 @@
-
 .main-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background-color: #f5f7fa;
-  padding-bottom: 60px;
-}
+    display: flex;
+    flex-direction: column;
+    background-color: #f7f8fa;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Arial, sans-serif;
+  }
+  
+  /* 고정 헤더 */
+  .main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-width: 600px;
+    margin: 0 auto;
+    /* padding: 1rem; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    z-index: 100;
+    height: 70px;
+  }
 
-.checklist-container {
-  flex: 1;
-  padding: 20px;
-  max-width: 600px;
-  margin: 120px auto;
-  width: 100%;
-}
-
-.checklist-card {
-  background-color: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  padding: 20px;
-  margin: 80px 14px 0 0;
-  overflow: hidden;
-}
-
-.app-title {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #222;
-}
-
-.tab-container {
-  display: flex;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.tab-button {
-  flex: 1;
-  padding: 12px;
-  text-align: center;
-  background-color: #e9f2ff;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  outline: none;
-}
-
-.tab-button.active {
-  background-color: #4285f4;
-  color: white;
-  font-weight: 500;
-}
-
-.store-selection-row {
-  display: flex;
-  justify-content: space-around;
-  background-color: #e9f2ff;
-  border-radius: 8px;
-  padding: 12px 5px;
-  margin-bottom: 15px;
-}
-
-.store-checkbox-item {
-  display: flex;
-  align-items: center;
-}
-
-.store-checkbox {
-  margin-right: 5px;
-}
-
-.store-label {
-  font-size: 14px;
-}
-
-.checkbox {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #4285f4;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 8px;
-  background-color: white;
-}
-
-.checkbox span {
-  color: #4285f4;
-  font-weight: bold;
-}
-
-.store-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-}
-
-.select-all {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.task-text {
-  margin-left: 8px;
-  font-size: 14px;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 8px;
-}
-
-.add-button, .delete-button {
-  border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
-
-.add-button {
-  background-color: #4caf50;
-  color: white;
-}
-
-.delete-button {
-  background-color: #f44336;
-  color: white;
-}
-
-.add-product-form {
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 15px;
-}
-
-.form-group {
-  margin-bottom: 10px;
-}
-
-.form-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-.save-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #4285f4;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  margin-top: 10px;
-  transition: all 0.2s ease;
-}
-
-.save-button:hover {
-  background-color: #3367d6;
-}
-
-.checklist-items {
-  max-height: 400px;
-  overflow-y: auto;
-  margin-bottom: 15px;
-}
-
-.checklist-item {
-  display: flex;
-  align-items: center;
-  padding: 15px;
-  background-color: #e9f2ff;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.checklist-item.checked {
-  background-color: #d1e7ff;
-}
-
-.product-info {
-  flex: 1;
-  margin-left: 8px;
-}
-
-.product-title {
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 4px;
-}
-
-.product-details {
-  font-size: 12px;
-  color: #666;
-}
-
-.product-price, .product-brand, .product-quantity {
-  margin: 0 4px;
-}
-
-.compare-button-container {
-  width: 100%;
-}
-
-.compare-button {
-  width: 100%;
-  padding: 15px;
-  border: none;
-  border-radius: 8px;
-  background-color: #dadce0;
-  color: #5f6368;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: not-allowed;
-  transition: all 0.3s ease;
-}
-
-.compare-button.active {
-  background-color: #4285f4;
-  color: white;
-  cursor: pointer;
-}
-
-@media (max-width: 480px) {
+    .checklist-header h2 {
+      font-weight: bold;
+      color: #222;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 10px;
+    }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    flex-grow: 1;
+    color: #333;
+  }
+  
+  /* 스크롤 가능한 콘텐츠 영역 */
+  .scrollable-content {
+    margin-top: 80px;
+    padding: 0;
+    overflow-y: auto;
+    height: calc(100vh - 80px - 70px);
+    padding-bottom: 80px;
+  }
+  
   .checklist-container {
-    padding: 10px;
+    padding: 20px;
+    width: 95%;
+    margin-top: 20px;
   }
-
+  
   .checklist-card {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin: 20px 0;
+    overflow: hidden;
+    margin-top: 5rem;
+  }
+  
+  .app-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* 탭 컨테이너 */
+  .tab-container {
+    display: flex;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .tab-button {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    background-color: #f2f3f5;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    outline: none;
+    color: #666;
+  }
+  
+  .tab-button.active {
+    background-color: #5964FF;
+    color: white;
+    font-weight: 500;
+  }
+  
+  /* 스토어 선택 영역 */
+  .store-selection-row {
+    display: flex;
+    justify-content: space-around;
+    background-color: #f2f3f5;
+    border-radius: 12px;
+    padding: 12px 5px;
+    margin-bottom: 15px;
+  }
+  
+  .store-checkbox-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .store-checkbox {
+    margin-right: 5px;
+  }
+  
+  .store-label {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  /* 체크박스 스타일링 */
+  .checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #5964FF;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    background-color: white;
+  }
+  
+  .checkbox span {
+    color: #5964FF;
+    font-weight: bold;
+  }
+  
+  /* 스토어 헤더 */
+  .store-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+  }
+  
+  .select-all {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .task-text {
+    margin-left: 8px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  /* 액션 버튼 */
+  .action-buttons {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .add-button, .delete-button {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+  }
+  
+  .add-button {
+    background-color: #5964FF;
+    color: white;
+  }
+  
+  .delete-button {
+    background-color: #ff5a5f;
+    color: white;
+  }
+  
+  /* 상품 추가 폼 */
+  .add-product-form {
+    background-color: #f8f9fa;
+    border-radius: 12px;
     padding: 15px;
+    margin-bottom: 15px;
   }
-
-  .tab-button, .action-buttons button, .save-button, .compare-button {
+  
+  .form-group {
+    margin-bottom: 12px;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #eee;
+    border-radius: 12px;
     font-size: 14px;
-    padding: 8px;
+    background-color: white;
   }
-
+  
+  .save-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #5964FF;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 10px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(89, 100, 255, 0.3);
+  }
+  
+  .save-button:hover {
+    background-color: #4853e0;
+  }
+  
+  /* 체크리스트 아이템 */
+  .checklist-items {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+  }
+  
+  .checklist-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: #f2f3f5;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .checklist-item.checked {
+    background-color: #e6e9ff;
+  }
+  
+  .product-info {
+    flex: 1;
+    margin-left: 8px;
+  }
+  
   .product-title {
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: #333;
   }
-
+  
   .product-details {
-    font-size: 11px;
+    font-size: 12px;
+    color: #666;
   }
-}
+  
+  .product-price, .product-brand, .product-quantity {
+    margin: 0 4px;
+  }
+  
+  /* 비교 버튼 */
+  .compare-button-container {
+    width: 100%;
+    margin-top: 15px;
+  }
+  
+  .compare-button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    background-color: #e0e0e0;
+    color: #777;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: not-allowed;
+    transition: all 0.3s ease;
+  }
+  
+  .compare-button.active {
+    background-color: #5964FF;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(89, 100, 255, 0.3);
+  }
+  
+  /* 하단 네비게이션 */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+    z-index: 100;
+    height: 70px;
+  }
+  
+  .bottom-nav button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #777;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .bottom-nav button.active {
+    color: #5964FF;
+  }
+  
+  .bottom-nav button span {
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  
+  /* 검색 버튼 */
+  .search-fab {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #5964FF;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 25px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(89, 100, 255, 0.4);
+    cursor: pointer;
+    z-index: 100;
+  }
+  
+  .search-icon {
+    margin-right: 8px;
+  } /*라디오 버튼 시작*/
+
+  .store-selection-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    gap: 12px;
+    padding: 5px;
+  }
+  
+  /* 전체 영역이 라디오 버튼처럼 작동하는 스타일 - 굴곡 강화, 색상 진하게 */
+  .store-radio-button {
+    flex: 1;
+    background-color: #e8e8e8; /* 기본 배경색 더 진하게 */
+    border-radius: 60px; /* 굴곡 강화 */
+    padding: 14px 10px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* 선택된 버튼 스타일 - 더 진한 색상 */
+  .store-radio-button.selected {
+    background-color: #5964FF; /* 선택된 배경색 진하게 변경 */
+    border-color: #4853e0;
+    box-shadow: 0 2px 8px rgba(89, 100, 255, 0.4);
+  }
+  
+  /* 라디오 버튼 입력은 시각적으로 숨김 */
+  .store-radio-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* 매장 이름 텍스트 스타일 - 더 진한 색상 */
+  .store-name {
+    font-size: 15px;
+    font-weight: 600; /* 더 두껍게 */
+    color: #444; /* 더 진한 색상 */
+    transition: color 0.2s ease;
+  }
+  
+  /* 선택된 매장 이름 텍스트 스타일 */
+  .store-radio-button.selected .store-name {
+    color: white; /* 선택 시 흰색으로 대비 */
+    font-weight: 700;
+  }
+  
+  /* 호버 효과 - 더 진한 색상 */
+  .store-radio-button:hover:not(.selected) {
+    background-color: #d0d0d0;
+  }
+  
+  /* 선택 표시 (시각적으로 불필요하여 제거) */
+  .store-radio-button.selected:after {
+    content: none;
+  }
+  
+  @media (max-width: 480px) {
+    .checklist-card {
+      padding: 15px;
+    }
+    
+    .tab-button {
+      font-size: 14px;
+      padding: 10px;
+    }
+    
+    .action-buttons button, 
+    .save-button, 
+    .compare-button {
+      font-size: 14px;
+      padding: 10px;
+    }
+    
+    .product-title {
+      font-size: 14px;
+    }
+    
+    .product-details {
+      font-size: 11px;
+    }
+  }

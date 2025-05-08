@@ -7,12 +7,12 @@
 }
 
 .comparison-card {
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    padding: 20px;
     overflow: hidden;
     margin: 0 15px 0 0;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 16px;
 }
 
 .section-title, .mall-title {
@@ -30,6 +30,17 @@
 
 .summary-table {
     overflow-x: auto;
+    border-radius: 8px;
+}
+
+.app-title {
+    text-align: left;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #222;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
 }
 
 table {
@@ -81,39 +92,58 @@ th {
 }
 
 .product-cards {
-    display: grid;
+    /* display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 15px;
+    gap: 15px; */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 💡 3칸으로 나눔 */
+    gap: 16px;
+    margin-top: 16px;
 }
 
 .product-card {
-    background-color: white;
+    /* background-color: white;
     border-radius: 10px;
     padding: 15px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     display: flex;
+    flex-direction: column; */
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 12px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .product-image {
-    height: 150px;
-    margin-bottom: 15px;
+    height: 110px;
+    /* margin-bottom: 0; */
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 5px;
 }
 
 .product-image img {
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 110%;
+    max-height: 110%;
     object-fit: contain;
 }
 
 .product-title {
     font-size: 16px;
     font-weight: 500;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 110px;
+    flex: 1;
 }
 
 .product-query {
@@ -129,13 +159,13 @@ th {
     margin-bottom: 8px;
 }
 
-.product-brand {
+/* .product-brand {
     font-size: 14px;
     color: #666;
     margin-bottom: 12px;
-}
+} */
 
-.product-link {
+/* .product-link {
     display: inline-block;
     padding: 8px 12px;
     background-color: #4285f4;
@@ -149,7 +179,7 @@ th {
 
 .product-link:hover {
     background-color: #3367d6;
-}
+} */
 
 .back-button-container {
     margin-top: 20px;
@@ -159,18 +189,228 @@ th {
 
 .back-button {
     padding: 12px 24px;
-    background-color: #dadce0;
-    color: #333;
-    border: none;
-    border-radius: 8px;
+    background-color: white;
+    color: #5964FF;
+    border-radius: 12px;
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
+    border: 2px solid #5964FF;
     transition: all 0.3s ease;
+    text-decoration: none;
 }
 
 .back-button:hover {
     background-color: #c0c0c0;
+}
+
+.mall-text-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #f8f9fa;
+    padding: 14px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.mall-text-option {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #000;
+    font-weight: 500;
+    /* transition: color 0.2s, font-weight 0.2s; */
+}
+
+/* .mall-text-option:hover {
+    background-color: #e5e9f0;
+    border-color: #d0d7e3;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+} */
+
+.mall-text-option.selected-text {
+    color: #5964FF;
+    font-weight: 700;
+}
+
+.mall-selector-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* ✅ 가운데 정렬 */
+  gap: 16px;
+  margin: 24px 0;
+  }
+
+  .mall-selector-text-group {
+    background-color: #f9fafc;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    margin: 30px auto;
+    max-width: 600px;
+}
+
+.mall-text-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    /* cursor: pointer;
+    transition: transform 0.2s; */
+    padding: 6px 0;
+    border-bottom: 1px solid #e2e4e7;
+    width: 100%;
+}
+
+.mall-text-option:last-child {
+    border-bottom: none;
+}
+
+.mall-text-option:hover {
+    transform: translateX(4px);
+    /* color: #5964FF; */
+}  
+  /* .mall-selector {
+    background-color: #f4f4f4;
+    padding: 10px 18px; 
+    border-radius: 60px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px; 
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #222;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  } */
+  
+  /* .mall-selector.selected {
+    background-color: #5964FF;
+    border-color: #4853e0;
+    box-shadow: 0 2px 8px rgba(89, 100, 255, 0.4);
+    color: white;
+  } */
+  
+  /* .mall-selector:hover:not(.selected) {
+    background-color: #e0e0e0;
+  }
+  
+  .mall-selector-input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  } */
+  
+  .mall-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .mall-selector.selected .mall-name {
+    color: white;
+    font-weight: 700;
+  }  
+
+  @keyframes bounce {
+    0% {
+        transform: scale(1); /* 원래 크기 */
+    }
+    50% {
+        transform: scale(1.5); /* 커짐 */
+    }
+    100% {
+        transform: scale(1); /* 원래 크기 */
+    }
+}
+
+  .icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.icon-wrapper>text{
+    text-align: left;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #222;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.mall-text-option .icon {
+    font-size: 22px;
+    animation: bounce 1.6s infinite;
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+
+/* .icon-wrapper:hover .text {
+    font-size: 16px; 
+} */
+
+.more-button-container {
+    text-align: center;
+    margin-top: 16px;
+    width: 100%;
+  }
+  
+  .more-button {
+      width: 100%;
+      /* 너비 넓게 설정 */
+      background-color: white;
+      /* 흰색 배경 */
+      color: black;
+      /* 텍스트는 파란색 */
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 10px 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .more-button:hover {
+    background-color: #ddd;
+    color: white;
+  }  
+
+  .add-to-cart-button {
+    background-color:  #5964FF;/* 기존 버튼 배경색 */
+    color: white; /* 텍스트 색 */
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+    margin-bottom : 0;
+}
+
+.add-to-cart-button:hover {
+    background-color: #2c3aff; /* hover 시 배경색 */
 }
 
 @media (max-width: 768px) {
