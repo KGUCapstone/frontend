@@ -9,7 +9,7 @@ body {
 }
 
 .compare-container {
-  max-width: 480px;
+  max-width: 540px;
   margin: 0 auto;
   height: auto;
   display: flex;
@@ -62,6 +62,7 @@ body {
   text-align: center;
   flex-grow: 1;
   margin: auto;
+  width: 95%;
 
   @media (max-width: 375px) {
     max-width: 280px;
@@ -72,8 +73,13 @@ body {
 }
 
 .title {
-  margin-bottom: 8px;
-  margin-top: 0;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #222;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
 }
 
 @keyframes pulse {
@@ -110,7 +116,7 @@ body {
   margin-top: 30px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 @keyframes fadeInUp {
@@ -127,13 +133,17 @@ body {
 .product-item {
   display: flex;
   align-items: center;
-  background-color: #e0e0e0;
-  padding: 8px;
-  border-radius: 5px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   margin-bottom: 10px;
   justify-content: space-between;
   opacity: 0;
   animation: fadeInUp 0.6s ease-in-out forwards;
+  max-width: 100%;
+  margin: 0 auto;
+  min-height: 170px; /* 최소 높이 설정 */
 }
 
 .product-item {
@@ -143,52 +153,81 @@ body {
 .product-info {
   display: flex;
   align-items: center;
+  flex: 1;
 }
 
 .product-image-container {
-  width: 40px;
-  height: 40px;
-  background-color: #999;
-  border-radius: 5px;
-  margin-right: 10px;
+  width: 120px;
+  height: auto;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  margin-right: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  border: 1px solid #eee;
 }
 
 .product-image {
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }
 
 .product-description {
-  font-size: 14px;
+  font-size: 10px;
   color: inherit;
   text-decoration: none;
   transition: color 0.2s ease;
+  flex: 1;
+  max-width: calc(100% - 130px);
 }
 
 .product-description:hover {
-  color: #333;              
-  font-weight: 600;     
+  color: #333;
+  font-weight: 600;
 }
 
-.check-icon {
-  width: 24px;
-  height: 24px;
-  border: 2px solid black;
-  border-radius: 50%;
+.product-checkbox {
+  width: 22px;
+  height: 20px;
+  border: 2px solid #5964ff;
+  border-radius: 4px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  margin-left: 10px;
+  background-color: white;
+  flex-shrink: 0;
+}
+
+.product-checkbox input {
+  position: absolute;
+  width: 10%;
+  height: 50%;
+  margin: 0;
+  opacity: 0;
+}
+
+.product-checkbox span {
+  font-size: 16px;
+  font-weight: bold;
+  color: #5964ff;
+  opacity: 0;
+  transition: none;
+}
+
+.product-checkbox input:checked + span {
+  opacity: 1;
 }
 
 .add-to-cart-button {
   margin: 20px auto;
   padding: 12px 20px;
   width: 90%;
-  background-color: #007bff;
+  background-color: #5964ff;
   color: white;
   border: none;
   border-radius: 8px;
@@ -202,4 +241,69 @@ body {
 
 .add-to-cart-button:hover {
   background-color: #0056d2;
+}
+
+.item-detail {
+  text-align: left;
+  width: 100%;
+}
+
+.item-title {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  line-height: 1.3;
+}
+
+.item-price {
+  font-size: 20px;
+  font-weight: bold;
+  color: red;
+  margin-bottom: 10px;
+}
+
+.item-brand {
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 5px;
+}
+.item-mallname {
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.page-button {
+  margin: 0 5px;
+  padding: 8px 12px;
+  background-color: #eee;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.page-button.active {
+  background-color: #333;
+  color: #fff;
+}
+
+.page-button:hover {
+  background-color: #5964ff;
+  color: white;
+}
+
+.ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  font-weight: bold;
+  color: #666;
 }
