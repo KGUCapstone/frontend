@@ -135,64 +135,59 @@ const MainPage = () => {
   };
 
   return (
-    <div className="main-container">
-      <header className="main-header">
-        <div className="logo">GAVION</div>
-        <button className="cart-button" onClick={() => navigate("/cart")}>
-          🛒
-        </button>
-      </header>
 
-      <div className="scrollable-content">
-        <div className="stats-card">
-          <div className="total-saving-stats">
-            <div className="stats-text">
-              <p className="stats-label">전체 절약 금액</p>
-              <p className="stats-amount">
-                총 {formatNumber(userStats.totalSpent)}원
-              </p>
-              <p className="stats-detail">절약했어요.</p>
-            </div>
+      <div className="main-container">
 
-            <div className="progress-circle">
-              <svg width="120" height="120" viewBox="0 0 120 120">
-                <circle
-                  cx="60"
-                  cy="60"
-                  r="54"
-                  fill="none"
-                  stroke="#e6e6e6"
-                  strokeWidth="10"
-                />
-                <circle
-                  cx="60"
-                  cy="60"
-                  r="54"
-                  fill="none"
-                  stroke="#5964FF"
-                  strokeWidth="10"
-                  strokeDasharray="339.3"
-                  strokeDashoffset={339.3 - (339.3 * userStats.progress) / 100}
-                  transform="rotate(-90 60 60)"
-                />
+        <header className="main-header">
+        <div className="header-spacer" />
+          <div className="logo">GAVION</div>
+          <button className="cart-button" onClick={() => navigate("/cart")}>
+            🛒
+          </button>
+        </header>
 
-                <text
-                  x="60"
-                  y="55"
-                  textAnchor="middle"
-                  className="progress-text"
-                >
-                  {userStats.progress}%
-                </text>
-                <text
-                  x="60"
-                  y="75"
-                  textAnchor="middle"
-                  className="progress-label"
-                >
-                  달성
-                </text>
-              </svg>
+
+        <div className="scrollable-content">
+
+          <div className="stats-card">
+
+            <div className="total-saving-stats">
+              <div className="stats-text">
+                <p className="stats-label">전체 절약 금액</p>
+                <p className="stats-amount">총 {formatNumber(userStats.totalSpent)}원</p>
+                <p className="stats-detail">절약했어요.</p>
+              </div>
+
+              <div className="progress-circle">
+                <svg width="120" height="120" viewBox="0 0 120 120">
+                  <circle
+                      cx="60"
+                      cy="60"
+                      r="54"
+                      fill="none"
+                      stroke="#e6e6e6"
+                      strokeWidth="10"
+                  />
+                  <circle
+                      cx="60"
+                      cy="60"
+                      r="54"
+                      fill="none"
+                      stroke="#5964FF"
+                      strokeWidth="10"
+                      strokeDasharray="339.3"
+                      strokeDashoffset={339.3 - (339.3 * userStats.progress) / 100}
+                      transform="rotate(-90 60 60)"
+                  />
+
+                  <text x="60" y="55" textAnchor="middle" className="progress-text">
+                    {userStats.progress}%
+                  </text>
+                  <text x="60" y="75" textAnchor="middle" className="progress-label">
+                    달성
+                  </text>
+                </svg>
+              </div>
             </div>
           </div>
         </div>

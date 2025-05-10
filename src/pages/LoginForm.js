@@ -3,6 +3,7 @@ import api from '../api';
 import { useNavigate } from "react-router-dom";
 import '../style/AuthForm.css';
 import '../style/LoginForm.css';
+import titleImage from '../assets/title.svg';
 import naverIcon from '../assets/naver_logo.svg';
 import googleIcon from '../assets/google_logo.svg';
 
@@ -62,6 +63,14 @@ const LoginForm = () => {
 return (
   <div className="auth-container">
     <form className="auth-form" onSubmit={handleLogin}>
+    <header>
+          <div className="home-title">
+            <img src={titleImage} alt="title" className="title-image" />
+            
+
+          </div>
+        </header>
+
       <h2>로그인</h2>
 
       <input
@@ -81,7 +90,7 @@ return (
       />
 
       <button type="submit" className="auth-button">로그인</button>
-    </form>
+    
 
     <div className="sns-login">
       <button className="naver-button" onClick={handleNaverLogin}>
@@ -96,7 +105,9 @@ return (
     <div className="signup-link">
       계정이 없으신가요? <a href="/join">회원가입</a>
     </div>
+    </form>
   </div>
+  
 );
 };
 

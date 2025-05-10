@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
+import titleImage from '../assets/title.svg';
 import "../style/AuthForm.css";
 
 const Join = () => {
@@ -42,6 +43,13 @@ const Join = () => {
   return (
     <div className="auth-container">
       <form className="auth-form" onSubmit={handleSubmit}>
+      <header>
+      <div className="home-title">
+            <img src={titleImage} alt="title" className="title-image" />
+            
+
+          </div>
+        </header>
         <h2>회원가입</h2>
 
         <input

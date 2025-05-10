@@ -3,6 +3,7 @@ import api from "../api";
 import { useNavigate } from "react-router-dom";
 import "../style/MyPage.css";
 import HomeButton from "../components/HomeButton";
+import defaultProfile from '../assets/profile.svg';
 import linechart from '../assets/linechart.svg';
 import barchart from '../assets/barchart.svg';
 import areachart from '../assets/areachart.svg';
@@ -17,12 +18,15 @@ import {
   Area,
   XAxis,
   Tooltip,
+  defs,
+  Stop
 } from "recharts";
 
 // react-toastify import
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BottomNav from "../components/BottomNav";
+import { CgEnter } from "react-icons/cg";
 
 const MyPage = () => {
   const [user, setUser] = useState(null);
@@ -115,10 +119,33 @@ const MyPage = () => {
   const goToHistoryPage = () => {
     navigate("/history");
   };
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div style={{
+          backgroundColor: "#fff",
+          border: "1px solid #ccc",
+          padding: "10px",
+          borderRadius: "5px",
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)"
+        }}>
+          <p style={{ margin: 0 }}>{label}</p>
+          <p style={{ margin: 0, color: "#8A64FF" }}>
+            amount : {payload[0].value.toLocaleString()}원
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
   
   return (
     <>
-      <HomeButton />
+      <header className="main-header">
+        <div className="header-spacer" />
+        <div className="logo" onClick={() => navigate("/home")}>GAVION</div>
+      </header>
+
       <div className="mypage-container">
         <div className="mypage-card">
           <header className="mypage-header">
@@ -126,69 +153,91 @@ const MyPage = () => {
           </header>
 
           <div className="profile-section">
-          <div className="profile-image" onClick={handleImageClick} style={{ cursor: "pointer" }}>
-            {profileImage && (
+            <div className="profile-image" onClick={handleImageClick} style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}>
               <img
-               src={profileImage}
-              alt="프로필"
-              style={{ width: "100%", height: "100%", borderRadius: "50%" }}
-            />
-          )}
-          <input type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            onChange={handleImageUpload}
-            style={{ display: "none" }}
-          />
-          </div>
-
+                src={profileImage || defaultProfile} // 프로필 이미지가 없으면 기본 이미지로 대체
+                alt="프로필"
+                style={{
+                  width: "80%",
+                  height: "80%",
+                  borderRadius: "50%",
+                  objectFit: "contain", // 원 안에 이미지를 꽉 채우지 않고 비율을 유지하며 표시
+                }}
+              />
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                onChange={handleImageUpload}
+                style={{ display: "none" }} // input은 보이지 않도록 설정
+              />
+            </div>
 
             <div className="profile-info">
               <h3>{user ?? "사용자명"}</h3>
-              <p>이번 달 아낀 금액: <br />
-                          <span className="saved-amount">
-                {thisMonthSaved.toLocaleString()}원
-              </span>
+              <p>
+                이번 달에 <span className="saved-amount">{thisMonthSaved.toLocaleString()}원</span>을 아끼셨어요!
               </p>
             </div>
           </div>
 
-          {/* 차트 컨테이너 */}
           <div className="chart-container">
             <ResponsiveContainer width="100%" height={180}>
               {chartType === "line" ? (
                 <LineChart data={dummyData} margin={{ top: 10, right: 20, left: 30, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#8A64FF" stopOpacity={1} />
+                      <stop offset="100%" stopColor="#CF77FF" stopOpacity={1} />
+                    </linearGradient>
+                  </defs>
                   <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#555" }} />
-                  <Tooltip formatter={(value) => `${value.toLocaleString()}원`} />
+                  <Tooltip content={<CustomTooltip />} />
                   <Line
                     type="monotone"
                     dataKey="amount"
-                    stroke="#88e2dc"
+                    stroke="url(#lineGradient)" // 그라데이션 적용
                     strokeWidth={3}
-                    dot={{ r: 5, strokeWidth: 2, fill: "#fff", stroke: "#88e2dc" }}
+                    dot={{ r: 5, strokeWidth: 2, fill: "#CCC", stroke: "#8A64FF" }}
                     activeDot={{ r: 6 }}
                   />
                 </LineChart>
               ) : chartType === "bar" ? (
                 <BarChart data={dummyData} margin={{ top: 10, right: 20, left: 30, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="barGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#8A64FF" stopOpacity={1} />
+                      <stop offset="100%" stopColor="#CF77FF" stopOpacity={1} />
+                    </linearGradient>
+                  </defs>
                   <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#555" }} />
-                  <Tooltip formatter={(value) => `${value.toLocaleString()}원`} />
-                  <Bar dataKey="amount" fill="#88e2dc" />
+                  <Tooltip content={<CustomTooltip />} />
+                   <Bar dataKey="amount" fill="url(#barGradient)" />
                 </BarChart>
               ) : (
                 <AreaChart data={dummyData} margin={{ top: 10, right: 20, left: 30, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="areaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#8A64FF" stopOpacity={1} />
+                      <stop offset="100%" stopColor="#CF77FF" stopOpacity={1} />
+                    </linearGradient>
+                  </defs>
                   <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#555" }} />
-                  <Tooltip formatter={(value) => `${value.toLocaleString()}원`} />
-                  <Area type="monotone" dataKey="amount" stroke="#88e2dc" fill="#e8f8f5" />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Area type="monotone" dataKey="amount" stroke="#8A64FF" fill="url(#areaGradient)" />
                 </AreaChart>
               )}
             </ResponsiveContainer>
           </div>
 
-          {/* 차트 변경 버튼 */}
           <div className="button-list">
-            <div className="mypage-button" onClick={goToHistoryPage} >최근 본 상품</div>
-            <div className="mypage-button chart-toggle-button" onClick={() => setShowChartOptions(!showChartOptions)}>
+            <div className="mypage-button" onClick={goToHistoryPage}>
+              최근 본 상품
+            </div>
+            <div
+              className="mypage-button chart-toggle-button"
+              onClick={() => setShowChartOptions(!showChartOptions)}
+            >
               테마 변경
             </div>
             <div className={`chart-options ${showChartOptions ? "open" : ""}`}>
@@ -208,18 +257,15 @@ const MyPage = () => {
             <div className="mypage-button" onClick={goToSavedAmountPage}>
               아낀 금액 통계
             </div>
-            <div className="mypage-button">비밀번호 변경</div>
           </div>
 
           <button className="logout-button" onClick={handleLogout}>
-            로그아웃 / 회원탈퇴
+            로그아웃
           </button>
         </div>
       </div>
 
-      {/* ToastContainer 추가 */}
       <ToastContainer />
-
       <BottomNav />
     </>
   );

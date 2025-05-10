@@ -1,75 +1,100 @@
 .home-container {
-    padding: 0rem 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f7f8fa;
-    height: 100vh;
-    overflow: hidden;
-  }
-  
-  .home-card {
-    background-color: white;
-    padding: 0rem 1.5rem 1.5rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    height: calc(100vh - 10rem);
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    position: relative;
-    scrollbar-gutter: stable;
-  }
-  
-  .home-card header {
-    text-align: center;
-  }
-  
-  .title-image {
-    width: 100%;
-    max-width: 230px;   
-    height: auto;
-    margin: 2rem auto 1rem;
-    display: block;
-  }
-  
-  .logo-image {
-    width: 100%;
-    max-width: 300rem; 
-    height: auto;
-    margin: 0rem auto;
-    display: block;
-  }
+  padding: 0 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f8fa;
+  height: 100vh;
+  overflow: hidden;
+}
 
-  .start-button {
-    background-color: #8be9f1;
-    color: white;
-    padding: 12px 24px;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 2rem;  
-    width: 100%;
-    max-width: 250px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .start-button:hover {
-    background-color: #21d3ee;
-  }
-  
+.home-card {
+  background-color: #ffffff;
+  padding: 0 1.5rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 500px;
+  height: calc(100vh - 8rem);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  position: relative;
+  scrollbar-gutter: stable;
+}
 
-  .home-card p {
-    text-align: center;
-    font-size: 1.3rem;
-    color: #333;
-    margin-top: -1rem;
-    margin-bottom: 1rem;
-    line-height: 1.5;
+.home-card header {
+  text-align: center;
+}
+
+.title-image {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  margin: 2rem auto 1rem;
+  display: block;
+}
+
+.logo-image {
+  width: 100%;
+  max-width: 300rem; 
+  height: auto;
+  margin: 0rem auto;
+  display: block;
+}
+
+.home-card p {
+  text-align: center;
+  font-size: 1.3rem;
+  color: #222;
+  margin-top: -0.5rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  font-weight: 500;
+  white-space: pre-line;
+}
+
+
+.highlight-text {
+  color: #8c52ff;
+  font-weight: 700;
+}
+
+
+
+.start-button {
+  background: linear-gradient(135deg, #5f84ff, #8c52ff);
+  color: white;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 2rem;  
+  width: 100%;
+  max-width: 300px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 12px rgba(140, 82, 255, 0.3);
+  transition: all 0.3s ease;
+  animation: float 2.5s ease-in-out infinite;
+  -webkit-box-reflect: below 8px linear-gradient(transparent, rgba(255, 255, 255, 0.2));
+}
+
+.start-button:hover {
+  background: linear-gradient(135deg, #4a6ee0, #783ce0);
+  box-shadow: 0 6px 14px rgba(140, 82, 255, 0.4);
+}
+@keyframes float {
+  0% {
+    transform: translateY(0);
   }
-  
+  50% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
