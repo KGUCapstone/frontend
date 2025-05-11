@@ -1,0 +1,165 @@
+.cart-item {
+    display: flex;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    background-color: white;
+}
+
+.cart-item-image-container {
+    width: 80px;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.cart-item-image {
+    width: 100%;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 6px;
+    border: 1px solid #eee;
+}
+
+.cart-item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.item-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 0 4px 0;
+    line-height: 1.3;
+    color: #333;
+}
+
+.item-brand {
+    font-size: 12px;
+    color: #666;
+    margin: 0 0 2px 0;
+}
+
+.item-store {
+    font-size: 12px;
+    color: #888;
+    margin: 0 0 8px 0;
+}
+
+.item-bottom {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+    gap: 16px; 
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.quantity-number {
+    margin: 0 8px;
+    font-size: 14px;
+}
+
+.price-area {
+    display: flex;
+    flex-direction: column;
+}
+
+.item-price {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 0 2px 0;
+}
+
+.item-unit-price {
+    font-size: 12px;
+    color: #888;
+    margin-left: 4px;
+}
+
+.item-per-unit {
+    font-size: 13px;
+    color: #e53935;
+    margin: 0 0 4px 0;
+    font-weight: 500;
+}
+
+.per-unit-price {
+    display: inline-block;
+    color: #e53935;
+}
+
+.saved-amount {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #28a745;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.compare-price {
+    margin-top: 2px;
+    font-size: 12px;
+    text-decoration: line-through;
+    color: #555;
+    margin-bottom: 2px;
+}
+
+.compare-saved-row {
+    display: flex;
+    flex-direction: column;
+    margin-top: 4px;
+}
+
+.item-actions {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.check-icon {
+    width: 22px;
+    height: 22px;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: white;
+}
+
+.check-icon.checked {
+    background-color: #5964FF;
+    border-color: #5964FF;
+    color: white;
+}
+
+@media (max-width: 480px) {
+    .item-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .cart-item-image-container {
+        width: 70px;
+    }
+    
+    .cart-item-image {
+        height: 70px;
+    }
+}
