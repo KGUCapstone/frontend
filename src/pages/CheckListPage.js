@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../components/BottomNav";
 import HomeButton from "../components/HomeButton";
@@ -15,7 +15,7 @@ const CheckListPage = () => {
 
   // ✅ 다중 선택 가능하도록 상태 배열로 유지
   const [selectedStores, setSelectedStores] = useState(["homeplus"]);
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [newProduct, setNewProduct] = useState({
     title: "",
@@ -24,6 +24,21 @@ const CheckListPage = () => {
     quantity: ""
   });
   const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    const storedProducts = JSON.parse(localStorage.getItem("products"));
+    if (storedProducts && storedProducts.length > 0) {
+      setProducts(storedProducts);
+    } else {
+      setProducts(initialProducts);
+      localStorage.setItem("products", JSON.stringify(initialProducts)); 
+    }
+  }, []);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      localStorage.setItem("products", JSON.stringify(products));
+    }
+  }, [products]);
 
   const getSelectedProducts = () => products.filter(product => product.checked);
   const selectedProductCount = () => getSelectedProducts().length;
@@ -60,7 +75,8 @@ const CheckListPage = () => {
   };
 
   const deleteSelectedProducts = () => {
-    setProducts(products.filter(product => !product.checked));
+    const updatedProducts = products.filter(product => !product.checked);
+    setProducts(updatedProducts);
   };
 
   const extractPriceNumber = (priceStr) => {
@@ -69,7 +85,6 @@ const CheckListPage = () => {
     return numericValue ? parseInt(numericValue, 10) : 0;
   };
 
-  // ✅ 다중 스토어 선택
   const toggleStoreSelection = (store) => {
     setSelectedStores(prev =>
       prev.includes(store)
@@ -115,18 +130,6 @@ const CheckListPage = () => {
     return "CU편의점";
   };
 
-  // ✅ 선택된 스토어의 상품 리스트를 반환
-  const getStoreProducts = (store) => {
-    // 현재는 홈플러스만 필터링하는 예시입니다.
-    return products.filter(product => selectedStores.includes(store));
-  };
-
-  // ✅ 홈플러스 상품이 3개 이상일 때 '더보기' 버튼 표시
-  const showMoreButton = (store) => {
-    const storeProducts = getStoreProducts(store);
-    return storeProducts.length > 3;  // 3개 이상일 때 더보기 버튼 표시
-  };
-
   return (
     <>
       <header className="main-header">
@@ -139,8 +142,6 @@ const CheckListPage = () => {
           <header className="checklist-header">
             <h2>📍체크리스트</h2>
           </header>
-
-          {/* ✅ 스토어 체크박스 선택 */}
           <div className="store-selection-container">
             {["homeplus", "emart", "cu"].map(store => (
               <div
@@ -154,7 +155,7 @@ const CheckListPage = () => {
                   name="store"
                   value={store}
                   checked={selectedStores.includes(store)}
-                  onChange={() => {}} // 이벤트 핸들러는 상위 div에서 처리
+                  onChange={() => {}} 
                   className="store-radio-input"
                 />
                 <span className="store-name">{getKoreanStoreName(store)}</span>
