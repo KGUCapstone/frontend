@@ -1,29 +1,88 @@
 .picture-page {
-    max-width: 600px;
-    margin: auto;
-    padding: 2rem 1rem;
-    text-align: center;
+  max-width: 600px;
+  margin: auto;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.captured-image {
+  width: 100%;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  margin: 1.5rem 0;
+}
+
+.result-section {
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row;        /* 버튼 가로 정렬 */
+  justify-content: center;    /* 중앙 정렬 */
+  gap: 1rem;                  /* 버튼 간 간격 */
+  flex-wrap: wrap;            /* 화면이 작으면 줄바꿈 */
+  margin-top: 2rem;
+}
+
+.camera-button {
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  background-color: #03C75A;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.camera-button:hover {
+  background-color: #029d49;
+}
+
+.camera-button.search {
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+}
+
+.camera-button.retry {
+  background: linear-gradient(90deg, #a18cd1, #fbc2eb);
+}
+
+.camera-button.search {
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+}
+
+.camera-button.retry {
+  background: linear-gradient(90deg, #a18cd1, #fbc2eb);
+}
+
+@media screen and (min-width: 768px) {
+  .button-group {
+    flex-direction: row;
+    justify-content: center;
   }
-  
-  .captured-image {
-    width: 100%;
-    max-width: 100%;
-    border-radius: 8px;
-    border: 2px solid #ccc;
-    margin: 1.5rem 0;
-  }
-  
+
   .camera-button {
-    padding: 12px 20px;
-    font-size: 1rem;
-    background-color: #03C75A;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+    width: 180px;
   }
-  
-  .camera-button:hover {
-    background-color: #029d49;
-  }
-  
+}
