@@ -233,7 +233,7 @@ const ComparePage = ({ product }) => {
 
         {renderPagination()}
 
-        <button className="add-to-cart-button" onClick={handleAddToCart}>
+        <button className="addToCartBtn" onClick={handleAddToCart}>
           장바구니 담기
         </button>
       </div>
