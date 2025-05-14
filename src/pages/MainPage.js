@@ -147,7 +147,6 @@ const MainPage = () => {
         </header>
 
 
-        <div className="scrollable-content">
 
           <div className="stats-card">
 
@@ -190,7 +189,7 @@ const MainPage = () => {
               </div>
             </div>
           </div>
-        </div>
+
 
         {/* Weekly Consumption Review Card */}
         <div className="weekly-card">
@@ -233,7 +232,7 @@ const MainPage = () => {
         <ShoppingCalendar />
         {/* Add some spacing at the bottom to ensure content is scrollable past the FAB */}
         <div className="bottom-space"></div>
-      </div>
+
 
       <div className="search-fab" onClick={() => setOpen(true)}>
         <span className="search-icon">🔍</span>
