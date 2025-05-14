@@ -21,16 +21,16 @@ const CartList = () => {
       mallName: "홈플러스",
       price: 1690,
       quantity: 1,
-      image: "https://shopping-phinf.pstatic.net/main_8245883/82458839420.1.jpg"
+      image: ""
     },
     {
       id: 2,
-      title: "오산 붕어빵 직접굽는 미니붕어빵 (60마리)",
-      brand: "오산 붕어빵",
+      title: "붕어빵",
+      brand: "붕어빵",
       mallName: "쿠팡",
       price: 3500,
       quantity: 1,
-      image: "https://img-cf.kurly.com/shop/data/goods/1636095741587l0.jpg"
+      image: ""
     }
   ]);
 
@@ -156,6 +156,8 @@ const CartList = () => {
 
       <div className="header-container-spacer"></div>
 
+
+        <div className="cart-scrollable">
       <div className="cart-container">
         <h1 className="cart-title">🛒 장바구니</h1>
 
@@ -216,6 +218,7 @@ const CartList = () => {
           </div>
 
         )}
+      </div>
         <BottomNav />
       </div>
       </>
