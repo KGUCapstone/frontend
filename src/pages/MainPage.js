@@ -146,7 +146,7 @@ const MainPage = () => {
           </button>
         </header>
 
-
+        <div className="scrollable-content">
 
           <div className="stats-card">
 
@@ -190,7 +190,6 @@ const MainPage = () => {
             </div>
           </div>
 
-
         {/* Weekly Consumption Review Card */}
         <div className="weekly-card">
           <div className="weekly-header">
@@ -233,7 +232,7 @@ const MainPage = () => {
         {/* Add some spacing at the bottom to ensure content is scrollable past the FAB */}
         <div className="bottom-space"></div>
 
-
+        </div>
       <div className="search-fab" onClick={() => setOpen(true)}>
         <span className="search-icon">🔍</span>
         <span className="search-text">상품 검색하기</span>

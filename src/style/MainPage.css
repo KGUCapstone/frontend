@@ -63,13 +63,13 @@ html, body {
 
 /* Scrollable content area */
 .scrollable-content {
-  /*margin-top: 100px;*/
+  margin-top: 10px;
   margin-bottom: 0px;
   padding: 0;
   overflow-y: auto;
   /*height: calc(100vh - 60px - 70px);*/
   height: 100%;
-  /*padding-bottom: 100px;*/
+  padding-bottom: 100px;
 }
 
 .stats-card {
@@ -77,7 +77,7 @@ html, body {
   background-color: white;
   border-radius: 16px;
   padding: 20px;
-  margin: 110px 0px 0px 0px;
+  margin: 40px 0px 0px 0px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
