@@ -136,6 +136,8 @@ const MainPage = () => {
 
   return (
 
+    <div>
+
       <div className="main-container">
 
         <header className="main-header">

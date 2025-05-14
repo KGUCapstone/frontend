@@ -9,6 +9,7 @@
   overflow: hidden;
   max-width: 600px;
   margin: 0 auto;
+  padding-bottom: 40px;
 }
 
 /* Fixed header */
@@ -63,13 +64,13 @@ html, body {
 
 /* Scrollable content area */
 .scrollable-content {
-  margin-top: 100px;
+  margin-top: 20px;
   margin-bottom: 0px;
   padding: 0;
   overflow-y: auto;
   /*height: calc(100vh - 60px - 70px);*/
   height: 100%;
-  padding-bottom: 100px;
+  padding-bottom: 80px;
 }
 
 .stats-card {
@@ -88,6 +89,9 @@ html, body {
   padding: 20px;
   margin: 20px auto;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-top: -700px;
+  /* transform: translateY(-700px);
+  margin-top: 0; */
 }
 
 .stats-header {
