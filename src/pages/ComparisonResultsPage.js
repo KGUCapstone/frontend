@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import HomeButton from "../components/HomeButton";
+// import HomeButton from "../components/HomeButton";
 import BottomNav from "../components/BottomNav";
 import "../style/ComparisonResultsPage.css";
 import CartItem from "../components/CartItem2";
-import api from "../api"; 
+import api from "../api";
 
 const ComparisonResultsPage = () => {
     const location = useLocation();
@@ -22,8 +22,8 @@ const ComparisonResultsPage = () => {
     };
 
     const handleAddToCart = async (e, product) => {
-        e.stopPropagation(); 
-        
+        e.stopPropagation();
+
         const token = localStorage.getItem("Authorization");
         if (!token) {
             alert("로그인이 필요한 서비스입니다.");
@@ -44,15 +44,15 @@ const ComparisonResultsPage = () => {
 
         try {
             setIsLoading(true);
-            
+
             const response = await api.post("/cart/add", newItem);
-            
+
             if (response.status === 201 || response.status === 200) {
                 alert(`${product.title}을(를) 장바구니에 담았습니다.`);
             }
         } catch (error) {
             console.error("장바구니 추가 실패:", error);
-            
+
             if (error.response) {
                 if (error.response.status === 401) {
                     alert("로그인이 필요하거나 세션이 만료되었습니다. 다시 로그인 해주세요.");
@@ -114,10 +114,14 @@ const ComparisonResultsPage = () => {
 
     return (
         <div className="main-container">
-            <HomeButton />
+            <header className="main-header">
+                <div className="header-spacer" />
+                <div className="logo" onClick={() => navigate("/home")}>GAVION</div>
+            </header>
+            {/* <HomeButton /> */}
             <div className="comparison-container">
                 <div className="comparison-card">
-                    <div className="app-title"> 결과 비교하기</div>
+                    <div className="app-title">📌 결과 비교하기</div>
 
                     <div className="mall-selector-text">
                         {Object.keys(grouped).map((mallName) => (
@@ -172,7 +176,7 @@ const ComparisonResultsPage = () => {
                                     {grouped[selectedMall]
                                         .slice(0, visibleCounts[selectedMall])
                                         .map((product, index) => {
-                                            
+
                                             const { unitCount, unitPrice } = calculateUnitPrice(product);
 
                                             const enhancedProduct = {

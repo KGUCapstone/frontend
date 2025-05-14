@@ -4,6 +4,7 @@
     max-width: 800px;
     margin: 120px auto;
     width: 100%;
+    padding-top: 0;
 }
 
 .comparison-card {
