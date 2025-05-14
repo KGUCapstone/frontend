@@ -44,35 +44,41 @@ body {
   font-size: 20px;
 }
 
-/* .back-button-container {
+.back-button-container {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between; /* 버튼 간격 확보 */
   align-items: center;
-  margin-top: 25px;
-  margin-bottom: 10px;
   padding: 0 16px;
-  gap: 10px; 
-} */
-
-.back-button, .delete-button {
-  min-width: 80px; /* 동일한 너비 */
-  text-align: center;
-  padding: 8px 14px;
-  font-size: 14px;
-  border-radius: 6px;
+  margin-bottom: 16px;
+}
+.back-button {
+  border: 2px solid #5964ff;
+  background-color: white;
+  color: #5964ff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
   cursor: pointer;
 }
 
-.back-button {
-  background-color: #f0f0f0;
-  color: #555;
-  border: none;
-  text-decoration: underline;
+.back-button:hover {
+  background-color: #f0f4ff;
 }
 
-.back-button:hover {
-  color: #000;
+.delete-button {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
 }
+
+.delete-button:hover {
+  background-color: #e60000;
+}
+
 
 .delete-button {
   background-color: #ff4d4d;

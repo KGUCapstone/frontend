@@ -4,6 +4,7 @@ import "../style/CartList.css";
 import BottomNav from "../components/BottomNav";
 import api from "../api"; 
 import CartItem from "../components/CartItem.js";
+import {FaTrash} from "react-icons/fa";
 
 const CartList = () => {
   const navigate = useNavigate();
@@ -161,21 +162,21 @@ const CartList = () => {
         <div className="user-message">
           <h2>{userName}님 {cartItems.length}개 담으셨군요!</h2>
         </div>
-        
-        <div className="back-button-container">
-          <button className="back-button" onClick={goBack}>
-            ← 다시 담기
-          </button>
-          <button className="delete-button" onClick={handleDelete}>
-            선택삭제
-          </button>
+
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "10px 16px 0 16px",
+            marginBottom: "20px",
+          }}>
+            <button className="back-button" onClick={goBack}>
+              ← 다시 담기
+            </button>
+            <button className="delete-button" onClick={handleDelete}>
+              <FaTrash size={23}/>
+            </button>
         </div>
-
-        {/* <h1 className="cart-title">🛒 장바구니</h1> */}
-
-        {/* <div className="user-message">
-          <h2>{userName}님 {cartItems.length}개 담으셨군요!</h2>
-        </div> */}
 
         <div className="cart-items-list">
           {cartItems.length === 0 ? (
