@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/CartList.css";
-import api from "../api"; // axios 인스턴스
+import BottomNav from "../components/BottomNav";
+import api from "../api"; 
 import CartItem from "../components/CartItem.js";
 
 const CartList = () => {
@@ -11,7 +12,6 @@ const CartList = () => {
 
   const userName = "사용자";
 
-  // // 더미 data
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
@@ -39,8 +39,6 @@ const CartList = () => {
       try {
         const res = await api.post("/cart/show"); // 장바구니 요청
         setCartItems(res.data);
-
-        // 체크박스 초기화
         const initCheck = {};
         res.data.forEach((item) => (initCheck[item.id] = false));
         setCheckedItems(initCheck);
@@ -94,11 +92,9 @@ const CartList = () => {
       return;
     }
 
-     try {
+    try {
       await api.post("/cart/removeItem", selectedItems);
       alert("선택한 상품이 삭제되었습니다.");
-
-      // 삭제 후 목록 다시 불러오기
       const res = await api.post("/cart/show");
       setCartItems(res.data);
 
@@ -112,7 +108,6 @@ const CartList = () => {
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item) => {
       if (checkedItems[item.id]) {
-        // 체크된 아이템만 합산
         return total + (item.price * item.quantity);
       }
       return total;
@@ -122,15 +117,15 @@ const CartList = () => {
 
   const handleIncreaseQuantity = (itemId) => {
     setCartItems((prev) =>
-        prev.map((item) => item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item)
+      prev.map((item) => item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item)
     );
   };
 
   const handleDecreaseQuantity = (itemId) => {
     setCartItems((prev) =>
-        prev.map((item) =>
-            item.id === itemId ? { ...item, quantity: Math.max(1, item.quantity - 1) } : item
-        )
+      prev.map((item) =>
+        item.id === itemId ? { ...item, quantity: Math.max(1, item.quantity - 1) } : item
+      )
     );
   };
   const calculateTotalComparePrice = () => {
@@ -152,41 +147,55 @@ const CartList = () => {
 
 
   return (
-    <div className="cart-container">
-      <div className="back-button-container">
-        <button className="back-button" onClick={goBack}>
-          ← 다시 담기
-        </button>
-        <button className="delete-button" onClick={handleDelete}>
-          선택삭제
-        </button>
-      </div>
+      <>
+        <header className="main-header">
+          <div className="header-spacer" />
+          <div className="logo" onClick={() => navigate("/home")}>GAVION</div>
+        </header>
 
-      <h1 className="cart-title">CARTLIST</h1>
+      <div className="header-container-spacer"></div>
 
-      <div className="user-message">
-        <h2>{userName}님 {cartItems.length}개 담으셨군요!</h2>
-      </div>
+      <div className="cart-container">
+        <h1 className="cart-title">🛒 장바구니</h1>
 
-      <div className="cart-items-list">
-        {cartItems.length === 0 ? (
-          <div className="empty-cart">장바구니가 비어있습니다.</div>
-        ) : (
+        <div className="user-message">
+          <h2>{userName}님 {cartItems.length}개 담으셨군요!</h2>
+        </div>
+        
+        <div className="back-button-container">
+          <button className="back-button" onClick={goBack}>
+            ← 다시 담기
+          </button>
+          <button className="delete-button" onClick={handleDelete}>
+            선택삭제
+          </button>
+        </div>
+
+        {/* <h1 className="cart-title">🛒 장바구니</h1> */}
+
+        {/* <div className="user-message">
+          <h2>{userName}님 {cartItems.length}개 담으셨군요!</h2>
+        </div> */}
+
+        <div className="cart-items-list">
+          {cartItems.length === 0 ? (
+            <div className="empty-cart">장바구니가 비어있습니다.</div>
+          ) : (
             cartItems.map((item) => (
-                <CartItem
-                    key={item.id}
-                    item={item}
-                    checked={checkedItems[item.id]}
-                    onCheckboxChange={handleCheckboxChange}
-                    onIncrease={handleIncreaseQuantity}
-                    onDecrease={handleDecreaseQuantity}
-                />
+              <CartItem
+                key={item.id}
+                item={item}
+                checked={checkedItems[item.id]}
+                onCheckboxChange={handleCheckboxChange}
+                onIncrease={handleIncreaseQuantity}
+                onDecrease={handleDecreaseQuantity}
+              />
 
             ))
-        )}
-      </div>
+          )}
+        </div>
 
-      {cartItems.length > 0 && (
+        {cartItems.length > 0 && (
           <div className="order-footer">
             <div className="order-info">
               <div className="order-price">
@@ -205,9 +214,11 @@ const CartList = () => {
             </button>
           </div>
 
-      )}
-    </div>
-  );
+        )}
+        <BottomNav />
+      </div>
+      </>
+    );
 
 
 };

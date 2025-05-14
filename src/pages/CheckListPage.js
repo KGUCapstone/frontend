@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../components/BottomNav";
-import HomeButton from "../components/HomeButton";
+// import HomeButton from "../components/HomeButton";
 import "../style/CheckListPage.css";
 import api from "../api";
 
@@ -13,7 +13,6 @@ const CheckListPage = () => {
     { id: "p2", title: "생수", checked: false, price: "890원", brand: "삼다수", quantity: "2L" },
   ];
 
-  // ✅ 다중 선택 가능하도록 상태 배열로 유지
   const [selectedStores, setSelectedStores] = useState(["homeplus"]);
   const [products, setProducts] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
