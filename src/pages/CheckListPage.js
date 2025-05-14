@@ -126,7 +126,9 @@ const CheckListPage = () => {
   const getKoreanStoreName = (store) => {
     if (store === "homeplus") return "홈플러스";
     if (store === "emart") return "이마트";
-    return "CU편의점";
+    if (store === "트레이더스") return "트레이더스";
+    return false;
+    //return "CU편의점";
   };
 
   return (
@@ -142,7 +144,7 @@ const CheckListPage = () => {
             <h2>📍체크리스트</h2>
           </header>
           <div className="store-selection-container">
-            {["homeplus", "emart", "cu"].map(store => (
+            {["homeplus", "emart", "트레이더스"].map(store => (
               <div
                 key={`store-${store}`}
                 className={`store-radio-button ${selectedStores.includes(store) ? "selected" : ""}`}

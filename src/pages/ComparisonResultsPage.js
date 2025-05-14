@@ -18,7 +18,8 @@ const ComparisonResultsPage = () => {
     const mallLabelMap = {
         "홈플러스": "홈플러스 가격 보기",
         "이마트": "이마트 가격 보기",
-        "CU편의점": "CU편의점 가격 보기",
+        //"CU편의점": "CU편의점 가격 보기",
+        "트레이더스": "트레이더스 가격 보기",
     };
 
     const handleAddToCart = async (e, product) => {
