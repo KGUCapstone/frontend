@@ -15,6 +15,8 @@ const CartItem = ({
       ? (item.compareItemPrice - item.price) * item.quantity
       : 0;
 
+  const noBrandName = item.title.replace("브랜드 없음", "").trim();
+
   return (
     <div key={item.id} className="cart-item">
       {/* 이미지 */}
@@ -24,8 +26,10 @@ const CartItem = ({
 
       {/* 상세 */}
       <div className="cart-item-details">
-        <h3 className="item-title">{item.title}</h3>
-        <p className="item-brand">{item.brand}</p>
+        <h3 className="item-title">{noBrandName}</h3>
+        <p className="item-brand">
+          {item.brand !== "브랜드 없음" ? `${item.brand}` : ""}
+        </p>
         <p className="item-store">{item.mallName}</p>
 
         {/* 수량 + 가격 */}
