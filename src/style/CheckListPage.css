@@ -50,21 +50,22 @@
     height: calc(100vh - 80px - 70px);
     padding-bottom: 80px;
   }
-  
-  .checklist-container {
-    padding: 20px;
-    width: 95%;
-    margin-top: 20px;
-  }
-  
+
+.checklist-container {
+  padding-top: 40px;  
+  padding-right: 49px;
+  padding-bottom: 49px;
+  padding-left: 49px;
+  width: 95%;
+}  
   .checklist-card {
     background-color: white;
     border-radius: 16px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     padding: 20px;
-    margin: 20px 0;
+    /* margin: 20px 0; */
     overflow: hidden;
-    margin-top: 5rem;
+    /* margin-top: 5rem; */
     margin-right: 20px;
   }
   
@@ -225,10 +226,17 @@
     background-color: #4853e0;
   }
   
-  .checklist-items {
+  /* .checklist-items {
     max-height: 400px;
     overflow-y: auto;
     margin-bottom: 15px;
+  } */
+
+  .checklist-items {
+    max-height: unset; 
+    overflow-y: visible; 
+    overflow: visible; 
+    height: auto;
   }
   
   .checklist-item {

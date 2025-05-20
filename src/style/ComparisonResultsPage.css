@@ -1,10 +1,15 @@
 .comparison-container {
-    flex: 1;
-    padding: 20px;
+    /* flex: 1;
+    padding: 30px;
     max-width: 800px;
     margin: 120px auto;
     width: 100%;
-    padding-top: 0;
+    padding-top: 0; */
+    padding-top: 40px;  
+    padding-right: 45px;
+    padding-bottom: 49px;
+    padding-left: 49px;
+    width: 96%;
 }
 
 .comparison-card {
@@ -36,13 +41,14 @@
 }
 
 .app-title {
-    text-align: left;
-    font-size: 1.5rem;
+    text-align: left !important;
+    font-size: 1.5rem !important;
     font-weight: bold;
     margin-bottom: 15px;
     color: #222;
     padding-bottom: 10px;
     border-bottom: 1px solid #eee;
+    padding-top: 20px;
 }
 
 table {
@@ -490,10 +496,43 @@ th {
     .comparison-container {
         padding: 10px;
     }
+    
+    /* grouped-products-section 관련 스타일 추가 */
+    .grouped-products-section {
+        margin: 0 -10px;
+    }
+    
+    .mall-section {
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+    
+    .cart-item.wrapper {
+        padding: 8px;
+    }
+    
+    .add-to-cart-wrapper {
+        right: 5px;
+    }
+    
+    .add-to-cart-button {
+        width: 40px;
+        height: 40px;
+        right: 10px;
+    }
+    
+    .add-to-cart-button svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .comparison-container .item-title {
+        max-width: 220px;
+    }
 }
 
 @media (max-width: 480px) {
-
     .app-title,
     .section-title,
     .mall-title {
@@ -504,5 +543,63 @@ th {
     td {
         padding: 8px;
         font-size: 14px;
+    }
+    
+    /* 더 작은 화면에 대한 grouped-products-section 스타일 추가 */
+    .grouped-products-section {
+        margin: 0 -5px;
+    }
+    
+    .mall-section {
+        padding: 8px;
+    }
+    
+    .product-cards {
+        gap: 10px;
+    }
+    
+    .product-cards > div {
+        padding: 2px;
+    }
+    
+    .comparison-container .cart-item-image-container {
+        margin-right: 5px;
+    }
+    
+    .comparison-container .cart-item-image-container img {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .comparison-container .item-title {
+        max-width: 180px;
+        font-size: 14px;
+    }
+    
+    .comparison-container .cart-item-details {
+        padding-right: 40px;
+    }
+    
+    .mall-text-option {
+        font-size: 1rem;
+        padding: 4px 0;
+    }
+    
+    .add-to-cart-button {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .add-to-cart-button svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .cart-item-price {
+        font-size: 14px;
+    }
+    
+    .cart-item-unit-price {
+        font-size: 12px;
     }
 }
