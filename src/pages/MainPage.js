@@ -102,7 +102,7 @@ const MainPage = () => {
           totalSpent: data.totalSaved,
           progress: Math.min(
             100,
-            Math.round((data.weekSaved / data.goalAmount) * 100)
+            Math.round((data.totalSaved / data.goalAmount) * 100)
           ),
           today: data.today,
           weekTotal: data.weekSpent,
