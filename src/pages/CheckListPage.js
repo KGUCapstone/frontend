@@ -76,6 +76,7 @@ const CheckListPage = () => {
   const deleteSelectedProducts = () => {
     const updatedProducts = products.filter(product => !product.checked);
     setProducts(updatedProducts);
+    localStorage.setItem("products", JSON.stringify(updatedProducts));
   };
 
   const extractPriceNumber = (priceStr) => {
@@ -139,6 +140,9 @@ const CheckListPage = () => {
       </header>
     <div className="main-container">
       <div className="checklist-container">
+
+        <div className="scrollable-content">
+
         <div className="checklist-card">
           <header className="checklist-header">
             <h2>📍체크리스트</h2>
@@ -264,6 +268,7 @@ const CheckListPage = () => {
           </div>
 
         </div>
+      </div>
       </div>
       <BottomNav />
     </div>
