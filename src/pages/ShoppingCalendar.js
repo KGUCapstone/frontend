@@ -18,12 +18,20 @@ const ShoppingCalendar = () => {
     const fetchCalendarData = async () => {
         try {
             const response = await api.post('/mainpage/calendar');
-            setCalendarData(response.data);
-            console.log("Calendar Data:", response.data);
+            const arrayData = response.data;
+
+            const mappedData = {};
+            arrayData.forEach(item => {
+                mappedData[item.date] = item.amount;
+            });
+
+            setCalendarData(mappedData);
+            console.log("Mapped Calendar Data:", mappedData);
         } catch (error) {
             console.error('Error fetching calendar data:', error);
         }
     };
+
 
     useEffect(() => {
         calculateMonthlySummary();
