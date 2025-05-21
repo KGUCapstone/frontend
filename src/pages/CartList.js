@@ -5,7 +5,6 @@ import BottomNav from "../components/BottomNav";
 import api from "../api";
 import CartItem from "../components/CartItem.js";
 import { FaTrash } from "react-icons/fa";
-
 const CartList = () => {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]); // 초기값을 빈 배열로 변경
@@ -75,9 +74,9 @@ const CartList = () => {
     }
 
     try {
-      // 선택된 상품의 ID만 추출하여 서버로 전송
-      const itemIdsToDelete = selectedItems.map(item => item.id);
-      await api.post("/cart/removeItem", itemIdsToDelete); // 배열로 ID 전송
+      // 선택된 상품의 ID만 추출하는 대신,
+      // CartItemDto와 유사한 전체 selectedItems 배열을 서버로 전송합니다.
+      await api.post("/cart/removeItem", selectedItems); // 수정된 부분
       alert("선택한 상품이 삭제되었습니다.");
       // 삭제 후 장바구니 데이터를 다시 불러와 UI 업데이트
       const res = await api.post("/cart/show");
