@@ -38,14 +38,37 @@ const MyPage = () => {
   const [isImageUploaded, setIsImageUploaded] = useState(false);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
+  const [chartData, setChartData] = useState([]);
+  const [showGoalInput, setShowGoalInput] = useState(false);
+  const [goalAmount, setGoalAmount] = useState("");
 
-  const dummyData = [
-    { month: "2024.12", amount: 50000 },
-    { month: "2025.1", amount: 10000 },
-    { month: "2025.2", amount: 40000 },
-    { month: "2025.3", amount: 55000 },
-    { month: "2025.4", amount: thisMonthSaved },
-  ];
+
+  const toggleGoalInput = () => {
+    setShowGoalInput((prev) => !prev);
+  };
+
+  const saveGoalAmount = async () => {
+    if (!goalAmount || Number(goalAmount) <= 0) { // goalAmount가 비어있거나 0 이하인 경우
+      toast.error("유효한 목표 금액을 입력해주세요. (0보다 큰 값)");
+      return; // 함수 실행 중단
+    }
+
+    try {
+      const token = localStorage.getItem("Authorization");
+
+      await api.post("/mypage/goal", { goalAmount: goalAmount }, {
+        headers: { Authorization: token || "" }
+      });
+
+      toast.success("목표 금액이 저장되었습니다.");
+      setShowGoalInput(false);  // 입력창 닫기
+      setGoalAmount("");        // 입력값 초기화
+    } catch (error) {
+      console.error("저장 실패 에러:", error.response?.data || error.message);
+      toast.error("저장에 실패했습니다.");
+    }
+  };
+
 
   useEffect(() => {
     const fetchAccessToken = async () => {
@@ -80,6 +103,25 @@ const MyPage = () => {
     fetchMypage();
   }, []);
 
+  useEffect(() => {
+    const fetchMonthlyData = async () => {
+      try {
+        const token = localStorage.getItem("Authorization");
+        const response = await api.get("/mypage/monthly", {
+          headers: { Authorization: token || "" },
+        });
+        console.log("월별 데이터 응답:", response.data); // 확인용
+        setChartData(response.data.reverse());
+      } catch (error) {
+        console.error("❌");
+      }
+    };
+    fetchMonthlyData();
+  }, []);
+
+
+
+
   const handleLogout = async () => {
     try {
       await api.post("/logout");
@@ -105,16 +147,14 @@ const MyPage = () => {
     }
   };
 
-  const handleImageClick = () => {
-    const confirmed = window.confirm("프로필 이미지를 등록하시겠습니까?");
-    if (confirmed && fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
 
   const goToSavedAmountPage = () => {
     navigate("/saved-amounts");
   };
+
+  const goToSavedAmountEditPage = () => {
+    navigate("/saved-amount-edit");
+  }
 
   const goToHistoryPage = () => {
     navigate("/history");
@@ -153,9 +193,8 @@ const MyPage = () => {
           </header>
 
           <div className="profile-section">
-            <div className="profile-image" onClick={handleImageClick} style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <img
-                src={profileImage || defaultProfile} // 프로필 이미지가 없으면 기본 이미지로 대체
+            <div className="profile-image" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <img src={defaultProfile} // 프로필 이미지가 없으면 기본 이미지로 대체
                 alt="프로필"
                 style={{
                   width: "80%",
@@ -164,13 +203,7 @@ const MyPage = () => {
                   objectFit: "contain", // 원 안에 이미지를 꽉 채우지 않고 비율을 유지하며 표시
                 }}
               />
-              <input
-                type="file"
-                accept="image/*"
-                ref={fileInputRef}
-                onChange={handleImageUpload}
-                style={{ display: "none" }} // input은 보이지 않도록 설정
-              />
+
             </div>
 
             <div className="profile-info">
@@ -180,59 +213,80 @@ const MyPage = () => {
               </p>
             </div>
           </div>
-
           <div className="chart-container">
             <ResponsiveContainer width="100%" height={180}>
               {chartType === "line" ? (
-                <LineChart data={dummyData} margin={{ top: 10, right: 20, left: 30, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#8A64FF" stopOpacity={1} />
-                      <stop offset="100%" stopColor="#CF77FF" stopOpacity={1} />
-                    </linearGradient>
-                  </defs>
-                  <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#555" }} />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Line
-                    type="monotone"
-                    dataKey="amount"
-                    stroke="url(#lineGradient)" // 그라데이션 적용
-                    strokeWidth={3}
-                    dot={{ r: 5, strokeWidth: 2, fill: "#CCC", stroke: "#8A64FF" }}
-                    activeDot={{ r: 6 }}
-                  />
-                </LineChart>
+                  <LineChart data={chartData} margin={{ top: 10, right: 20, left: 30, bottom: 20 }}>
+                    <defs>
+                      <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#8A64FF" stopOpacity={1} />
+                        <stop offset="100%" stopColor="#CF77FF" stopOpacity={1} />
+                      </linearGradient>
+                    </defs>
+                    <XAxis
+                        dataKey="month"
+                        tick={{ fontSize: 12, fill: "#555" }}
+                        interval={0}
+                        angle={-30}
+                        textAnchor="end"
+                        tickLine={{ stroke: "#ccc" }}
+                    />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Line
+                        type="monotone"
+                        dataKey="amount"
+                        stroke="url(#lineGradient)"
+                        strokeWidth={3}
+                        dot={{ r: 5, strokeWidth: 2, fill: "#CCC", stroke: "#8A64FF" }}
+                        activeDot={{ r: 6 }}
+                    />
+                  </LineChart>
               ) : chartType === "bar" ? (
-                <BarChart data={dummyData} margin={{ top: 10, right: 20, left: 30, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="barGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#8A64FF" stopOpacity={1} />
-                      <stop offset="100%" stopColor="#CF77FF" stopOpacity={1} />
-                    </linearGradient>
-                  </defs>
-                  <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#555" }} />
-                  <Tooltip content={<CustomTooltip />} />
-                   <Bar dataKey="amount" fill="url(#barGradient)" />
-                </BarChart>
+                  <BarChart data={chartData} margin={{ top: 10, right: 20, left: 30, bottom: 20 }}>
+                    <defs>
+                      <linearGradient id="barGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#8A64FF" stopOpacity={1} />
+                        <stop offset="100%" stopColor="#CF77FF" stopOpacity={1} />
+                      </linearGradient>
+                    </defs>
+                    <XAxis
+                        dataKey="month"
+                        tick={{ fontSize: 12, fill: "#555" }}
+                        interval={0}
+                        angle={-30}
+                        textAnchor="end"
+                        tickLine={{ stroke: "#ccc" }}
+                    />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Bar dataKey="amount" fill="url(#barGradient)" />
+                  </BarChart>
               ) : (
-                <AreaChart data={dummyData} margin={{ top: 10, right: 20, left: 30, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="areaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#8A64FF" stopOpacity={1} />
-                      <stop offset="100%" stopColor="#CF77FF" stopOpacity={1} />
-                    </linearGradient>
-                  </defs>
-                  <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#555" }} />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Area type="monotone" dataKey="amount" stroke="#8A64FF" fill="url(#areaGradient)" />
-                </AreaChart>
+                  <AreaChart data={chartData} margin={{ top: 10, right: 20, left: 30, bottom: 20 }}>
+                    <defs>
+                      <linearGradient id="areaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#8A64FF" stopOpacity={1} />
+                        <stop offset="100%" stopColor="#CF77FF" stopOpacity={1} />
+                      </linearGradient>
+                    </defs>
+                    <XAxis
+                        dataKey="month"
+                        tick={{ fontSize: 12, fill: "#555" }}
+                        interval={0}
+                        angle={-30}
+                        textAnchor="end"
+                        tickLine={{ stroke: "#ccc" }}
+                    />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Area type="monotone" dataKey="amount" stroke="#8A64FF" fill="url(#areaGradient)" />
+                  </AreaChart>
               )}
             </ResponsiveContainer>
           </div>
 
+
           <div className="button-list">
             <div className="mypage-button" onClick={goToHistoryPage}>
-              최근 본 상품
+              이전 장바구니 기록
             </div>
             <div
               className="mypage-button chart-toggle-button"
@@ -257,6 +311,28 @@ const MyPage = () => {
             <div className="mypage-button" onClick={goToSavedAmountPage}>
               아낀 금액 통계
             </div>
+
+            <div className="mypage-button" onClick={toggleGoalInput}>
+              목표 절약 금액 설정
+            </div>
+
+            {showGoalInput && (
+                <div className="goal-input-container"> {/* Add a new class here */}
+                  <input
+                      type="number"
+                      value={goalAmount}
+                      onChange={(e) => setGoalAmount(e.target.value)}
+                      placeholder="목표 금액 입력 (예: 100000)"
+                      className="goal-input-field"
+                  />
+                  <button onClick={saveGoalAmount} className="goal-save-button"> {/* Add a new class here */}
+                    확인
+                  </button>
+                </div>
+            )}
+
+
+
           </div>
 
           <button className="logout-button" onClick={handleLogout}>

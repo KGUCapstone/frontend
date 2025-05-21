@@ -271,3 +271,42 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+.goal-input-container {
+  display: flex;
+  gap: 10px; /* Space between input and button */
+  margin-top: 15px; /* Adjust top margin as needed */
+  align-items: center; /* Vertically align items */
+  padding: 0 1.5rem; /* Match padding of the card for alignment */
+}
+
+.goal-input-field {
+  flex-grow: 1; /* Allows the input to take up available space */
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px; /* Slightly rounded corners */
+  font-size: 1rem;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); /* Subtle inner shadow */
+}
+
+.goal-input-field:focus {
+  outline: none;
+  border-color: #8A64FF; /* Highlight on focus */
+  box-shadow: 0 0 0 3px rgba(138, 100, 255, 0.2); /* Soft glow on focus */
+}
+
+.goal-save-button {
+  background-color: #8A64FF; /* A pleasant shade of purple */
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease; /* Smooth transition for hover */
+}
+
+.goal-save-button:hover {
+  background-color: #714ed9; /* Darker shade on hover */
+}

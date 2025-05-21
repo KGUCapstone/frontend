@@ -8,44 +8,62 @@ import ShoppingCalendar from "./ShoppingCalendar";
 
 const MainPage = () => {
   const navigate = useNavigate();
-  const [showSearch, setShowSearch] = useState(false);
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [open, setOpen] = useState(false);
 
   // 더미 데이터
   const [userStats, setUserStats] = useState({
-    totalSpent: 50035,
-    progress: 25,
-    today: "2025-04-28",
-    weekTotal: 191790,
-    weekSaveAmount: 27398,
+    totalSpent: 0,
+    progress: 0,
+    today: "",
+    weekTotal: 0,
+    weekSaveAmount: 0,
   });
 
-  // Random quotes for consumption review
-  const [currentQuote, setCurrentQuote] = useState({});
-  const quotes = [
-    {
-      text: "미래를 위해 준비할 수 있는 최고의 시간은 지금이다",
-      author: "웨슬리 K. 윌콕스",
-    },
-    {
-      text: "돈은 유일한 해답은 아니지만 치료를 만들어낸다",
-      author: "머니 오쇼",
-    },
-    {
-      text: "저축하는 습관은 번영의 첫 걸음이다",
-      author: "벤자민 프랭클린",
-    },
-    {
-      text: "성공적인 투자는 과학이 아니라 감정 관리이다",
-      author: "벤저민 그레이엄",
-    },
-    {
-      text: "돈을 모으는 것보다 더 중요한 것은 돈을 현명하게 사용하는 것이다",
-      author: "로버트 기요사키",
-    },
-  ];
+  const getWeatherIcon = (progress) => {
+    if (progress >= 80) {
+      return "☀️"; // 맑음: 절약 목표 달성률이 높음
+    } else if (progress >= 50) {
+      return "⛅"; // 구름 조금: 절약 목표 달성률이 중간
+    } else if (progress > 0) {
+      return "☁️"; // 흐림: 절약 목표 달성률이 낮지만 긍정적
+    } else {
+      return "🌧️"; // 비 또는 먹구름: 절약 목표 달성률이 0이거나 마이너스 (아직 절약하지 못했거나 오히려 더 쓴 경우)
+    }
+  };
+
+  const getConsumptionMessage = (progress) => {
+    if (progress >= 90) {
+      return {
+        tag: "#소비마스터",
+        text: "훌륭해요! 목표 달성에 거의 다다랐어요! 현명한 소비 습관이 빛을 발하고 있네요.",
+      };
+    } else if (progress >= 70) {
+      return {
+        tag: "#절약왕",
+        text: "정말 잘하고 계세요! 꾸준함이 절약을 만듭니다. 조금만 더 힘내볼까요?",
+      };
+    } else if (progress >= 50) {
+      return {
+        tag: "#반짝성장",
+        text: "절반 이상 달성! 소비를 돌아보는 작은 노력이 큰 변화를 만듭니다. 이대로 쭉!",
+      };
+    } else if (progress > 0) {
+      return {
+        tag: "#새로운시작",
+        text: "차근차근 나아가고 있어요. 작은 절약도 모이면 큰 금액이 된답니다. 힘내세요!",
+      };
+    } else if (progress === 0) {
+      return {
+        tag: "#새로운도전",
+        text: "아직 시작일 뿐이에요! 오늘부터라도 절약의 습관을 함께 만들어가요.",
+      };
+    } else { // progress < 0
+      return {
+        tag: "#소비주의보",
+        text: "조금 더 주의가 필요해요. 다음 주에는 더 현명한 소비를 위해 함께 노력해봐요!",
+      };
+    }
+  };
 
   useEffect(() => {
     const fetchAccessToken = async () => {
@@ -115,9 +133,6 @@ const MainPage = () => {
         );
       }
     };
-
-    const randomIndex = Math.floor(Math.random() * quotes.length);
-    setCurrentQuote(quotes[randomIndex]);
     fetchUserStats();
   }, []);
 
@@ -126,13 +141,8 @@ const MainPage = () => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  const openSearchModal = () => {
-    setShowSearch(true);
-  };
 
-  const closeSearchModal = () => {
-    setShowSearch(false);
-  };
+  const currentConsumptionMessage = getConsumptionMessage(userStats.progress); // 메시지 미리 계산
 
   return (
 
@@ -200,17 +210,17 @@ const MainPage = () => {
           <div className="date-range">＜ {userStats.today} ＞</div>
 
           <div className="weekly-summary-box">
-            <div className="sun-icon">☀️</div>
-            <div className="weekly-summary-text">오늘의 날씨</div>
+            <div className="sun-icon">{getWeatherIcon(userStats.progress)}</div>
+            <div className="weekly-summary-text">주간의 소비 날씨</div>
           </div>
 
+          {/* 소비 조언 카드 */}
           <div className="quote-card">
-            <div className="quote-tag">#소비노트</div>
-            <p className="quote-text">
-              {currentQuote.text}
-              <br />- {currentQuote.author} -
-            </p>
+            <div className="quote-tag">{currentConsumptionMessage.tag}</div>
+            <p className="quote-text">{currentConsumptionMessage.text}</p>
           </div>
+
+
 
           <div className="weekly-stats-box">
             <div className="stats-row">
