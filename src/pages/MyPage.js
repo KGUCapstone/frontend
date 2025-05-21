@@ -317,15 +317,15 @@ const MyPage = () => {
             </div>
 
             {showGoalInput && (
-                <div style={{ marginTop: "10px", display: "flex", gap: "8px", alignItems: "center" }}>
+                <div className="goal-input-container"> {/* Add a new class here */}
                   <input
                       type="number"
                       value={goalAmount}
                       onChange={(e) => setGoalAmount(e.target.value)}
                       placeholder="목표 금액 입력 (예: 100000)"
-                      style={{ padding: "8px", width: "60%" }}
+                      className="goal-input-field"
                   />
-                  <button onClick={saveGoalAmount} style={{ padding: "8px 12px" }}>
+                  <button onClick={saveGoalAmount} className="goal-save-button"> {/* Add a new class here */}
                     확인
                   </button>
                 </div>
