@@ -90,22 +90,22 @@ return (
       />
 
       <button type="submit" className="auth-button">로그인</button>
-    
 
-    <div className="sns-login">
-      <button className="naver-button" onClick={handleNaverLogin}>
-        <img src={naverIcon} alt="네이버 로그인" />
-      </button>
-      
-      <button className="google-button" onClick={handleGoogleLogin}>
-        <img src={googleIcon} alt="구글 로그인" />
-      </button>
-    </div>
 
     <div className="signup-link">
       계정이 없으신가요? <a href="/join">회원가입</a>
     </div>
     </form>
+
+      <div className="sns-login">
+          <button className="naver-button" onClick={handleNaverLogin}>
+              <img src={naverIcon} alt="네이버 로그인" />
+          </button>
+
+          <button className="google-button" onClick={handleGoogleLogin}>
+              <img src={googleIcon} alt="구글 로그인" />
+          </button>
+      </div>
   </div>
   
 );
