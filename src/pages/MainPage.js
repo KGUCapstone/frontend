@@ -208,7 +208,6 @@ const MainPage = () => {
           <div className="weekly-card">
             <div className="weekly-header">
               <h2>소비 주간리뷰</h2>
-              <div>＜</div>
             </div>
 
             <div className="date-range">＜ {userStats.today} ＞</div>
