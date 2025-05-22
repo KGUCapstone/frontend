@@ -25,7 +25,7 @@ const BottomNav = () => {
                 onClick={() => navigate("/checkListPage")}
             >
                 <FaCheckSquare size={24} />
-                <span>체크리스트</span>
+                <span>매장 별 비교</span>
             </button>
 
             <div className="center-button">
