@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react"; // useCallback 추가
+import React, { useEffect, useState, useCallback } from "react"; // useCallback 추가
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import "../style/MyPage.css";
@@ -117,11 +117,6 @@ const MyPage = () => {
     setChartType(type);
     setShowChartOptions(false);
   };
-
-
-  const goToSavedAmountPage = useCallback(() => {
-    navigate("/saved-amounts");
-  }, [navigate]);
 
 
   const goToHistoryPage = useCallback(() => {
