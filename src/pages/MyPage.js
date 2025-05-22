@@ -280,9 +280,6 @@ const MyPage = () => {
                   <span>영역 그래프</span>
                 </button>
               </div>
-              <div className="mypage-button" onClick={goToSavedAmountPage}>
-                아낀 금액 통계
-              </div>
 
               <div className="mypage-button" onClick={toggleGoalInput}>
                 목표 절약 금액 설정
