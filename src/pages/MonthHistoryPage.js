@@ -135,7 +135,14 @@ const MonthHistoryPage = () => {
             <h1 className="month-history-title">월별 장바구니 기록</h1>
 
             {sortedMonths.map((monthKey) => {
-                const items = grouped[monthKey];
+                let items = grouped[monthKey];
+
+                items.sort((a, b) => {
+                    const dateA = new Date(a.createdAt);
+                    const dateB = new Date(b.createdAt);
+                    return dateB.getTime() - dateA.getTime(); // 최신순 정렬
+                });
+
                 const isExpanded = expandedMonths[monthKey];
                 const visibleItems = isExpanded ? items : items.slice(0, 3);
                 const savedAmount = getSavedAmount(monthKey);
@@ -152,8 +159,8 @@ const MonthHistoryPage = () => {
                                         fontWeight: "500",
                                     }}
                                 >
-                  💰 절약: {savedAmount.toLocaleString()}원
-                </span>
+                                  💰 절약: {savedAmount.toLocaleString()}원
+                                </span>
                             )}
                         </h2>
 
@@ -162,7 +169,6 @@ const MonthHistoryPage = () => {
                                 key={cart.cartId}
                                 className="cart-history-summary hover-underline"
                                 onClick={() => !deleteMode && navigate(`/history/${cart.cartId}`)}
-
                             >
                                 {deleteMode && (
                                     <input
@@ -172,7 +178,10 @@ const MonthHistoryPage = () => {
                                             e.stopPropagation();
                                             handleCheckboxChange(cart.cartId);
                                         }}
-                                        style={{ marginRight: "8px" }}
+                                        style={{
+                                            marginRight: "15px" ,
+                                            transform: "scale(2)",
+                                        }}
                                     />
                                 )}
                                 <img
