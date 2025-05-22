@@ -5,10 +5,6 @@ import {  useNavigate, useLocation } from 'react-router-dom';
 import {  FaCamera ,FaUser, FaCheckSquare } from 'react-icons/fa';
 import '../style/BottomNav.css';
 
-const HomeScreen = () => <div>홈 화면</div>;
-const RankingScreen = () => <div>랭킹 화면</div>;
-const StatisticsScreen = () => <div>통계 화면</div>;
-const MyPageScreen = () => <div>마이페이지 화면</div>;
 
 const BottomNav = () => {
     const navigate = useNavigate();
