@@ -1,240 +1,123 @@
-import React, { useState, useEffect } from "react";
-import "../style/ComparePage.css";
-import { useLocation, useNavigate } from "react-router-dom";
-import api from "../api";
+import React, { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import "../style/CameraPage.css";
+import BottomNav from "../components/BottomNav";
+import HomeButton from "../components/HomeButton";
 
-const ComparePage = () => {
+const CameraPage = () => {
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const { items: getItems, sourceType, searchQuery: productName, receiptImage: takenPicture, compareItemPrice } = location.state || {};
-
-  const [products, setProducts] = useState([]);
-  const [checkedItems, setCheckedItems] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(productName || ""); // 받아온 검색어 또는 초기값 설정
-  const [receiptImage, setReceiptImage] = useState(takenPicture || null); // 찍은 가격표 사진
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 5; // 페이지 당 들어갈 상품 갯수
 
   useEffect(() => {
-    const initializeData = async () => {
-      // 1. 상품 데이터 포맷 및 설정
-      if (getItems && getItems.length > 0) {
-        const formattedProducts = getItems.map((item, index) => {
-          const numericPrice = Number(String(item.lprice).replace(/[₩,]/g, ""));
-          return {
-            id: index + 1,
-            image: item.image,
-            title: item.title.replace(/<[^>]+>/g, ""),
-            lprice: `₩${numericPrice.toLocaleString()}`,
-            price: numericPrice,
-            brand: item.brand || "브랜드 없음",
-            mallName: item.mallName,
-            link: item.link,
-            volume: item.volume || "",
-          };
+    const enableCamera = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment" },
         });
-        setProducts(formattedProducts);
-
-        // 가장 저렴한 상품을 찾아 초기 체크 상태로 설정
-        if (formattedProducts.length > 0) {
-          const cheapestProduct = formattedProducts.reduce((min, p) =>
-              p.price < min.price ? p : min
-          );
-          setCheckedItems([cheapestProduct.id]);
-        }
-      } else {
-        setProducts([]); // items가 없으면 빈 배열로 설정
-        setCheckedItems([]);
-      }
-
-      // 2. 가격표 이미지 설정
-      if (sourceType === "photo" && takenPicture) {
-        setReceiptImage(takenPicture);
-      } else {
-        setReceiptImage(null); // 검색창으로 데이터를 받을 경우 이미지 없음
+        videoRef.current.srcObject = stream;
+      } catch (err) {
+        console.error("카메라 접근 실패:", err);
       }
     };
+    enableCamera();
 
-    initializeData();
-  }, [getItems, sourceType, takenPicture]); // location.state에서 직접 추출한 값들을 의존성 배열에 추가
-
-  const totalPages = Math.ceil(products.length / productsPerPage);
-
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const paginatedProducts = products.slice(
-      indexOfFirstProduct,
-      indexOfLastProduct
-  );
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const renderPagination = () => {
-    const pageNumbers = [];
-
-    const displayPageCount = 3;
-
-    let startPage = Math.max(1, currentPage - 1);
-    let endPage = Math.min(totalPages, startPage + displayPageCount - 1);
-
-    if (endPage - startPage + 1 < displayPageCount) {
-      startPage = Math.max(1, endPage - displayPageCount + 1);
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(i);
-    }
-
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        pageNumbers.push("...");
+    return () => {
+      if (videoRef.current?.srcObject) {
+        videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
       }
-      pageNumbers.push(totalPages);
-    }
-
-    return (
-        <div className="pagination">
-          {pageNumbers.map((number, index) =>
-              number === "..." ? (
-                  <span key={`ellipsis-${index}`} className="ellipsis">
-              ...
-            </span>
-              ) : (
-                  <button
-                      key={number}
-                      onClick={() => handlePageChange(number)}
-                      className={`page-button ${
-                          currentPage === number ? "active" : ""
-                      }`}
-                  >
-                    {number}
-                  </button>
-              )
-          )}
-        </div>
-    );
-  };
-
-  const handleCheckboxChange = (id) => {
-    setCheckedItems(
-        (prevChecked) =>
-            prevChecked.includes(id)
-                ? prevChecked.filter((item) => item !== id)
-                : [id] // 하나만 선택하도록 제한
-    );
-  };
-
-  const handleAddToCart = async () => {
-    if (checkedItems.length === 0) {
-      alert("상품을 선택해주세요!");
-      return;
-    }
-
-    const selectedItem = products.find((product) =>
-        checkedItems.includes(product.id)
-    );
-
-    // compareItemPrice가 undefined일 경우 0으로 처리 (기존 로직 유지)
-    const finalCompareItemPrice = compareItemPrice ?? 0;
-
-    const onlineItemDto = {
-      title: selectedItem.title ?? "",
-      price: selectedItem.price,
-      link: selectedItem.link ?? "",
-      image: selectedItem.image ?? "",
-      mallName: selectedItem.mallName ?? "",
-      brand: selectedItem.brand ?? "",
-      volume: selectedItem.volume ?? "",
-      quantity: 1,
-      compareItemPrice: finalCompareItemPrice, // 넘겨받은 compareItemPrice 사용
     };
+  }, []);
 
-    console.log("🛒 장바구니에 담을 상품:", onlineItemDto);
+  const capture = () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
 
-    try {
-      const res = await api.post("/cart/add", onlineItemDto);
-      console.log("장바구니 추가 성공:", res.data);
-      navigate("/cart"); // 장바구니 화면으로 이동
-    } catch (err) {
-      console.error("장바구니 추가 실패:", err.response?.data || err.message);
-      alert("장바구니 추가 실패.");
-    }
+    const width = video.videoWidth;
+    const height = video.videoHeight;
+
+    const cropX = width * 0.05;
+    const cropY = height * 0.2;
+    const cropWidth = width * 0.9;
+    const cropHeight = height * 0.55;
+
+    canvas.width = cropWidth;
+    canvas.height = cropHeight;
+
+    ctx.drawImage(
+        video,
+        cropX,
+        cropY,
+        cropWidth,
+        cropHeight,
+        0,
+        0,
+        cropWidth,
+        cropHeight
+    );
+
+    const image = canvas.toDataURL("image/png");
+    navigate("/picture", { state: { photo: image } });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+
+        const image = canvas.toDataURL("image/png");
+        navigate("/picture", { state: { photo: image } });
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
-      <div className="compare-container">
-        <div className="home-icon-container">
-          <a href="/home" className="home-link">
-            <div className="home-icon">
-              <span>⌂</span>
+      <>
+        <header className="main-header">
+          <div className="header-spacer" />
+          <div className="logo" onClick={() => navigate("/home")}>GAVION</div>
+        </header>
+
+        <div className="camera-container">
+          <div className="camera-card">
+            <h2 className="camera-title">가격표 촬영</h2>
+
+            <div style={{ position: "relative", width: "100%" }}>
+              <video ref={videoRef} autoPlay playsInline className="camera-video" />
+              <div className="camera-frame" />
             </div>
-          </a>
-        </div>
+            <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="camera-file-input"
+                id="file-upload"  // id 추가
+            />
+            <label htmlFor="file-upload" className="camera-file-label">
+              파일 선택
+            </label>
+            <button onClick={capture} className="camera-button">촬영하기</button>
 
-        <div className="main-content">
-          <h2 className="title">⚖️ 상품 비교하기</h2>
-
-          {sourceType === "photo" && receiptImage && ( // receiptImage 존재 여부도 확인
-              <div className="money-image-container">
-                <img
-                    src={receiptImage}
-                    alt="내가 찍은 가격표"
-                    className="money-image"
-                />
-              </div>
-          )}
-
-          <div className="product-list">
-            {paginatedProducts.map((item) => (
-                <div key={item.id} className="product-item">
-                  <div className="product-info">
-                    <div className="product-image-container">
-                      <img
-                          src={item.image}
-                          alt={item.title}
-                          className="product-image"
-                      />
-                    </div>
-                    <a
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="product-description"
-                    >
-                      <div className="item-detail">
-                        <p className="item-title">{item.title}</p>
-                        <p className="item-brand">
-                          {item.brand !== "브랜드 없음" ? `${item.brand}` : ""}
-                        </p>
-                        <p className="item-price">{item.lprice}</p>
-                        <p className="item-mallname"> {item.mallName}</p>
-                      </div>
-                    </a>
-                  </div>
-                  <label className="product-checkbox">
-                    <input
-                        type="checkbox"
-                        checked={checkedItems.includes(item.id)}
-                        onChange={() => handleCheckboxChange(item.id)}
-                    />
-                    <span>✓</span>
-                  </label>
-                </div>
-            ))}
+            <canvas ref={canvasRef} style={{ display: "none" }} />
           </div>
-
-          {renderPagination()}
-
-          <button className="addToCartBtn" onClick={handleAddToCart}>
-            장바구니 담기
-          </button>
         </div>
-      </div>
+
+        <BottomNav />
+      </>
   );
 };
 
-export default ComparePage;
+export default CameraPage;
