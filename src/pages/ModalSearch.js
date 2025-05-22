@@ -111,7 +111,7 @@ const ModalSearch = ({ onClose }) => {
                             <input
                                 type="text"
                                 name="title"
-                                placeholder="상품명을 입력하세요"
+                                placeholder="상품명 입력"
                                 value={formData.title}
                                 onChange={handleChange}
                                 autoFocus
@@ -125,7 +125,7 @@ const ModalSearch = ({ onClose }) => {
                             <input
                                 type="text"
                                 name="price"
-                                placeholder="가격을 입력하세요"
+                                placeholder="가격 입력 (60%~130% 범위로 검색)"
                                 value={formData.price}
                                 onChange={handleChange}
                             />
