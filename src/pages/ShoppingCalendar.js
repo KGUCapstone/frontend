@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react"; // useCallback 추가
 import "../style/ShoppingCalendar.css";
 import api from "../api";
 
@@ -11,11 +11,8 @@ const ShoppingCalendar = () => {
     const months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
     const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
 
-    useEffect(() => {
-        fetchCalendarData();
-    }, [currentMonth, currentYear]);
-
-    const fetchCalendarData = async () => {
+    // fetchCalendarData 함수를 useCallback으로 감싸서 의존성 배열에 추가될 때마다 새로운 함수가 생성되는 것을 방지
+    const fetchCalendarData = useCallback(async () => {
         try {
             const response = await api.post('/mainpage/calendar');
             const arrayData = response.data;
@@ -29,13 +26,18 @@ const ShoppingCalendar = () => {
             console.log("Mapped Calendar Data:", mappedData);
         } catch (error) {
             console.error('Error fetching calendar data:', error);
+            setCalendarData({});
+            setMonthlySummary({ totalSavings: 0, activeDays: 0 });
         }
-    };
+    }, []); // 의존성 배열에 아무것도 없으므로 컴포넌트 마운트 시 한 번만 생성
 
+    useEffect(() => {
+        fetchCalendarData();
+    }, [currentMonth, currentYear, fetchCalendarData]); // currentMonth, currentYear 변경 시와 fetchCalendarData 함수 변경 시 재실행
 
     useEffect(() => {
         calculateMonthlySummary();
-    }, [calendarData]);
+    }, [calendarData, currentMonth, currentYear]); // calendarData, currentMonth, currentYear 변경 시 재실행
 
     const calculateMonthlySummary = () => {
         let totalSavings = 0;
@@ -43,6 +45,7 @@ const ShoppingCalendar = () => {
 
         Object.keys(calendarData).forEach(dateStr => {
             const date = new Date(dateStr);
+            // 날짜의 연도와 월이 현재 캘린더의 연도 및 월과 일치하는지 확인
             if (date.getMonth() === currentMonth && date.getFullYear() === currentYear) {
                 totalSavings += calendarData[dateStr];
                 activeDays++;
@@ -85,6 +88,7 @@ const ShoppingCalendar = () => {
         }
 
         for (let i = 1; i <= daysInMonth; i++) {
+            // 날짜 문자열을 "YYYY-MM-DD" 형식으로 포맷 (백엔드 데이터 형식에 맞춰)
             const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
             const hasSavings = calendarData[dateStr];
 
