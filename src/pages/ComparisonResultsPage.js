@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react"; // useCallback 추가
 import { useLocation, useNavigate } from "react-router-dom";
-// import HomeButton from "../components/HomeButton";
 import BottomNav from "../components/BottomNav";
 import "../style/ComparisonResultsPage.css";
 import CartItem from "../components/CartItem2";
@@ -18,34 +17,27 @@ const ComparisonResultsPage = () => {
     const mallLabelMap = {
         "홈플러스": "홈플러스 가격 보기",
         "이마트": "이마트 가격 보기",
-        //"CU편의점": "CU편의점 가격 보기",
         "트레이더스": "트레이더스 가격 보기",
     };
 
+    // handleAddToCart에서 직접 토큰 검사를 제거하고, api 인터셉터에 의존.
     const handleAddToCart = async (e, product) => {
         e.stopPropagation();
 
-        const token = localStorage.getItem("Authorization");
-        if (!token) {
-            alert("로그인이 필요한 서비스입니다.");
-            navigate("/login", { state: { from: location.pathname } });
-            return;
-        }
-
         const newItem = {
-            id: product.productId || product.id || Date.now(),
+
+            id: product.productId || Date.now(), // product.id가 없으면 Date.now() 사용
             title: product.title,
             brand: product.brand || "",
             mallName: selectedMall,
-            price: product.lprice,
+            price: product.lprice, // lprice는 이미 숫자로 변환된 값이어야 함. 아니면 여기서 변환 필요.
             quantity: 1,
             image: product.image || "https://via.placeholder.com/80",
-            compareItemPrice: 0
+            compareItemPrice: 0 // 이 값은 CheckListPage에서 넘어오는 것이므로, 여기서는 0으로 설정
         };
 
         try {
             setIsLoading(true);
-
             const response = await api.post("/cart/add", newItem);
 
             if (response.status === 201 || response.status === 200) {
@@ -55,12 +47,8 @@ const ComparisonResultsPage = () => {
             console.error("장바구니 추가 실패:", error);
 
             if (error.response) {
-                if (error.response.status === 401) {
-                    alert("로그인이 필요하거나 세션이 만료되었습니다. 다시 로그인 해주세요.");
-                    navigate("/login", { state: { from: location.pathname } });
-                } else {
-                    alert("장바구니에 담는 중 오류가 발생했습니다: " + (error.response.data?.message || "알 수 없는 오류가 발생했습니다."));
-                }
+                // Axios 인터셉터에서 이미 401/403을 처리하므로, 여기서는 일반적인 오류 메시지 처리
+                alert("장바구니에 담는 중 오류가 발생했습니다: " + (error.response.data?.message || "알 수 없는 오류가 발생했습니다."));
             } else if (error.request) {
                 alert("서버에 연결할 수 없습니다. 인터넷 연결을 확인해주세요.");
             } else {
@@ -71,19 +59,26 @@ const ComparisonResultsPage = () => {
         }
     };
 
+    // navigate 함수가 리렌더링될 때마다 새로운 함수를 생성하지 않도록 useCallback 사용
+    const memoizedNavigate = useCallback((path) => {
+        navigate(path);
+    }, [navigate]);
+
+    // results가 변경될 때만 실행
     useEffect(() => {
         if (!results) {
-            navigate("/checkListPage");
+            memoizedNavigate("/checkListPage"); // useCallback으로 감싼 navigate 사용
         }
-    }, [results, navigate]);
+    }, [results, memoizedNavigate]); // memoizedNavigate를 의존성 배열에 추가
 
+    // results.grouped가 변경될 때만 실행
     useEffect(() => {
         if (results?.grouped) {
             const firstMall = Object.keys(results.grouped)[0];
             setSelectedMall(firstMall);
             const initCounts = {};
             Object.keys(results.grouped).forEach(mall => {
-                initCounts[mall] = 3;
+                initCounts[mall] = 3; // 초기 3개만 보이도록 설정
             });
             setVisibleCounts(initCounts);
         }
@@ -92,7 +87,15 @@ const ComparisonResultsPage = () => {
     if (!results) return null;
 
     const { grouped, summary } = results;
-    const formatPrice = (price) => price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
+
+    const formatPrice = (price) => {
+        if (typeof price === 'number') {
+            return price.toLocaleString() + "원";
+        }
+        // 문자열일 경우, 숫자 부분만 추출하여 포맷
+        const numericPrice = parseInt(String(price).replace(/[^\d]/g, ''), 10);
+        return numericPrice.toLocaleString() + "원";
+    };
 
     const handleShowMore = (mallName) => {
         setVisibleCounts((prev) => ({
@@ -107,9 +110,12 @@ const ComparisonResultsPage = () => {
             return match ? parseInt(match[1], 10) : 1;
         })();
 
+        // lprice가 문자열 '₩1,000' 형태일 수 있으므로 숫자로 변환
+        const numericLprice = parseInt(String(product.lprice).replace(/[₩,]/g, ''), 10);
+
         return {
             unitCount,
-            unitPrice: Math.round(product.lprice / unitCount)
+            unitPrice: Math.round(numericLprice / unitCount)
         };
     };
 
@@ -117,11 +123,10 @@ const ComparisonResultsPage = () => {
         <div className="main-container">
             <header className="main-header">
                 <div className="header-spacer" />
-                <div className="logo" onClick={() => navigate("/home")}>GAVION</div>
+                <div className="logo" onClick={() => memoizedNavigate("/home")}>GAVION</div> {/* memoizedNavigate 사용 */}
             </header>
 
             <div className="scrollable-content">
-                {/* <HomeButton /> */}
                 <div className="comparison-container">
                     <div className="comparison-card">
                         <div className="app-title">📌 결과 비교하기</div>
@@ -143,29 +148,29 @@ const ComparisonResultsPage = () => {
                             <div className="summary-table">
                                 <table>
                                     <thead>
-                                        <tr>
-                                            <th>매장명</th>
-                                            <th>총 가격</th>
-                                            <th>상품 포함 여부</th>
-                                        </tr>
+                                    <tr>
+                                        <th>매장명</th>
+                                        <th>총 가격</th>
+                                        <th>상품 포함 여부</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        {selectedMall && summary[selectedMall] && (
-                                            <tr>
-                                                <td>{selectedMall}</td>
-                                                <td>{formatPrice(summary[selectedMall].totalPrice)}</td>
-                                                <td>
-                                                    {Object.entries(summary[selectedMall].includes || {}).map(([query, included]) => (
-                                                        <div key={query} className="includes-item">
-                                                            <span className="query-name">{query}</span>
-                                                            <span className={`included-status ${included === 'O' ? 'included' : 'excluded'}`}>
+                                    {selectedMall && summary[selectedMall] && (
+                                        <tr>
+                                            <td>{selectedMall}</td>
+                                            <td>{formatPrice(summary[selectedMall].totalPrice)}</td>
+                                            <td>
+                                                {Object.entries(summary[selectedMall].includes || {}).map(([query, included]) => (
+                                                    <div key={query} className="includes-item">
+                                                        <span className="query-name">{query}</span>
+                                                        <span className={`included-status ${included === 'O' ? 'included' : 'excluded'}`}>
                                                                 {included}
                                                             </span>
-                                                        </div>
-                                                    ))}
-                                                </td>
-                                            </tr>
-                                        )}
+                                                    </div>
+                                                ))}
+                                            </td>
+                                        </tr>
+                                    )}
                                     </tbody>
                                 </table>
                             </div>
@@ -186,11 +191,11 @@ const ComparisonResultsPage = () => {
                                                     id: index,
                                                     title: product.title,
                                                     image: product.image || "https://via.placeholder.com/80",
-                                                    price: product.lprice,
+                                                    price: product.lprice, // 이 값은 숫자로 가정하거나 CartItem2에서 변환
                                                     quantity: 1,
                                                     brand: product.brand || "",
                                                     mallName: selectedMall,
-                                                    compareItemPrice: 0,
+                                                    compareItemPrice: 0, // 여기서는 비교가로 사용되지 않음
                                                     unitCount: unitCount,
                                                     unitPrice: unitPrice
                                                 };
@@ -240,7 +245,7 @@ const ComparisonResultsPage = () => {
                         )}
 
                         <div className="back-button-container">
-                            <button className="back-button" onClick={() => navigate("/checkListPage")}>
+                            <button className="back-button" onClick={() => memoizedNavigate("/checkListPage")}> {/* memoizedNavigate 사용 */}
                                 체크리스트로 돌아가기
                             </button>
                         </div>

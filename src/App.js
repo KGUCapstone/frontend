@@ -11,13 +11,12 @@ import PicturePage from "./pages/PicturePage";
 import ComparePage from "./pages/ComparePage";
 import CartList from "./pages/CartList";
 import CartDetailList from "./pages/cartDetailList";
-import SavedAmountPage from "./pages/SavedAmountPage";
 import CheckListPage from "./pages/CheckListPage";
 
 
-import HistoryPage from "./pages/HistoryPage";
 import CartDetailPage from "./pages/CartDetailPage";
 import ComparisonResultsPage from "./pages/ComparisonResultsPage";
+import MonthHistoryPage from "./pages/MonthHistoryPage";
 
 const App = () => {
   return (
@@ -39,9 +38,8 @@ const App = () => {
 
         {/*kkm이 바로 위에 수정함*/}
 
-        <Route path="/history" element={<HistoryPage />} />
+        <Route path="/history" element={<MonthHistoryPage />} />
         <Route path="/history/:cartId" element={<CartDetailPage />} />
-        <Route path="/saved-amounts" element={<SavedAmountPage />} />
         <Route path="/checkListPage" element={<CheckListPage />} />
         <Route path="/comparison-results" element={<ComparisonResultsPage />} />
       </Routes>
