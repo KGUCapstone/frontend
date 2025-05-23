@@ -1,8 +1,8 @@
-import React, { useState } from "react";
 import api from "../api";
-import { useNavigate } from "react-router-dom";
 import titleImage from '../assets/title.svg';
 import "../style/AuthForm.css";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Join = () => {
   const [formData, setFormData] = useState({
@@ -13,8 +13,18 @@ const Join = () => {
     name: "",
   });
 
+
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const token = localStorage.getItem("Authorization");
+    if (token) {
+      navigate("/home");
+    }
+  }, [navigate]);
+
 
   const handleChange = (e) => {
     setFormData((prev) => ({

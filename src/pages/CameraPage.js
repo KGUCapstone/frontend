@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/CameraPage.css";
 import BottomNav from "../components/BottomNav";
-import HomeButton from "../components/HomeButton";
 
 const CameraPage = () => {
   const videoRef = useRef(null);
