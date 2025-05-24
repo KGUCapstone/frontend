@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import api from "../api";
 import "../style/MainPage.css";
 import BottomNav from "../components/BottomNav";
-import ModalSearch from "./ModalSearch";
+import ModalSearch from "../components/ModalSearch";
 import ShoppingCalendar from "./ShoppingCalendar";
+import ConsumptionSummary from "../components/ConsumptionSummary";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -17,61 +18,6 @@ const MainPage = () => {
     weekTotal: 0,
     weekSaveAmount: 0,
   });
-
-  const getWeatherIcon = (progress) => {
-    if (progress >= 90) {
-      return "☀️"; // 완전 맑음
-    } else if (progress >= 70) {
-      return "🌤️"; // 맑음
-    } else if (progress >= 50) {
-      return "⛅"; // 구름 조금
-    } else if (progress >= 30) {
-      return "🌥️"; // 흐림
-    } else if (progress >= 10) {
-      return "☁️"; // 아주 흐림
-    } else {
-      return "🌧️"; // 비
-    }
-  };
-
-  const getConsumptionMessage = (progress) => {
-    if (progress >= 90) {
-      return {
-        tag: "#소비마스터",
-        text: "훌륭해요! 목표 달성에 거의 다다랐어요! 현명한 소비 습관이 빛을 발하고 있어요.",
-      };
-    } else if (progress >= 70) {
-      return {
-        tag: "#절약왕",
-        text: "정말 잘하고 계세요! 꾸준한 절약 습관이 멋져요. 조금만 더 힘내요!",
-      };
-    } else if (progress >= 50) {
-      return {
-        tag: "#반짝성장",
-        text: "절반 이상 달성! 작지만 의미 있는 변화가 시작되고 있어요.",
-      };
-    } else if (progress >= 30) {
-      return {
-        tag: "#조금씩절약",
-        text: "천천히 가도 괜찮아요. 지금처럼만 꾸준히 이어간다면 좋은 결과가 있을 거예요!",
-      };
-    } else if (progress >= 10) {
-      return {
-        tag: "#첫걸음",
-        text: "작은 발걸음이 큰 도약으로 이어져요. 계속 함께 걸어가봐요!",
-      };
-    } else if (progress === 0) {
-      return {
-        tag: "#새로운도전",
-        text: "아직 시작일 뿐이에요! 오늘부터 함께 절약 습관을 만들어볼까요?",
-      };
-    } else {
-      return {
-        tag: "#소비주의보",
-        text: "소비에 조금 더 주의가 필요해요. 다음 주엔 더 현명하게 도전해봐요!",
-      };
-    }
-  };
 
   useEffect(() => {
     const initializeAppData = async () => {
@@ -90,7 +36,8 @@ const MainPage = () => {
             currentAccessToken = `Bearer ${accessToken}`; // 현재 토큰 업데이트
             localStorage.setItem("Authorization", currentAccessToken);
             console.log("access_token 쿠키에서 읽어와 설정 완료.");
-          } else {
+          }
+          else {
             console.warn("access_token 쿠키가 없습니다. /auth/token으로 시도합니다.");
             // 쿠키에 없으면 /auth/token 엔드포인트로 새 토큰 요청
             const response = await api.get("/auth/token", {
@@ -105,7 +52,8 @@ const MainPage = () => {
               console.error("/auth/token 응답에 accessToken이 없습니다.");
             }
           }
-        } catch (error) {
+        }
+        catch (error) {
           console.error("토큰 초기 설정 실패:", error);
           // 토큰 설정 실패 시 로그인 페이지로 리다이렉트
           localStorage.removeItem("Authorization");
@@ -141,7 +89,8 @@ const MainPage = () => {
               err.response?.data || err.message
           );
         }
-      } else {
+      }
+      else {
         console.warn("Authorization 토큰이 없어 유저 통계를 가져오지 못했습니다.");
 
         localStorage.removeItem("Authorization");
@@ -157,7 +106,8 @@ const MainPage = () => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  const currentConsumptionMessage = getWeatherIcon(userStats.progress); // 메시지 미리 계산
+
+
 
   return (
       <div className="main-container">
@@ -213,21 +163,14 @@ const MainPage = () => {
           {/* Weekly Consumption Review Card */}
           <div className="weekly-card">
             <div className="weekly-header">
-              <h2>소비 주간리뷰</h2>
+              <h2>소비 리뷰</h2>
             </div>
 
             <div className="date-range">＜ {userStats.today} ＞</div>
 
-            <div className="weekly-summary-box">
-              <div className="sun-icon">{currentConsumptionMessage}</div>
-              <div className="weekly-summary-text">주간의 소비 날씨</div>
-            </div>
+            {/*소비 수준별 태그*/}
+            <ConsumptionSummary userStats={userStats} />
 
-            {/* 소비 조언 카드 */}
-            <div className="quote-card">
-              <div className="quote-tag">{getConsumptionMessage(userStats.progress).tag}</div>
-              <p className="quote-text">{getConsumptionMessage(userStats.progress).text}</p>
-            </div>
 
             <div className="weekly-stats-box">
               <div className="stats-row">

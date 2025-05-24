@@ -1,47 +1,38 @@
-/* 코드 문제있으면 알려주세요(김경민) */
 import React, { useState, useEffect } from "react";
 import "../style/ComparePage.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "../api";
 
-const ComparePage = ({ product }) => {
+const ComparePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const getItems = location.state?.items || [];
-  const sourceType = location.state?.sourceType || "search"; // 데이터 출처 구분: "photo" 또는 "검색" (추가)
-  const productName = location.state?.searchQuery; // 받아온 검색어 (추가)
-  const takenPicture = location.state?.receiptImage; // 찍은 가격표 사진
-  const compareItemPrice = location.state?.compareItemPrice ?? 0; // 비교 상품 정보
+  const sourceType = location.state?.sourceType || "search";
+  const productName = location.state?.searchQuery;
+  const takenPicture = location.state?.receiptImage;
+  const compareItemPrice = location.state?.compareItemPrice ?? 0;
 
   const [products, setProducts] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(""); //구글 비전에서 추출된 상품명 또는 직접 검색한 상품명
-  const [receiptImage, setReceiptImage] = useState(null); // 내가 찍은 가격표 이미지
+  const [searchQuery, setSearchQuery] = useState("");
+  const [receiptImage, setReceiptImage] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 5; // 페이지 당 들어갈 상품 갯수
-
+  const productsPerPage = 4;
   const totalPages = Math.ceil(products.length / productsPerPage);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const paginatedProducts = products.slice(
-      indexOfFirstProduct,
-      indexOfLastProduct
-  );
+  const paginatedProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   const renderPagination = () => {
     const pageNumbers = [];
-
     const displayPageCount = 3;
 
     let startPage = Math.max(1, currentPage - 1);
     let endPage = Math.min(totalPages, startPage + displayPageCount - 1);
-
     if (endPage - startPage + 1 < displayPageCount) {
       startPage = Math.max(1, endPage - displayPageCount + 1);
     }
@@ -51,9 +42,7 @@ const ComparePage = ({ product }) => {
     }
 
     if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        pageNumbers.push("...");
-      }
+      if (endPage < totalPages - 1) pageNumbers.push("...");
       pageNumbers.push(totalPages);
     }
 
@@ -61,16 +50,12 @@ const ComparePage = ({ product }) => {
         <div className="pagination">
           {pageNumbers.map((number, index) =>
               number === "..." ? (
-                  <span key={`ellipsis-${index}`} className="ellipsis">
-              ...
-            </span>
+                  <span key={`ellipsis-${index}`} className="ellipsis">...</span>
               ) : (
                   <button
                       key={number}
                       onClick={() => handlePageChange(number)}
-                      className={`page-button ${
-                          currentPage === number ? "active" : ""
-                      }`}
+                      className={`page-button ${currentPage === number ? "active" : ""}`}
                   >
                     {number}
                   </button>
@@ -83,14 +68,8 @@ const ComparePage = ({ product }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const formattedProducts = getItems.map((item, index) => {
-          if (location.state?.searchQuery) {
-            //상품명 저장(추가)
-            setSearchQuery(productName);
-          }
-
+        const formatted = getItems.map((item, index) => {
           const numericPrice = Number(String(item.lprice).replace(/[₩,]/g, ""));
-
           return {
             id: index + 1,
             image: item.image,
@@ -103,44 +82,30 @@ const ComparePage = ({ product }) => {
             volume: item.volume || "",
           };
         });
-        setProducts(formattedProducts);
-
-        // **가장 저렴한 상품을 찾아 초기 체크 상태로 설정**
-        if (formattedProducts.length > 0) {
-          const cheapestProduct = formattedProducts.reduce((min, p) =>
-              p.price < min.price ? p : min
-          );
-          setCheckedItems([cheapestProduct.id]);
+        setProducts(formatted);
+        if (formatted.length > 0) {
+          const cheapest = formatted.reduce((min, p) => p.price < min.price ? p : min);
+          setCheckedItems([cheapest.id]);
         }
-      } catch (error) {
-        console.error("상품 데이터를 불러오는 데 실패했습니다.", error);
+      } catch (err) {
+        console.error("상품 데이터 불러오기 실패:", err);
       }
     };
 
-    const fetchReceiptImage = async () => {
-      try {
-        if (sourceType === "photo") {
-          setReceiptImage(takenPicture || null); //구글 비전 이미지 초기값 설정
-        } else {
-          setReceiptImage(null); // 검색창으로 데이터를 받을 경우 이미지
-        }
-      } catch (err) {
-        console.error("이미지 데이터를 불러오는 데 실패:", err);
-        alert("이미지 데이터를 불러오는 데 실패");
-      }
+    const fetchImage = () => {
+      if (sourceType === "photo") setReceiptImage(takenPicture || null);
+      else setReceiptImage(null);
     };
 
     fetchProducts();
-    fetchReceiptImage();
-  }, [product, sourceType, productName]); // product 의존성을 추가해 주세요.
+    fetchImage();
+    if (productName) setSearchQuery(productName);
+  }, [productName, sourceType]);
 
   const handleCheckboxChange = (id) => {
-    setCheckedItems(
-        (prevChecked) =>
-            prevChecked.includes(id)
-                ? prevChecked.filter((item) => item !== id)
-                : [id] // 하나만 선택하도록 제한
-    );
+    setCheckedItems(prev => (
+        prev.includes(id) ? [] : [id] // 단일 선택
+    ));
   };
 
   const handleAddToCart = async () => {
@@ -148,12 +113,8 @@ const ComparePage = ({ product }) => {
       alert("상품을 선택해주세요!");
       return;
     }
-
-    const selectedItem = products.find((product) =>
-        checkedItems.includes(product.id)
-    );
-
-    const onlineItemDto = {
+    const selectedItem = products.find(p => p.id === checkedItems[0]);
+    const dto = {
       title: selectedItem.title ?? "",
       price: selectedItem.price,
       link: selectedItem.link ?? "",
@@ -162,17 +123,14 @@ const ComparePage = ({ product }) => {
       brand: selectedItem.brand ?? "",
       volume: selectedItem.volume ?? "",
       quantity: 1,
-      compareItemPrice: compareItemPrice,
+      compareItemPrice,
     };
 
-    console.log("🛒 장바구니에 담을 상품:", onlineItemDto);
-
     try {
-      const res = await api.post("/cart/add", onlineItemDto);
-      console.log("장바구니 추가 성공:", res.data);
-      navigate("/cart"); // 장바구니 화면으로 이동
+      await api.post("/cart/add", dto);
+      navigate("/cart");
     } catch (err) {
-      console.error("장바구니 추가 실패:", err.response?.data || err.message);
+      console.error("장바구니 추가 실패:", err);
       alert("장바구니 추가 실패.");
     }
   };
@@ -181,69 +139,65 @@ const ComparePage = ({ product }) => {
       <div className="compare-container">
         <div className="home-icon-container">
           <a href="/home" className="home-link">
-            <div className="home-icon">
-              <span>⌂</span>
-            </div>
+            <div className="home-icon"><span>⌂</span></div>
           </a>
         </div>
 
         <div className="main-content">
-          <h2 className="title">⚖️ 상품 비교하기</h2>
+          <h2 className="title">상품 비교하기</h2>
 
           {sourceType === "photo" && (
               <div className="money-image-container">
-                <img
-                    src={receiptImage}
-                    alt="내가 찍은 가격표"
-                    className="money-image"
-                />
+                <img src={receiptImage} alt="내가 찍은 가격표" className="money-image" />
               </div>
           )}
 
           <div className="product-list">
             {paginatedProducts.map((item) => (
-                <div key={item.id} className="product-item">
+                <div
+                    key={item.id}
+                    className="product-item"
+                    onClick={() => handleCheckboxChange(item.id)}
+                >
                   <div className="product-info">
-                    <div className="product-image-container">
+                    {/* 이미지 링크 부분: 클릭 시 체크되지 않게 stopPropagation */}
+                    <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="product-image-container"
+                    >
                       <img
                           src={item.image}
                           alt={item.title}
                           className="product-image"
                       />
-                    </div>
-                    <a
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="product-description"
-                    >
+                    </a>
+
+                    <div className="product-description">
                       <div className="item-detail">
                         <p className="item-title">{item.title}</p>
-                        <p className="item-brand">
-                          {item.brand !== "브랜드 없음" ? `${item.brand}` : ""}
-                        </p>
+                        <p className="item-brand">{item.brand !== "브랜드 없음" ? item.brand : ""}</p>
                         <p className="item-price">{item.lprice}</p>
-                        <p className="item-mallname"> {item.mallName}</p>
+                        <p className="item-mallname">{item.mallName}</p>
                       </div>
-                    </a>
+                    </div>
                   </div>
-                  <label className="product-checkbox">
-                    <input
-                        type="checkbox"
-                        checked={checkedItems.includes(item.id)}
-                        onChange={() => handleCheckboxChange(item.id)}
-                    />
-                    <span>✓</span>
-                  </label>
+
+                  {/* 시각적 체크박스 */}
+                  <div className="product-checkbox">
+                    <input type="checkbox" checked={checkedItems.includes(item.id)} readOnly />
+                    <span className={checkedItems.includes(item.id) ? "checked" : ""}>✓</span>
+                  </div>
                 </div>
             ))}
+
           </div>
 
           {renderPagination()}
 
-          <button className="addToCartBtn" onClick={handleAddToCart}>
-            장바구니 담기
-          </button>
+          <button className="addToCartBtn" onClick={handleAddToCart}>장바구니 담기</button>
         </div>
       </div>
   );
