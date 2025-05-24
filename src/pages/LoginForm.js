@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
 import api from '../api';
-import { useNavigate } from "react-router-dom";
 import '../style/AuthForm.css';
 import '../style/LoginForm.css';
 import titleImage from '../assets/title.svg';
 import naverIcon from '../assets/naver_logo.svg';
 import googleIcon from '../assets/google_logo.svg';
+import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+
+
+    useEffect(() => {
+        const token = localStorage.getItem("Authorization");
+        if (token) {
+            navigate("/home");
+        }
+    }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,6 +29,7 @@ const LoginForm = () => {
         localStorage.setItem("Authorization", accessToken); // Bearer 포함됨
       }
       alert("로그인 성공");
+        alert("로그인 성공");
       navigate("/home");
     } catch (error) {
       console.log(error)
