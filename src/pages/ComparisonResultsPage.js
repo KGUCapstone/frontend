@@ -41,7 +41,7 @@ const ComparisonResultsPage = () => {
             const response = await api.post("/cart/add", newItem);
 
             if (response.status === 201 || response.status === 200) {
-                alert(`${product.title}을(를) 장바구니에 담았습니다.`);
+                // alert(`${product.title}을(를) 장바구니에 담았습니다.`);
             }
         } catch (error) {
             console.error("장바구니 추가 실패:", error);
@@ -129,7 +129,7 @@ const ComparisonResultsPage = () => {
             <div className="scrollable-content">
                 <div className="comparison-container">
                     <div className="comparison-card">
-                        <div className="app-title">📌 결과 비교하기</div>
+                        <div className="app-title">✔️ 결과 비교하기</div>
 
                         <div className="mall-selector-text">
                             {Object.keys(grouped).map((mallName) => (
@@ -144,7 +144,7 @@ const ComparisonResultsPage = () => {
                         </div>
 
                         <div className="summary-section">
-                            <h2 className="section-title">🖋 요약</h2>
+                            <h2 className="section-title">✔️ 요약</h2>
                             <div className="summary-table">
                                 <table>
                                     <thead>
