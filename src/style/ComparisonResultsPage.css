@@ -159,6 +159,19 @@ th {
     height: 22px;
 }
 
+@media (max-width: 480px) {
+    .add-to-cart-button {
+        width: 34px;
+        height: 34px;
+        padding: 6px 10px;
+    }
+
+    .add-to-cart-button svg {
+        width: 15px;
+        height: 15px;
+    }
+}
+
 .add-to-cart-button:hover {
     background: linear-gradient(135deg, #758eff, #8c65d9);
     transform: scale(1.1);

@@ -116,7 +116,7 @@ const CheckListPage = () => {
       const response = await api.post("/shopping/compare/grouped", compareRequestDto);
       const result = response.data;
       navigate("/comparison-results", { state: { results: result } });
-      alert("비교 결과가 준비되었습니다. 결과 페이지로 이동합니다.");
+      // alert("비교 결과가 준비되었습니다. 결과 페이지로 이동합니다.");
     } catch (error) {
       alert("상품 비교 중 오류가 발생했습니다.");
     } finally {
@@ -145,7 +145,7 @@ const CheckListPage = () => {
 
               <div className="checklist-card">
                 <header className="checklist-header">
-                  <h2>📍체크리스트</h2>
+                  <h2>✔️ 매장별 비교하기</h2>
                 </header>
                 <div className="store-selection-container">
                   {["homeplus", "emart", "트레이더스"].map(store => (
