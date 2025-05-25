@@ -110,7 +110,7 @@ body {
 }
 
 .product-list {
-  margin-top: 30px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -235,27 +235,27 @@ body {
 }
 
 .product-checkbox input {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  margin: 0;
-  opacity: 0;
-  top: 50px;
-  left: 50px;
+  display: none;
 }
 
 .product-checkbox span {
   font-size: 16px;
   font-weight: bold;
-  color: #5964ff;
-  opacity: 0;
-  transition: none;
+  color: transparent;
+  transition: color 0.2s ease-in-out;
 }
 
+.product-checkbox span.checked {
+  color: #5964ff;
+}
 .product-checkbox input:checked + span {
   opacity: 1;
 }
-
+.product-item.checked,
+.product-item:has(.product-checkbox span.checked) {
+  background-color: #f0f4ff;
+  border: 2px solid #5964ff;
+}
 .addToCartBtn {
   margin: 20px auto;
   padding: 12px 20px;
