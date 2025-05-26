@@ -62,3 +62,15 @@
   border-bottom: 1px solid #eee;
   cursor: pointer;
 }
+.cart-container {
+    overflow-y: auto;
+    max-height: 100vh;
+    padding-bottom: 30px;
+    margin-top: 30px;
+
+}
+.cart-product{
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+}

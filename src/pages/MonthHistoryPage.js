@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
 import "../style/MonthHistoryPage.css";
-import "../style/HoverUnderline.css";
 import { FaTrash } from "react-icons/fa";
 
 const MonthHistoryPage = () => {
@@ -105,20 +104,8 @@ const MonthHistoryPage = () => {
     };
 
     return (
-        <div className="cart-container"
-             style={{
-                 marginTop: "70px",
-
-             }}
-        >
-            <div
-                style={{
-                    position: "fixed",
-                    top: 0,
-                    width: 100 + "%",
-
-                }}
-            >
+        <div className="cart-container">
+            <div className="cart-product">
 
                 <div className="month-history-header-fixed">
                     <button onClick={handleGoBack} className="back-button">
@@ -150,7 +137,7 @@ const MonthHistoryPage = () => {
                 return (
                     <div key={monthKey} style={{ marginBottom: "30px" }}>
                         <h2 className="month-group-title">
-                            <span>📅 {monthKey.replace(".", "년 ")}월</span>
+                            <span> {monthKey.replace(".", "년 ")}월</span>
                             {savedAmount != null && (
                                 <span
                                     style={{
