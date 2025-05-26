@@ -105,17 +105,17 @@ const PicturePage = () => {
                     onChange={(e) => setResult({ ...result, price: e.target.value })}
                 />
               </div>
-
-              <div className="button-group">
-                <button className="camera-button search" onClick={handleSearch}>
-                  🔍 검색하기
-                </button>
-                <button className="camera-button retry" onClick={() => navigate("/camera")}>
-                  🔄 다시 촬영
-                </button>
-              </div>
             </div>
         )}
+
+        {/* 하단 고정 버튼바 */}
+        {result && (
+            <div className="fixed-bottom-bar">
+              <button className="search" onClick={handleSearch}>🔍 검색하기</button>
+              <button className="retry" onClick={() => navigate("/camera")}>🔄 다시 촬영</button>
+            </div>
+        )}
+
 
       </div>
   );
