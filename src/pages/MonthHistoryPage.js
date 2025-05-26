@@ -104,8 +104,8 @@ const MonthHistoryPage = () => {
     };
 
     return (
-        <div className="cart-container">
-            <div className="cart-product">
+        <div className="history-cart-container">
+            <div className="history-cart-product">
 
                 <div className="month-history-header-fixed">
                     <button onClick={handleGoBack} className="back-button">

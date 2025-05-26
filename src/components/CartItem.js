@@ -19,6 +19,18 @@ const CartItem = ({
 
   return (
     <div key={item.id} className="cart-item">
+      {/* 체크박스를 맨 앞으로 이동 */}
+      {showCheckbox && (
+        <div className="item-actions">
+          <div
+            className={`check-icon ${checked ? "checked" : ""}`}
+            onClick={() => onCheckboxChange(item.id)}
+          >
+            {checked && <span>✓</span>}
+          </div>
+        </div>
+      )}
+
       {/* 이미지 */}
       <div className="cart-item-image-container">
         <img src={item.image} alt={item.title} className="cart-item-image" />
@@ -100,18 +112,6 @@ const CartItem = ({
           </div>
         )}
       </div>
-
-      {/* 체크박스 */}
-      {showCheckbox && (
-        <div className="item-actions">
-          <div
-            className={`check-icon ${checked ? "checked" : ""}`}
-            onClick={() => onCheckboxChange(item.id)}
-          >
-            {checked && <span>✓</span>}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

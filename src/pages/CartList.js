@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/CartList.css";
-import BottomNav from "../components/BottomNav";
 import api from "../api";
 import CartItem from "../components/CartItem.js";
 import { FaTrash } from "react-icons/fa";
+//import BottomNav from "../components/BottomNav";
+
 const CartList = () => {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]); // 초기값을 빈 배열로 변경
@@ -22,7 +23,10 @@ const CartList = () => {
         res.data.forEach((item) => (initCheck[item.id] = true));
         setCheckedItems(initCheck);
       } catch (err) {
-        console.error("장바구니 불러오기 실패:", err.response?.data || err.message);
+        console.error(
+          "장바구니 불러오기 실패:",
+          err.response?.data || err.message
+        );
         // 오류 발생 시에도 빈 배열로 설정하여 렌더링되도록 처리
         setCartItems([]);
         setCheckedItems({});
@@ -37,6 +41,41 @@ const CartList = () => {
       ...prev,
       [itemId]: !prev[itemId],
     }));
+  };
+
+  // 전체선택/해제 토글 함수
+  const handleSelectAll = () => {
+    const allSelected = cartItems.every((item) => checkedItems[item.id]);
+    const newCheckedItems = {};
+
+    if (allSelected) {
+      // 모든 항목이 선택된 상태라면 전체 해제
+      cartItems.forEach((item) => {
+        newCheckedItems[item.id] = false;
+      });
+    } else {
+      // 일부만 선택되었거나 모두 해제된 상태라면 전체 선택
+      cartItems.forEach((item) => {
+        newCheckedItems[item.id] = true;
+      });
+    }
+
+    setCheckedItems(newCheckedItems);
+  };
+
+  // 전체선택 상태 확인 함수
+  const isAllSelected = () => {
+    if (cartItems.length === 0) return false;
+    return cartItems.every((item) => checkedItems[item.id]);
+  };
+
+  // 버튼의 CSS 클래스를 결정하는 함수
+  const getSelectAllButtonClass = () => {
+    if (isAllSelected()) {
+      return "select-all-button deselect-all";
+    } else {
+      return "select-all-button select-all";
+    }
   };
 
   const handleComplete = async () => {
@@ -83,11 +122,10 @@ const CartList = () => {
       setCartItems(res.data);
       // 삭제된 항목은 체크 해제 상태로, 남은 항목은 기존 체크 상태 유지 또는 모두 다시 체크
       const newCheckedItems = {};
-      res.data.forEach(item => {
+      res.data.forEach((item) => {
         newCheckedItems[item.id] = checkedItems[item.id] || false; // 기존 체크 상태 유지, 없으면 false
       });
       setCheckedItems(newCheckedItems);
-
     } catch (err) {
       console.error("삭제 실패:", err.response?.data || err.message);
       alert("삭제 중 오류가 발생했습니다.");
@@ -105,19 +143,19 @@ const CartList = () => {
 
   const handleIncreaseQuantity = (itemId) => {
     setCartItems((prev) =>
-        prev.map((item) =>
-            item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
-        )
+      prev.map((item) =>
+        item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
+      )
     );
   };
 
   const handleDecreaseQuantity = (itemId) => {
     setCartItems((prev) =>
-        prev.map((item) =>
-            item.id === itemId
-                ? { ...item, quantity: Math.max(1, item.quantity - 1) }
-                : item
-        )
+      prev.map((item) =>
+        item.id === itemId
+          ? { ...item, quantity: Math.max(1, item.quantity - 1) }
+          : item
+      )
     );
   };
 
@@ -153,7 +191,7 @@ const CartList = () => {
 
     if (totalSaved < 0) {
       return (
-          <span style={{ color: "red" }}>
+        <span style={{ color: "red" }}>
           ₩{totalSaved.toLocaleString()} (손해)
         </span>
       );
@@ -163,83 +201,74 @@ const CartList = () => {
   };
 
   return (
-      <>
-        <header className="main-header">
-          <div className="header-spacer" />
-          <div className="logo" onClick={() => navigate("/home")}>
-            GAVION
+    <>
+      <div className="cart-scrollable">
+        <div className="cart-container">
+          <div className="cart-header">
+            <div className="back-button-container">
+              <button className="back-button" onClick={goBack}>
+                ←
+              </button>
+            </div>
+            <h1 className="cart-title"> 🛒 장바구니</h1>
           </div>
-        </header>
 
-        <div className="header-container-spacer"></div>
-
-        <div className="cart-scrollable">
-          <div className="cart-container">
-            <h1 className="cart-title">🛒 장바구니</h1>
-
+          <div className="cart-middle">
+            <button
+              className={getSelectAllButtonClass()}
+              onClick={handleSelectAll}
+            >
+              {isAllSelected() ? "전체해제" : "전체선택"}
+            </button>
             <div className="user-message">
               <h2>
                 {userName}님 {cartItems.length}개 담으셨군요!
               </h2>
             </div>
+            <button className="delete-button" onClick={handleDelete}>
+              <FaTrash size={23} />
+            </button>
+          </div>
 
-            <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "10px 16px 0 16px",
-                  marginBottom: "20px",
-                }}
-            >
-              <button className="back-button" onClick={goBack}>
-                ← 뒤로 가기
-              </button>
-              <button className="delete-button" onClick={handleDelete}>
-                <FaTrash size={23} />
-              </button>
-            </div>
-
-            <div className="cart-items-list">
-              {cartItems.length === 0 ? (
-                  <div className="empty-cart">장바구니가 비어있습니다.</div>
-              ) : (
-                  cartItems.map((item) => (
-                      <CartItem
-                          key={item.id}
-                          item={item}
-                          checked={checkedItems[item.id]}
-                          onCheckboxChange={handleCheckboxChange}
-                          onIncrease={handleIncreaseQuantity}
-                          onDecrease={handleDecreaseQuantity}
-                      />
-                  ))
-              )}
-            </div>
-
-            {cartItems.length > 0 && (
-                <div className="order-footer">
-                  <div className="order-info">
-                    <div className="order-price">
-                      총 합계: ₩{calculateTotalPrice().toLocaleString()}
-                    </div>
-                    <div className="order-compare-price">
-                      비교가: ₩{calculateTotalComparePrice().toLocaleString()}
-                    </div>
-                    <div className="order-saved">
-                      절약한 금액: {getDisplaySavedAmount()}
-                    </div>
-                  </div>
-
-                  <button className="order-button" onClick={handleComplete}>
-                    확인하기
-                  </button>
-                </div>
+          <div className="cart-items-list">
+            {cartItems.length === 0 ? (
+              <div className="empty-cart">장바구니가 비어있습니다.</div>
+            ) : (
+              cartItems.map((item) => (
+                <CartItem
+                  key={item.id}
+                  item={item}
+                  checked={checkedItems[item.id]}
+                  onCheckboxChange={handleCheckboxChange}
+                  onIncrease={handleIncreaseQuantity}
+                  onDecrease={handleDecreaseQuantity}
+                />
+              ))
             )}
           </div>
-          <BottomNav />
+
+          {cartItems.length > 0 && (
+            <div className="order-footer">
+              <div className="order-info">
+                <div className="order-price">
+                  총 합계: ₩{calculateTotalPrice().toLocaleString()}
+                </div>
+                <div className="order-compare-price">
+                  비교가: ₩{calculateTotalComparePrice().toLocaleString()}
+                </div>
+                <div className="order-saved">
+                  절약한 금액: {getDisplaySavedAmount()}
+                </div>
+              </div>
+
+              <button className="order-button" onClick={handleComplete}>
+                확인하기
+              </button>
+            </div>
+          )}
         </div>
-      </>
+      </div>
+    </>
   );
 };
 
