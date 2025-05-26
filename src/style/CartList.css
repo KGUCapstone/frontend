@@ -17,8 +17,6 @@ body {
 
 .cart-container {
   width: 100%;
-  margin: 0 auto;
-  height: 95vh;
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -119,22 +117,20 @@ body {
 
 /* 전체해제 상태 */
 .select-all-button.select-all {
-  background-color: #5964ff;
-  color: white;
-}
-
-.select-all-button.select-all:hover {
-  background-color: #5964ff;
-}
-
-/* 전체해제 상태 */
-.select-all-button.deselect-all {
   background-color: #dc3545;
   color: white;
 }
 
-.select-all-button.deselect-all:hover {
+.select-all-button.select-all:hover {
   background-color: #c82333;
+}
+/* 전체해제 상태 */
+.select-all-button.deselect-all {
+  background-color: #5964ff;
+  color: white;
+}
+.select-all-button.deselect-all:hover {
+  background-color: #4752d8;
 }
 
 .delete-button {
@@ -207,6 +203,7 @@ body {
   padding: 0 16px;
   scrollbar-width: thin;
   scrollbar-color: #888 #f1f1f1;
+  padding-bottom: 30px;
 }
 
 .empty-cart {
@@ -359,6 +356,7 @@ body {
 }
 
 .order-footer {
+
   display: flex;
   justify-content: space-between;
   align-items: center;

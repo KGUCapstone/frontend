@@ -62,15 +62,22 @@
   border-bottom: 1px solid #eee;
   cursor: pointer;
 }
-.cart-container {
+.history-cart-product {
     overflow-y: auto;
     max-height: 100vh;
     padding-bottom: 30px;
-    margin-top: 30px;
+    margin-top: 40px;
 
 }
-.cart-product{
+.history-cart-product{
     display: flex;
     align-items: center;
     padding: 8px 0;
+}
+
+.history-cart-container {
+  height: 100vh;              /* 뷰포트 전체 높이 사용 */
+  overflow-y: auto;           /* 세로 스크롤 활성화 */
+  padding: 0 16px 30px 16px;  /* 좌우 여백 및 하단 여백 */
+  box-sizing: border-box;
 }
