@@ -26,13 +26,14 @@
   height: 70px;
   padding-bottom: 5px;
 }
-
+/*수정한 부분*/
 .checklist-header h2 {
   font-weight: bold;
   color: #222;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
   border-bottom: 1px solid #eee;
   margin-bottom: 10px;
+  margin-top: 0px;
 }
 
 .logo {
@@ -54,7 +55,7 @@
 .checklist-container {
   padding: 20px;
   width: 95%;
-  margin-top: 20px;
+  margin-top: 10px;/*수정한 부분*/
 }
 
 .checklist-card {
@@ -229,6 +230,7 @@
   max-height: 400px;
   overflow-y: auto;
   margin-bottom: 15px;
+  min-height: 200px;
 }
 
 .checklist-item {
@@ -409,6 +411,42 @@
 
 .store-radio-button.selected:after {
   content: none;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+.page-button {
+  margin: 0 5px;
+  padding: 8px 12px;
+  background-color: #eee;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.page-button.active {
+  background-color: #333;
+  color: #fff;
+}
+
+.page-button:hover {
+  background-color: #5964ff;
+  color: white;
+}
+
+.ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  font-weight: bold;
+  color: #666;
 }
 
 @media (max-width: 480px) {
