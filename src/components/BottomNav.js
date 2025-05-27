@@ -12,23 +12,25 @@ const BottomNav = () => {
 
     return (
         <nav className="bottom-nav">
-            {isHomePage ? (
-                <button
-                    className={isActive("/checkListPage") ? "active" : ""}
-                    onClick={() => navigate("/checkListPage")}
-                >
-                    <FaCheckSquare size={24} />
-                    <span>매장별 비교</span>
-                </button>
-            ) : (
-                <button
-                    className={isActive("/home") ? "active" : ""}
-                    onClick={() => navigate("/home")}
-                >
-                    <FaHome size={28} />
-                    <span>홈</span>
-                </button>
-            )}
+            <div className="nav-left">
+                {isHomePage ? (
+                    <button
+                        className={isActive("/checkListPage") ? "active" : ""}
+                        onClick={() => navigate("/checkListPage")}
+                    >
+                        <FaCheckSquare size={24} />
+                        <span>매장별 비교</span>
+                    </button>
+                ) : (
+                    <button
+                        className={isActive("/home") ? "active" : ""}
+                        onClick={() => navigate("/home")}
+                    >
+                        <FaHome size={28} />
+                        <span>홈</span>
+                    </button>
+                )}
+            </div>
 
             <div className="center-button">
                 <button
@@ -39,13 +41,15 @@ const BottomNav = () => {
                 </button>
             </div>
 
-            <button
-                className={isActive("/mypage") ? "active" : ""}
-                onClick={() => navigate("/mypage")}
-            >
-                <FaUser size={24} />
-                <span>마이페이지</span>
-            </button>
+            <div className="nav-right">
+                <button
+                    className={isActive("/mypage") ? "active" : ""}
+                    onClick={() => navigate("/mypage")}
+                >
+                    <FaUser size={24} />
+                    <span>마이페이지</span>
+                </button>
+            </div>
         </nav>
     );
 };

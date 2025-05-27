@@ -45,7 +45,7 @@ const CheckListPage = () => {
 
   const handleProductToggle = (id) => {
     setProducts(products.map(product =>
-        product.id === id ? { ...product, checked: !product.checked } : product
+      product.id === id ? { ...product, checked: !product.checked } : product
     ));
   };
 
@@ -87,9 +87,9 @@ const CheckListPage = () => {
 
   const toggleStoreSelection = (store) => {
     setSelectedStores(prev =>
-        prev.includes(store)
-            ? prev.filter(s => s !== store)
-            : [...prev, store]
+      prev.includes(store)
+        ? prev.filter(s => s !== store)
+        : [...prev, store]
     );
   };
 
@@ -132,147 +132,200 @@ const CheckListPage = () => {
     //return "CU편의점";
   };
 
+  //페이징
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3; 
+ const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+  const totalPages = Math.ceil(products.length / itemsPerPage);
+
+  const currentProducts = products.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const getPageNumbers = (currentPage, totalPages) => {
+  const pages = [];
+
+  if (totalPages <= 4) {
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  if (currentPage <= 2) {
+    pages.push(1, 2, 3, "...", totalPages);
+  } else if (currentPage === 3) {
+    pages.push(2, 3, 4, "...", totalPages);
+  } else if (currentPage === totalPages || currentPage === totalPages - 1) {
+    pages.push(totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+  } else {
+    pages.push(currentPage - 1, currentPage, currentPage + 1, "...", totalPages);
+  }
+
+  return pages;
+};
+
   return (
-      <>
-        <header className="main-header">
-          <div className="header-spacer" />
-          <div className="logo" onClick={() => navigate("/home")}>GAVION</div>
-        </header>
-        <div className="main-container">
-          <div className="checklist-container">
+    <>
+      <header className="main-header">
+        <div className="header-spacer" />
+        <div className="logo" onClick={() => navigate("/home")}>GAVION</div>
+      </header>
+      <div className="main-container">
+        <div className="checklist-container">
 
-            <div className="scrollable-content">
+          <div className="scrollable-content">
 
-              <div className="checklist-card">
-                <header className="checklist-header">
-                  <h2>✔️ 매장별 비교하기</h2>
-                </header>
-                <div className="store-selection-container">
-                  {["homeplus", "emart", "트레이더스"].map(store => (
-                      <div
-                          key={`store-${store}`}
-                          className={`store-radio-button ${selectedStores.includes(store) ? "selected" : ""}`}
-                          onClick={() => toggleStoreSelection(store)}
-                      >
-                        <input
-                            type="checkbox"
-                            id={`store-${store}`}
-                            name="store"
-                            value={store}
-                            checked={selectedStores.includes(store)}
-                            onChange={() => {}}
-                            className="store-radio-input"
-                        />
-                        <span className="store-name">{getKoreanStoreName(store)}</span>
-                      </div>
-                  ))}
-                </div>
-
-                <div className="store-header">
-                  <div className="select-all" onClick={handleSelectAll}>
-                    <div className="checkbox">
-                      {products.every(product => product.checked) && <span>✓</span>}
-                    </div>
-                    <div className="task-text">전체선택</div>
-                  </div>
-                  <div className="action-buttons">
-                    <button className="add-button" onClick={() => setShowAddForm(!showAddForm)}>
-                      상품추가
-                    </button>
-                    {products.some(product => product.checked) && (
-                        <button className="delete-button" onClick={deleteSelectedProducts}>
-                          삭제
-                        </button>
-                    )}
-                  </div>
-                </div>
-
-                {showAddForm && (
-                    <div className="add-product-form">
-                      <div className="form-group">
-                        <input
-                            type="text"
-                            placeholder="상품명 (필수)"
-                            value={newProduct.title}
-                            onChange={(e) => handleNewProductChange("title", e.target.value)}
-                            className="form-input"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <input
-                            type="text"
-                            placeholder="가격"
-                            value={newProduct.price}
-                            onChange={(e) => handleNewProductChange("price", e.target.value)}
-                            className="form-input"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <input
-                            type="text"
-                            placeholder="브랜드"
-                            value={newProduct.brand}
-                            onChange={(e) => handleNewProductChange("brand", e.target.value)}
-                            className="form-input"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <input
-                            type="text"
-                            placeholder="용량"
-                            value={newProduct.quantity}
-                            onChange={(e) => handleNewProductChange("quantity", e.target.value)}
-                            className="form-input"
-                        />
-                      </div>
-                      <button className="save-button" onClick={addNewProduct}>
-                        저장하기
-                      </button>
-                    </div>
-                )}
-
-                <div className="checklist-items">
-                  {products.map((product) => (
-                      <div
-                          key={product.id}
-                          className={`checklist-item ${product.checked ? "checked" : ""}`}
-                          onClick={() => handleProductToggle(product.id)}
-                      >
-                        <div className="checkbox">
-                          {product.checked ? <span>✓</span> : <span></span>}
-                        </div>
-                        <div className="product-info">
-                          <div className="product-title">{product.title}</div>
-                          <div className="product-details">
-                            <span className="product-price">{product.price}</span> |
-                            <span className="product-brand">{product.brand}</span> |
-                            <span className="product-quantity">{product.quantity}</span>
-                          </div>
-                        </div>
-                      </div>
-                  ))}
-                </div>
-
-                <div className="compare-button-container">
-                  <button
-                      className={`compare-button ${hasSelectedProducts() ? "active" : ""}`}
-                      disabled={!hasSelectedProducts() || isLoading}
-                      onClick={hasSelectedProducts() && !isLoading ? handleCompare : undefined}
+            <div className="checklist-card">
+              <header className="checklist-header">
+                <h2>✔️ 매장별 비교하기</h2>
+              </header>
+              <div className="store-selection-container">
+                {["homeplus", "emart", "트레이더스"].map(store => (
+                  <div
+                    key={`store-${store}`}
+                    className={`store-radio-button ${selectedStores.includes(store) ? "selected" : ""}`}
+                    onClick={() => toggleStoreSelection(store)}
                   >
-                    {isLoading
-                        ? "비교 중..."
-                        : hasSelectedProducts()
-                            ? `${selectedProductCount()}개 상품 비교하러 가기`
-                            : "비교하러 가기"}
+                    <input
+                      type="checkbox"
+                      id={`store-${store}`}
+                      name="store"
+                      value={store}
+                      checked={selectedStores.includes(store)}
+                      onChange={() => { }}
+                      className="store-radio-input"
+                    />
+                    <span className="store-name">{getKoreanStoreName(store)}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="store-header">
+                <div className="select-all" onClick={handleSelectAll}>
+                  <div className="checkbox">
+                    {products.every(product => product.checked) && <span>✓</span>}
+                  </div>
+                  <div className="task-text">전체선택</div>
+                </div>
+                <div className="action-buttons">
+                  <button className="add-button" onClick={() => setShowAddForm(!showAddForm)}>
+                    상품추가
+                  </button>
+                  {products.some(product => product.checked) && (
+                    <button className="delete-button" onClick={deleteSelectedProducts}>
+                      삭제
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {showAddForm && (
+                <div className="add-product-form">
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      placeholder="상품명 (필수)"
+                      value={newProduct.title}
+                      onChange={(e) => handleNewProductChange("title", e.target.value)}
+                      className="form-input"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      placeholder="가격"
+                      value={newProduct.price}
+                      onChange={(e) => handleNewProductChange("price", e.target.value)}
+                      className="form-input"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      placeholder="브랜드"
+                      value={newProduct.brand}
+                      onChange={(e) => handleNewProductChange("brand", e.target.value)}
+                      className="form-input"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      placeholder="용량"
+                      value={newProduct.quantity}
+                      onChange={(e) => handleNewProductChange("quantity", e.target.value)}
+                      className="form-input"
+                    />
+                  </div>
+                  <button className="save-button" onClick={addNewProduct}>
+                    저장하기
                   </button>
                 </div>
+              )}
 
+              <div className="checklist-items">
+                {currentProducts.map((product) => (
+                  <div
+                    key={product.id}
+                    className={`checklist-item ${product.checked ? "checked" : ""}`}
+                    onClick={() => handleProductToggle(product.id)}
+                  >
+                    <div className="checkbox">
+                      {product.checked ? <span>✓</span> : <span></span>}
+                    </div>
+                    <div className="product-info">
+                      <div className="product-title">{product.title}</div>
+                      <div className="product-details">
+                        <span className="product-price">{product.price}</span> |
+                        <span className="product-brand">{product.brand}</span> |
+                        <span className="product-quantity">{product.quantity}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
+
+              {totalPages > 1 && (
+                <div className="pagination">
+                  {getPageNumbers(currentPage, totalPages).map((number, index) =>
+                    number === "..." ? (
+                      <span key={`ellipsis-${index}`} className="ellipsis">...</span>
+                    ) : (
+                      <button
+                        key={number}
+                        onClick={() => handlePageChange(number)}
+                        className={`page-button ${currentPage === number ? "active" : ""}`}
+                      >
+                        {number}
+                      </button>
+                    )
+                  )}
+                </div>
+              )}
+
+              <div className="compare-button-container">
+                <button
+                  className={`compare-button ${hasSelectedProducts() ? "active" : ""}`}
+                  disabled={!hasSelectedProducts() || isLoading}
+                  onClick={hasSelectedProducts() && !isLoading ? handleCompare : undefined}
+                >
+                  {isLoading
+                    ? "비교 중..."
+                    : hasSelectedProducts()
+                      ? `${selectedProductCount()}개 상품 비교하러 가기`
+                      : "비교하러 가기"}
+                </button>
+              </div>
+
             </div>
           </div>
-          <BottomNav />
         </div>
-      </>
+        <BottomNav />
+      </div>
+    </>
   );
 };
 
