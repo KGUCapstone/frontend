@@ -40,7 +40,7 @@ const ComparisonResultsPage = () => {
       const response = await api.post("/cart/add", newItem);
 
       if (response.status === 201 || response.status === 200) {
-        // alert(`${product.title}을(를) 장바구니에 담았습니다.`);
+        alert(`${product.title}을(를) 장바구니에 담았습니다.`);
       }
     } catch (error) {
       console.error("장바구니 추가 실패:", error);
