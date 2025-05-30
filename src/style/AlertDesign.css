@@ -1,0 +1,33 @@
+/* SweetAlert 디자인 조정 */
+.custom-swal-success .swal-modal {
+  width: 200px;
+  max-width: 90vw;
+  padding: 10px;
+}
+
+.custom-swal-warning .swal-modal {
+  width: 200px;
+  max-width: 90vw;
+  padding: 30px;
+}
+
+/* 제목 크기 조정 */
+.custom-swal-success .swal-title,
+.custom-swal-warning .swal-title {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+/* 텍스트 크기 조정 */
+.custom-swal-success .swal-text,
+.custom-swal-warning .swal-text {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* 버튼 크기 조정 */
+.custom-swal-success .swal-button,
+.custom-swal-warning .swal-button {
+  padding: 10px 30px;
+  font-size: 14px;
+}

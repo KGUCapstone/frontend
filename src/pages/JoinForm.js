@@ -1,8 +1,10 @@
 import api from "../api";
-import titleImage from '../assets/title.svg';
+import titleImage from "../assets/title.svg";
 import "../style/AuthForm.css";
+import "../style/AlertDesign.css";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
 const Join = () => {
   const [formData, setFormData] = useState({
@@ -13,10 +15,8 @@ const Join = () => {
     name: "",
   });
 
-
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const token = localStorage.getItem("Authorization");
@@ -24,7 +24,6 @@ const Join = () => {
       navigate("/home");
     }
   }, [navigate]);
-
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -42,7 +41,14 @@ const Join = () => {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
-      alert(`회원가입 완료! 환영합니다, ${res.data.name}님`);
+      //alert(`회원가입 완료! 환영합니다, ${res.data.name}님`);
+      swal({
+        title: "회원가입 완료!",
+        text: `환영합니다, ${res.data.name}님`,
+        icon: "success",
+        button: "확인",
+        className: "custom-swal-success",
+      });
       navigate("/login");
     } catch (err) {
       const msg = err.response?.data?.error || "회원가입에 실패했습니다.";
@@ -53,11 +59,9 @@ const Join = () => {
   return (
     <div className="auth-container">
       <form className="auth-form" onSubmit={handleSubmit}>
-      <header>
-      <div className="home-title">
+        <header>
+          <div className="home-title">
             <img src={titleImage} alt="title" className="title-image" />
-            
-
           </div>
         </header>
         <h2>회원가입</h2>

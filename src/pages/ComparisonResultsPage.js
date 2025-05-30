@@ -2,8 +2,10 @@ import React, { useState, useEffect, useCallback } from "react"; // useCallback 
 import { useLocation, useNavigate } from "react-router-dom";
 import BottomNav from "../components/BottomNav";
 import "../style/ComparisonResultsPage.css";
+import "../style/AlertDesign.css";
 import CartItem from "../components/CartItem2";
 import api from "../api";
+import swal from "sweetalert";
 
 const ComparisonResultsPage = () => {
   const location = useLocation();
@@ -40,21 +42,46 @@ const ComparisonResultsPage = () => {
       const response = await api.post("/cart/add", newItem);
 
       if (response.status === 201 || response.status === 200) {
-        alert(`${product.title}을(를) 장바구니에 담았습니다.`);
+        //alert(`${product.title}을(를) 장바구니에 담았습니다.`);
+        swal({
+          title: `${product.title}`,
+          text: "을(를) 장바구니에 담았습니다.",
+          icon: "success",
+          button: "확인",
+          className: "custom-swal-success",
+        });
       }
     } catch (error) {
-      console.error("장바구니 추가 실패:", error);
+      //console.error("장바구니 추가 실패:", error);
 
       if (error.response) {
         // Axios 인터셉터에서 이미 401/403을 처리하므로, 여기서는 일반적인 오류 메시지 처리
-        alert(
-          "장바구니에 담는 중 오류가 발생했습니다: " +
-            (error.response.data?.message || "알 수 없는 오류가 발생했습니다.")
-        );
+        //alert( "장바구니에 담는 중 오류가 발생했습니다: " +
+        //(error.response.data?.message || "알 수 없는 오류가 발생했습니다."));
+        swal({
+          title:
+            "장바구니에 담는 중 오류가 발생했습니다: " +
+            (error.response.data?.message || "알 수 없는 오류가 발생했습니다."),
+          icon: "warning",
+          button: "확인",
+          className: "custom-swal-warning",
+        });
       } else if (error.request) {
-        alert("서버에 연결할 수 없습니다. 인터넷 연결을 확인해주세요.");
+        //alert("서버에 연결할 수 없습니다. 인터넷 연결을 확인해주세요.");
+        swal({
+          title: "서버에 연결할 수 없습니다. 인터넷 연결을 확인해주세요.",
+          icon: "warning",
+          button: "확인",
+          className: "custom-swal-warning",
+        });
       } else {
-        alert("장바구니에 담는 중 오류가 발생했습니다.");
+        //alert("장바구니에 담는 중 오류가 발생했습니다.");
+        swal({
+          title: "장바구니에 담는 중 오류가 발생했습니다.",
+          icon: "warning",
+          button: "확인",
+          className: "custom-swal-warning",
+        });
       }
     } finally {
       setIsLoading(false);
