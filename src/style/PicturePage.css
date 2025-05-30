@@ -4,9 +4,8 @@
   padding: 2rem 1rem;
   text-align: center;
 
-  
-  height: 100vh;              /* 뷰포트 전체 높이 사용 */
-  overflow-y: auto;           /* 세로 스크롤 활성화 */
+  height: 100vh; /* 뷰포트 전체 높이 사용 */
+  overflow-y: auto; /* 세로 스크롤 활성화 */
   box-sizing: border-box;
 }
 
@@ -53,7 +52,7 @@
 .camera-button {
   padding: 0.8rem 1.2rem;
   font-size: 1rem;
-  background-color: #03C75A;
+  background-color: #03c75a;
   color: white;
   border: none;
   border-radius: 8px;
@@ -136,4 +135,38 @@
 
 .fixed-bottom-bar button:hover {
   opacity: 0.9;
+}
+
+/* SweetAlert 디자인 조정 */
+.custom-swal-success .swal-modal {
+  width: 200px;
+  max-width: 90vw;
+  padding: 10px;
+}
+
+.custom-swal-error .swal-modal {
+  width: 200px;
+  max-width: 90vw;
+  padding: 30px;
+}
+
+/* 제목 크기 조정 */
+.custom-swal-success .swal-title,
+.custom-swal-error .swal-title {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+/* 텍스트 크기 조정 */
+.custom-swal-success .swal-text,
+.custom-swal-error .swal-text {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* 버튼 크기 조정 */
+.custom-swal-success .swal-button,
+.custom-swal-error .swal-button {
+  padding: 10px 30px;
+  font-size: 14px;
 }

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/CartList.css";
+import "../style/AlertDesign.css";
 import api from "../api";
 import CartItem from "../components/CartItem.js";
 import { FaTrash } from "react-icons/fa";
-//import BottomNav from "../components/BottomNav";
+import swal from "sweetalert";
 
 const CartList = () => {
   const navigate = useNavigate();
@@ -82,7 +83,11 @@ const CartList = () => {
     const selectedItems = cartItems.filter((item) => checkedItems[item.id]);
 
     if (selectedItems.length === 0) {
-      alert("상품을 선택해주세요!");
+      //alert("상품을 선택해주세요!");
+      swal({
+        title: "상품을 선택해주세요!",
+        className: "custom-swal-error",
+      });
       return;
     }
 
@@ -96,7 +101,13 @@ const CartList = () => {
       navigate("/home");
     } catch (err) {
       console.error("선택 완료 처리 실패:", err.response?.data || err.message);
-      alert("선택 완료 중 문제가 발생했습니다.");
+      //alert("선택 완료 중 문제가 발생했습니다.");
+      swal({
+        title: "선택 완료 중 문제가 발생했습니다.",
+        icon: "error",
+        button: "확인",
+        className: "custom-swal-error",
+      });
     }
   };
 
@@ -108,7 +119,11 @@ const CartList = () => {
     const selectedItems = cartItems.filter((item) => checkedItems[item.id]);
 
     if (selectedItems.length === 0) {
-      alert("삭제할 상품을 선택해주세요!");
+      //alert("삭제할 상품을 선택해주세요!");
+      swal({
+        title: "삭제할 상품을 선택해주세요!",
+        className: "custom-swal-error",
+      });
       return;
     }
 
@@ -116,7 +131,12 @@ const CartList = () => {
       // 선택된 상품의 ID만 추출하는 대신,
       // CartItemDto와 유사한 전체 selectedItems 배열을 서버로 전송합니다.
       await api.post("/cart/removeItem", selectedItems); // 수정된 부분
-      alert("선택한 상품이 삭제되었습니다.");
+      //alert("선택한 상품이 삭제되었습니다.");
+      swal({
+        icon: "success",
+        title: "선택한 상품이 삭제되었습니다.",
+        className: "custom-swal-success",
+      });
       // 삭제 후 장바구니 데이터를 다시 불러와 UI 업데이트
       const res = await api.post("/cart/show");
       setCartItems(res.data);
@@ -128,7 +148,13 @@ const CartList = () => {
       setCheckedItems(newCheckedItems);
     } catch (err) {
       console.error("삭제 실패:", err.response?.data || err.message);
-      alert("삭제 중 오류가 발생했습니다.");
+      //alert("삭제 중 오류가 발생했습니다.");
+      swal({
+        title: "삭제 중 오류가 발생했습니다.",
+        icon: "error",
+        button: "확인",
+        className: "custom-swal-error",
+      });
     }
   };
 
