@@ -135,7 +135,7 @@ const CheckListPage = () => {
   //페이징
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3; 
+  const itemsPerPage = 5; 
  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
   const totalPages = Math.ceil(products.length / itemsPerPage);
 
@@ -176,7 +176,7 @@ const CheckListPage = () => {
       <div className="main-container">
         <div className="checklist-container">
 
-          <div className="scrollable-content">
+          {/* <div className="scrollable-content"> */}
 
             <div className="checklist-card">
               <header className="checklist-header">
@@ -321,7 +321,7 @@ const CheckListPage = () => {
               </div>
 
             </div>
-          </div>
+          {/* </div> */}
         </div>
         <BottomNav />
       </div>
