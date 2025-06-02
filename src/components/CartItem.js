@@ -33,7 +33,16 @@ const CartItem = ({
 
       {/* 이미지 */}
       <div className="cart-item-image-container">
-        <img src={item.image} alt={item.title} className="cart-item-image" />
+        <a
+            href={item.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="product-image-container"
+        >
+          <img src={item.image} alt={item.title} className="cart-item-image" />
+        </a>
+
       </div>
 
       {/* 상세 */}
