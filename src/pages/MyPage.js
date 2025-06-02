@@ -238,7 +238,7 @@ const MyPage = () => {
               className="mypage-button chart-toggle-button"
               onClick={() => setShowChartOptions(!showChartOptions)}
             >
-              테마 변경
+              그래프 테마 변경
             </div>
             <div className={`chart-options ${showChartOptions ? "open" : ""}`}>
               <button type="button" onClick={() => handleChartTypeChange("line")}>
