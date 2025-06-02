@@ -112,9 +112,9 @@ const LoginForm = () => {
       </form>
 
       <div className="sns-login">
-        <button className="naver-button" onClick={handleNaverLogin}>
-          <img src={naverIcon} alt="네이버 로그인" />
-        </button>
+        {/*<button className="naver-button" onClick={handleNaverLogin}>*/}
+        {/*  <img src={naverIcon} alt="네이버 로그인" />*/}
+        {/*</button>*/}
 
         <button className="google-button" onClick={handleGoogleLogin}>
           <img src={googleIcon} alt="구글 로그인" />
