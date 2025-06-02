@@ -2,9 +2,10 @@
   flex: 1;
   padding: 20px;
   max-width: 800px;
-  margin: 110px auto;
+  margin: 100px auto;
   width: 95%;
   padding-top: 0;
+  margin-bottom:5px;
 }
 
 .comparison-card {
@@ -236,6 +237,7 @@ th {
   transition: all 0.3s ease;
   text-decoration: none;
   width: 100%;
+  margin-bottom: 8px;
 }
 
 .back-button:hover {
