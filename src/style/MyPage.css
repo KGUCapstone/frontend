@@ -271,9 +271,13 @@
 .goal-input-container {
   display: flex;
   gap: 10px; /* Space between input and button */
-  margin-top: 15px; /* Adjust top margin as needed */
+  margin: 15px auto 0; /* 중앙 정렬을 위해 margin 수정 */
+  /*margin-top: 15px;  Adjust top margin as needed */
   align-items: center; /* Vertically align items */
+  justify-content: center; /* 가로 중앙 정렬 */
   padding: 0 1.5rem; /* Match padding of the card for alignment */
+  padding-left: 17px;
+  max-width: 400px; /* 최대 너비 설정으로 너무 넓어지지 않도록 제한 */
 }
 
 .goal-input-field {
@@ -294,7 +298,6 @@
 .goal-save-button {
   background-color: #8a64ff; /* A pleasant shade of purple */
   color: white;
-  width: 100%;
   padding: 0.75rem 1rem;
   border: none;
   border-radius: 8px;
@@ -302,6 +305,9 @@
   font-size: 1rem;
   font-weight: 500;
   transition: background-color 0.2s ease; /* Smooth transition for hover */
+  flex-shrink: 0; /* 버튼이 줄어들지 않도록 설정 */
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+  min-width: fit-content; /* 내용에 맞는 최소 너비 설정 */
 }
 
 .goal-save-button:hover {
