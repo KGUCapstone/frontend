@@ -27,6 +27,9 @@ const PicturePage = () => {
         { headers: { "Content-Type": "multipart/form-data" } }
       );
 
+      if (!response.data) {
+        throw new Error("분석 결과가 없습니다.");
+      }
       setResult(response.data);
     } catch (error) {
       //alert("분석 실패: " + (error.response?.data?.message || error.message));
