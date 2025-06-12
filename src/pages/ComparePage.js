@@ -158,14 +158,6 @@ const ComparePage = () => {
 
   return (
     <div className="compare-container">
-      <div className="home-icon-container">
-        <a href="/home" className="home-link">
-          <div className="home-icon">
-            <span>⌂</span>
-          </div>
-        </a>
-      </div>
-
       <div className="main-content">
         <h2 className="title">상품 비교하기</h2>
 
