@@ -62,8 +62,8 @@
 
 | Award | Certificate |
 |:---:|:---:|
-| Gold Prize (금상) | <img width="300" src=""> |
-| Outstanding Paper Award (논문 우수상) | <img width="300" src="https://github.com/user-attachments/assets/b65960f1-4b58-445d-920d-7ffe33ae36f5"> |
+|  <img width="300" src=""> |<img width="300" src="https://github.com/user-attachments/assets/b65960f1-4b58-445d-920d-7ffe33ae36f5"> |
+| Gold Prize (금상) | Outstanding Paper Award (논문 우수상) |
 
 
 
@@ -98,8 +98,8 @@ git commit -m "기능 추가" # 유형 명시 누락
 ***
 ## Team
 
-| [한권희](https://github.com/abookhui) | [이동현](https://github.com/ldh0784) | [김경민](https://github.com/enterinthere) | [김하연](https://github.com/machkite) | [김동하](https://github.com/EastHA2403) |
+| [한권희](https://github.com/abookhui) (PM) | [이동현](https://github.com/ldh0784) | [김경민](https://github.com/enterinthere) | [김하연](https://github.com/machkite) | [김동하](https://github.com/EastHA2403) |
 |:---:|:---:|:---:|:---:|:---:|
 | <img width="200" src="https://github.com/abookhui.png"> | <img width="200" src="https://github.com/ldh0784.png"> | <img width="200" src="https://github.com/enterinthere.png"> | <img width="200" src="https://github.com/machkite.png"> | <img width="200" src="https://github.com/EastHA2403.png"> |
-| Backend Developer <br> Frontend Developer | Frontend Developer | Frontend Developer | Frontend Developer | Backend Developer |
+| Backend Developer <br> Data Analyst | Frontend Developer | Frontend Developer | Frontend Developer | Backend Developer |
 
